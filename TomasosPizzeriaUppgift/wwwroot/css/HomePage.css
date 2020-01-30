@@ -1,0 +1,17 @@
+﻿body {
+    font-family: "Helvetica Neue", Helvetica, Arial;
+}
+
+.container-homepage {
+    margin-top: 50px;
+    color: black;
+    font: bold;
+    background-color: navajowhite;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 20px;
+    border: none;
+}
+#layout-margin {
+    margin-top: 20px;
+}

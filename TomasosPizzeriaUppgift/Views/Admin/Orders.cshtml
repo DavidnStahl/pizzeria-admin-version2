@@ -1,0 +1,74 @@
+﻿@model OrdersViewModel
+
+
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/AdminOrders.css" asp-append-version="true" />
+
+<div class="align-content-center bg-white admin-container">
+    <h1>@ViewData["Title"]</h1>
+    <div class="text-center"><h2>Lista på Ordrar</h2></div>
+    <div class="text-left">
+        <table class="table table-borderless">
+            <thead>
+                <tr>
+                    <th scope="col">
+
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a class="dropdown-item" href="#">Alla</a></li>
+                                <li><a class="dropdown-item" href="#">Levererade</a></li>
+                                <li class="dropdown-item divider"></li>
+                                <li><a class="dropdown-item" href="#">Inte Levererade</a></li>
+                            </ul>
+                        </div>
+                        &nbsp Val av ordrar
+                    </th>
+                </tr>
+            </thead>
+        </table>
+        <table class="table table-borderless">
+            <thead>
+                <tr>
+                    <th scope="col">Beställnings Datum</th>
+                    <th scope="col">Namn</th>
+                    <th scope="col">Adress</th>
+                    <th scope="col">Telefon</th>
+                    <th scope="col">Totalbelopp</th>
+                    <th scope="col">Levererad</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>David</td>
+                    <td>Oxengata 246</td>
+                    <td>0733940951</td>
+                    <td>400</td> 
+                    <td><button type="button" class="btn btn-danger">Inte Levererad</button></td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>David</td>
+                    <td>Oxengata 246</td>
+                    <td>0733940951</td>
+                    <td>400</td>
+                    <td><button type="button" class="btn btn-danger">Inte Levererad</button></td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>David</td>
+                    <td>Oxengata 246</td>
+                    <td>0733940951</td>
+                    <td>400</td>
+                    <td><button type="button" class="btn btn-success">Levererad</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
