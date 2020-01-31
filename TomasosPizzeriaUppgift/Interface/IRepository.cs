@@ -27,6 +27,7 @@ namespace TomasosPizzeriaUppgift.Interface
         OrdersViewModel GetOrdersUnDelivered();
         OrdersViewModel GetOrdersAllOrders();
         OrderDetailView GetOrderDetail(int id);
+        void DeliverOrder(int id);
 
 
     }

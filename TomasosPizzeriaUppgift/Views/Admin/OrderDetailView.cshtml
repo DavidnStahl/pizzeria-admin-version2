@@ -26,14 +26,15 @@
             <label class="text-black">Totalbelopp: @Model.Order.Totalbelopp</label><br />
         </div>
 
-        
+
         @if (Model.Order.Levererad == true)
         {
             <label class="btn btn btn-success">Status: Levererad</label><br />
         }
         else
         {
-            <label class="btn btn-danger">Status: Inte Levererad</label><br />
+            <a href="#" class="btn btn-danger">Status: Inte Levererad</a>
+             <a type="button" class="btn btn-dark" asp-action="DeliverOrder" asp-controller="Admin" asp-route-id="@Model.Order.BestallningId">Ändra till Levererad</a><br />
         }
 
 

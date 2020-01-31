@@ -263,6 +263,16 @@ namespace TomasosPizzeriaUppgift.Models.Repository
             return model;
         }
 
+        public void DeliverOrder(int id)
+        {
+            using (TomasosContext db = new TomasosContext())
+            {
+                var order = db.Bestallning.FirstOrDefault(r => r.BestallningId == id);
+                order.Levererad = true;
+                db.Bestallning.Update(order);               
+                db.SaveChanges();
+            }
+        }
     }
 
 }

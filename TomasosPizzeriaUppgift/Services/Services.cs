@@ -238,6 +238,10 @@ namespace TomasosPizzeriaUppgift.Services
         {
             return _repository.GetOrderDetail(orderid);
         }
+        public void DeliverOrder(int orderid)
+        {
+            _repository.DeliverOrder(orderid);
+        }
 
     }
 }
