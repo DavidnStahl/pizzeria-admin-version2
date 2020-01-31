@@ -17,7 +17,7 @@ h4 {
 
 #menudiv {
     text-align: center;
-    color: red;
+    color: rgb(217,83,79);
     font: bold;
     width: 70%;
     height: 100%;
@@ -26,7 +26,7 @@ h4 {
     -webkit-border-radius: 3px;
     border-radius: 20px;
     border-style: solid;
-    border-color: red;
+    border-color: rgb(217,83,79);
 }
 
 .big-container {
@@ -40,7 +40,7 @@ h4 {
 .pay-text {
     margin-top: 5%;
     text-align: center;
-    color: red;
+    color: rgb(217,83,79);
     font: bold;
     width: 70%;
     height: 100%;
@@ -49,11 +49,10 @@ h4 {
     -webkit-border-radius: 3px;
     border-radius: 20px;
     border-style: solid;
-    border-color: red;
+    border-color: rgb(217,83,79);
 }
 #customerbasket {
-
-    color: red;
+    color: rgb(217,83,79);
     font: bold;
     width: 50%;
     height: 100%;
@@ -62,10 +61,10 @@ h4 {
     -webkit-border-radius: 3px;
     border-radius: 20px;
     border-style: solid;
-    border-color: red;
+    border-color: rgb(217,83,79);
 }
-.table-css{
-    color: red;
+.table-css {
+    color: rgb(217,83,79);
 }
 
 .table-css a {

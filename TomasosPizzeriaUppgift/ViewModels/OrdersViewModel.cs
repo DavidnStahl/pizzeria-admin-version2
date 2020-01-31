@@ -8,11 +8,12 @@ namespace TomasosPizzeriaUppgift.ViewModels
 {
     public class OrdersViewModel
     {
-        public List<Bestallning> UnDeliveredOrders { get; set; }
-        public List<Bestallning> DeliveredOrders { get; set; }
 
-        public List<Bestallning> AllOrders { get; set; }
+        public List<Bestallning> Orders { get; set; }
 
-
+        public OrdersViewModel()
+        {
+            Orders = new List<Bestallning>();
+        }
     }
 }

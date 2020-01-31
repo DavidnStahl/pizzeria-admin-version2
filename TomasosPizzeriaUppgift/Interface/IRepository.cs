@@ -23,7 +23,11 @@ namespace TomasosPizzeriaUppgift.Interface
         Kund CheckUserName(Kund customer);
         Kund CheckCustomerUsernamePassword(LoginViewModel model);
 
-        OrdersViewModel GetOrdersAllAndUnfinishedAndFinished();
-        
+        OrdersViewModel GetOrdersDelivered();
+        OrdersViewModel GetOrdersUnDelivered();
+        OrdersViewModel GetOrdersAllOrders();
+        OrderDetailView GetOrderDetail(int id);
+
+
     }
 }

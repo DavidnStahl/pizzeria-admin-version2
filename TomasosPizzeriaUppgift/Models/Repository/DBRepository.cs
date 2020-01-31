@@ -193,14 +193,47 @@ namespace TomasosPizzeriaUppgift.Models.Repository
             return kund;
         }
 
-        public OrdersViewModel GetOrdersAllAndUnfinishedAndFinished()
+        public OrdersViewModel GetOrdersAllOrders()
         {
             var model = new OrdersViewModel();
             using (TomasosContext db = new TomasosContext())
             {
-                model.AllOrders = db.Bestallning.OrderByDescending(r => r.BestallningDatum).ToList();
-                model.DeliveredOrders = db.Bestallning.Where(r => r.Levererad == true).ToList();
-                model.UnDeliveredOrders = db.Bestallning.Where(r => r.Levererad == false).ToList();
+                model.Orders = db.Bestallning.OrderByDescending(r => r.BestallningDatum).ToList();
+            }
+            return model;
+        }
+        public OrdersViewModel GetOrdersDelivered()
+        {
+            var model = new OrdersViewModel();
+            using (TomasosContext db = new TomasosContext())
+            {
+                model.Orders = db.Bestallning.Where(r => r.Levererad == true)
+                                             .OrderByDescending(r => r)
+                                             .ToList();
+            }
+            return model;
+        }
+        
+        public OrderDetailView GetOrderDetail(int id)
+        {
+            var model = new OrderDetailView();
+            using (TomasosContext db = new TomasosContext())
+            {
+                model.BestallningMatrattList = db.BestallningMatratt.Where(r => r.BestallningId == id).ToList();
+                model.MatratterList = db.Matratt.ToList();
+            }
+            return model;
+
+        }
+
+        public OrdersViewModel GetOrdersUnDelivered()
+        {
+            var model = new OrdersViewModel();
+            using (TomasosContext db = new TomasosContext())
+            {
+                model.Orders = db.Bestallning.Where(r => r.Levererad == false)
+                                             .OrderByDescending(r => r)
+                                             .ToList();
             }
             return model;
         }

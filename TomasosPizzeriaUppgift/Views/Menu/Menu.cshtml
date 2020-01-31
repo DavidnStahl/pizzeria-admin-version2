@@ -55,19 +55,27 @@
         </section>
 
     </div>
+    @if(Model.Matratteradded.Any() || Model.Matratteradded.Count == 1 )
+    { 
 
     <div id="customerbasket">
         <h3 class="addhere">Beställning:</h3>
 
-        <div class="text-center" id="partialview">
-            @await Html.PartialAsync("_Menu")
+        <div class="text-center">
+
+
+            <div id="partialview">@await Html.PartialAsync("_Menu")</div>
+
+
+
         </div>
     </div>
+    }
 
 
 
-</div>
-@section Scripts {
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
-}
+        </div>
+        @section Scripts {
+            @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+            <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+        }

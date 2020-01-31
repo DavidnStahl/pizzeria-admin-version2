@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TomasosPizzeriaUppgift.Models;
+using TomasosPizzeriaUppgift.ViewModels;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -24,13 +25,20 @@ namespace TomasosPizzeriaUppgift.Controllers
         [HttpGet]
         public IActionResult Orders()
         {
-            var model = Services.Services.Instance.GetOrders();
+            var model = Services.Services.Instance.GetOrders("All");
             return View(model);
         }
         [HttpPost]
-        public IActionResult Orders(Bestallning order)
+        public IActionResult Orders(string ordertyp)
         {
-            return View();
+            var model = Services.Services.Instance.GetOrders(ordertyp);
+            return View(model);
+        }
+        [HttpPost]
+        public IActionResult OrderDetailView(int id)
+        {
+            var model = Services.Services.Instance.OrderDetailView(id);
+            return View(model);
         }
         [HttpGet]
         public IActionResult Menu()

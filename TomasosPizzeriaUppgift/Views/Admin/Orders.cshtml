@@ -1,6 +1,10 @@
 ﻿@model OrdersViewModel
 
-
+@{ 
+    var all = "all";
+    var delivered = "delivered";
+    var undelived = "undelivered";
+}
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
 <link rel="stylesheet" href="~/css/AdminOrders.css" asp-append-version="true" />
 
@@ -14,16 +18,18 @@
                     <th scope="col">
 
                         <div class="btn-group">
-                            <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
-                                <span class="caret"></span>
-                                <span class="sr-only">Toggle Dropdown</span>
-                            </button>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a class="dropdown-item" href="#">Alla</a></li>
-                                <li><a class="dropdown-item" href="#">Levererade</a></li>
-                                <li class="dropdown-item divider"></li>
-                                <li><a class="dropdown-item" href="#">Inte Levererade</a></li>
-                            </ul>
+                            <form asp-action="Orders" asp-controller="Admin" method="post">
+                                <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+                                    <span class="caret"></span>
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><label type="submit" class="dropdown-item" asp-for="@all">Alla</label></li>
+                                    <li><label type="submit" class="dropdown-item" asp-for="@delivered">Levererade</label></li>
+                                    <li class="dropdown-item divider"></li>
+                                    <li><label type="submit" class="dropdown-item" asp-for="@undelived">Inte Levererade</label></li>
+                                </ul>
+                            </form>
                         </div>
                         &nbsp Val av ordrar
                     </th>
@@ -33,41 +39,41 @@
         <table class="table table-borderless">
             <thead>
                 <tr>
-                    <th scope="col">Beställnings Datum</th>
+                    <th scope="col">Datum</th>
                     <th scope="col">Namn</th>
                     <th scope="col">Adress</th>
                     <th scope="col">Telefon</th>
                     <th scope="col">Totalbelopp</th>
+                    <th scope="col"></th>
                     <th scope="col">Levererad</th>
 
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>David</td>
-                    <td>Oxengata 246</td>
-                    <td>0733940951</td>
-                    <td>400</td> 
-                    <td><button type="button" class="btn btn-danger">Inte Levererad</button></td>
-                </tr>
+                @foreach (var order in Model.Orders)
+                {
 
                 <tr>
-                    <td>1</td>
-                    <td>David</td>
-                    <td>Oxengata 246</td>
-                    <td>0733940951</td>
-                    <td>400</td>
-                    <td><button type="button" class="btn btn-danger">Inte Levererad</button></td>
+                    <td>@order.BestallningDatum</td>
+                    <td>@order.Kund.Namn</td>
+                    <td>@order.Kund.Gatuadress</td>
+                    <td>@order.Kund.Telefon</td>
+                    <td>@order.Totalbelopp</td>
+                    @if (order.Levererad == false)
+                    {
+                        <td class="btn btn-danger">Inte Levererad</td>
+                    }
+                    else
+                    {
+                        <td class="btn btn-success">Levererad</td>
+                    }
+
+                    <td><a asp-action="OrderDetailView" asp-controller="Admin">Order Detalj</a></td>
+
                 </tr>
-                <tr>
-                    <td>1</td>
-                    <td>David</td>
-                    <td>Oxengata 246</td>
-                    <td>0733940951</td>
-                    <td>400</td>
-                    <td><button type="button" class="btn btn-success">Levererad</button></td>
-                </tr>
+                }
+                
+
             </tbody>
         </table>
     </div>
