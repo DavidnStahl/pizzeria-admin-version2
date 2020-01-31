@@ -223,10 +223,10 @@ namespace TomasosPizzeriaUppgift.Services
                return false;
 
         }
-        public OrdersViewModel GetOrders(string option)
+        public OrdersViewModel GetOrders(int id)
         {
-            if (option == "all") return _repository.GetOrdersAllOrders();
-            if (option == "delivered") return _repository.GetOrdersDelivered();
+            if (id == 1) return _repository.GetOrdersAllOrders();
+            if (id == 2) return _repository.GetOrdersDelivered();
 
             return _repository.GetOrdersUnDelivered();
         }

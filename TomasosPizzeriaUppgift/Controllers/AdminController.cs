@@ -25,14 +25,14 @@ namespace TomasosPizzeriaUppgift.Controllers
         [HttpGet]
         public IActionResult Orders()
         {
-            var model = Services.Services.Instance.GetOrders("All");
+            var model = Services.Services.Instance.GetOrders(1);
             return View(model);
         }
-        [HttpPost]
-        public IActionResult Orders(string ordertyp)
+
+        public IActionResult OrderType(int id)
         {
-            var model = Services.Services.Instance.GetOrders(ordertyp);
-            return View(model);
+            var model = Services.Services.Instance.GetOrders(id);
+            return View("Orders",model);
         }
         [HttpPost]
         public IActionResult OrderDetailView(int id)

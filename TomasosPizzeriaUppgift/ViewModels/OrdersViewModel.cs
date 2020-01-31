@@ -11,6 +11,7 @@ namespace TomasosPizzeriaUppgift.ViewModels
 
         public List<Bestallning> Orders { get; set; }
 
+
         public OrdersViewModel()
         {
             Orders = new List<Bestallning>();

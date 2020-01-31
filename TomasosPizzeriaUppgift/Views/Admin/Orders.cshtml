@@ -18,18 +18,18 @@
                     <th scope="col">
 
                         <div class="btn-group">
-                            <form asp-action="Orders" asp-controller="Admin" method="post">
+
                                 <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
                                     <span class="caret"></span>
                                     <span class="sr-only">Toggle Dropdown</span>
                                 </button>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><label type="submit" class="dropdown-item" asp-for="@all">Alla</label></li>
-                                    <li><label type="submit" class="dropdown-item" asp-for="@delivered">Levererade</label></li>
+                                    <li><a  class="dropdown-item" asp-action="OrderType" asp-controller="Admin" asp-route-id="1">Alla</a></li>
+                                    <li><a  class="dropdown-item" asp-action="OrderType" asp-controller="Admin" asp-route-id="2">Levererade</a></li>
                                     <li class="dropdown-item divider"></li>
-                                    <li><label type="submit" class="dropdown-item" asp-for="@undelived">Inte Levererade</label></li>
+                                    <li><a  class="dropdown-item" asp-action="OrderType" asp-controller="Admin" asp-route-id="3">Inte Levererade</a></li>
                                 </ul>
-                            </form>
+
                         </div>
                         &nbsp Val av ordrar
                     </th>
@@ -52,6 +52,9 @@
             <tbody>
                 @foreach (var order in Model.Orders)
                 {
+
+                
+                
 
                 <tr>
                     <td>@order.BestallningDatum</td>
