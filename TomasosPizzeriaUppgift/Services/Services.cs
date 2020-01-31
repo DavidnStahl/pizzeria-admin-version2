@@ -242,6 +242,9 @@ namespace TomasosPizzeriaUppgift.Services
         {
             _repository.DeliverOrder(orderid);
         }
-
+        public void DeleteOrder(int orderid)
+        {
+            _repository.DeleteOrder(orderid);
+        }
     }
 }

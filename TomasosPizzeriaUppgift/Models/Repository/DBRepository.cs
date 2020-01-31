@@ -273,6 +273,22 @@ namespace TomasosPizzeriaUppgift.Models.Repository
                 db.SaveChanges();
             }
         }
+
+        public void DeleteOrder(int id)
+        {
+            using (TomasosContext db = new TomasosContext())
+            {
+
+                var order = db.Bestallning.FirstOrDefault(r => r.BestallningId == id);
+                var bestallningmatratt = db.BestallningMatratt.Where(r => r.BestallningId == id);
+
+                
+                db.BestallningMatratt.RemoveRange(bestallningmatratt);
+
+                db.Bestallning.Remove(order);
+                db.SaveChanges();
+            }
+        }
     }
 
 }
