@@ -55,21 +55,25 @@
         </section>
 
     </div>
-    @if(Model.Matratteradded.Any() || Model.Matratteradded.Count == 1 )
-    { 
+    @if(Model.Matratteradded.Count >= 1)
+    {
 
-    <div id="customerbasket">
-        <h3 class="addhere">Beställning:</h3>
+        <div id="customerbasket">
+            <h3 class="addhere">Beställning:</h3>
 
-        <div class="text-center">
-
-
-            <div id="partialview">@await Html.PartialAsync("_Menu")</div>
+            <div class="text-center">
 
 
+                <div id="partialview">@await Html.PartialAsync("_Menu")</div>
 
+
+
+            </div>
         </div>
-    </div>
+    }
+    else
+    {
+
     }
 
 

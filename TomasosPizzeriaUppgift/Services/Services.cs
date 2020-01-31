@@ -173,8 +173,12 @@ namespace TomasosPizzeriaUppgift.Services
             var id = _cache.GetCustomerIDCache(request);
             var model = GetMenuInfo();
             var matratteradded = GetMatratterCacheList(id, "2", request, response);
-            matratteradded.Add(model.matratt);
-            model.Matratteradded = matratteradded;
+            if(matratteradded.Count != 0)
+            {
+                matratteradded.Add(model.matratt);
+                model.Matratteradded = matratteradded;
+            }
+            
             model.mattratttyper = GetMatratttyper();
             return model;
         }
@@ -230,9 +234,9 @@ namespace TomasosPizzeriaUppgift.Services
 
             return _repository.GetOrdersUnDelivered();
         }
-        public OrderDetailView OrderDetailView(int id)
+        public OrderDetailView OrderDetailView(int orderid)
         {
-            return _repository.GetOrderDetail(id);
+            return _repository.GetOrderDetail(orderid);
         }
 
     }

@@ -10,10 +10,12 @@ namespace TomasosPizzeriaUppgift.ViewModels
     {
         public OrderDetailView()
         {
-            BestallningMatrattList = new List<BestallningMatratt>();
-            MatratterList = new List<Matratt>();
+            Order = new Bestallning();
+            Matratter = new List<Matratt>();
+
         }
-        public List<BestallningMatratt> BestallningMatrattList { get; set; }
-        public List<Matratt> MatratterList { get; set; }
+
+        public Bestallning Order { get; set; }
+        public List<Matratt> Matratter { get; set; }
     }
 }

@@ -34,7 +34,6 @@ namespace TomasosPizzeriaUppgift.Controllers
             var model = Services.Services.Instance.GetOrders(id);
             return View("Orders",model);
         }
-        [HttpPost]
         public IActionResult OrderDetailView(int id)
         {
             var model = Services.Services.Instance.OrderDetailView(id);

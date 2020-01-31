@@ -1,5 +1,74 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model OrderDetailView
+
+
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/AdminOrders.css" asp-append-version="true" />
+<div class="align-content-center bg-white admin-container1">
+    <h1>@ViewData["Title"]</h1>
+    <div class="text-center"><h2>Order</h2></div>
+    <div class="text-left  info-margin">
+        <div>
+            <label class="text-black"> Datum: @Model.Order.BestallningDatum</label><br />
+            <label class="text-black">Namn: @Model.Order.Kund.Namn</label><br />
+            <label class="text-black">Adress: @Model.Order.Kund.Gatuadress</label><br />
+            <label class="text-black">Postnummer: @Model.Order.Kund.Postnr</label><br />
+            <label class="text-black">Postort: @Model.Order.Kund.Postort</label><br />
+            @if (@Model.Order.Kund.Telefon != null)
+            {
+                <label class="text-black">Telefon: @Model.Order.Kund.Telefon</label><br />
+            }
+
+            @if (@Model.Order.Kund.Email != null)
+            {
+                <label class="text-black">Email: @Model.Order.Kund.Email</label><br />
+            }
+
+            <label class="text-black">Totalbelopp: @Model.Order.Totalbelopp</label><br />
+        </div>
+
+        
+        @if (Model.Order.Levererad == true)
+        {
+            <label class="btn btn btn-success">Status: Levererad</label><br />
+        }
+        else
+        {
+            <label class="btn btn-danger">Status: Inte Levererad</label><br />
+        }
+
+
+        <table class="table table-borderless text-black">
+            <thead>
+                <tr>
+
+                    <th scope="col">Maträtt</th>
+                    <th scope="col">Antal</th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+
+
+                @foreach (var matrattbestallning in Model.Order.BestallningMatratt)
+                {
+                    <tr>
+                        @foreach (var item in Model.Matratter)
+                        {
+                            if (item.MatrattId == matrattbestallning.MatrattId)
+                            {
+                                <td>@item.MatrattNamn</td>
+                            }
+                        }
+
+                        <td>@matrattbestallning.Antal</td>
+                    </tr>
+
+                }
+
+
+            </tbody>
+        </table>
+    </div>
+
+</div>

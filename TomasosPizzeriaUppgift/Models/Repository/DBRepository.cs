@@ -234,8 +234,11 @@ namespace TomasosPizzeriaUppgift.Models.Repository
             var model = new OrderDetailView();
             using (TomasosContext db = new TomasosContext())
             {
-                model.BestallningMatrattList = db.BestallningMatratt.Where(r => r.BestallningId == id).ToList();
-                model.MatratterList = db.Matratt.ToList();
+                model.Order = db.Bestallning.FirstOrDefault(r => r.BestallningId == id);
+                model.Order.Kund = db.Kund.FirstOrDefault(r => r.KundId == model.Order.KundId);
+                model.Order.BestallningMatratt = db.BestallningMatratt.Where(r => r.BestallningId == id).ToList();
+                model.Matratter = db.Matratt.ToList();
+
             }
             return model;
 
@@ -259,6 +262,7 @@ namespace TomasosPizzeriaUppgift.Models.Repository
             }
             return model;
         }
+
     }
 
 }
