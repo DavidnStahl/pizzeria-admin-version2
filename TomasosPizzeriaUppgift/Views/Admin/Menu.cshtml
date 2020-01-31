@@ -1,48 +1,72 @@
-﻿@model List<Matratt>
+﻿@model MenuPage
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/AdminOrders.css" asp-append-version="true" />
 
 
+<div class="align-content-center bg-white admin-container2">
+    <h1>@ViewData["Title"]</h1>
+    <div class="text-center text-black"><h2 class="text-black">Lista på maträtter</h2></div>
+    <div class="text-left info-margin">
+        <table class="table table-borderless">
+            <thead>
+                <tr>
+                    <th scope="col">
+
+                        <a type="button" class="btn btn-dark" asp-action="AddNewDish" asp-controller="Admin">Lägg till ny maträtt</a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+        <table class="table table-borderless">
+            <thead>
+                <tr>
+                    <th scope="col">Maträtt typ</th>
+                    <th scope="col">Namn</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
 
 
-@if ()
-{
-    @foreach (var item in Model)
-    {
-        <div class="card mb-3">
-            <div class="card-header">
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var matratt in Model.Matratter)
+                {
+                    <tr>
 
-            </div>
-            <div class="card-body">
-
-
-            </div>
-            <div class="card-footer">
-                <a href="#" class="btn btn-primary">Ändra</a>
-                <a href="#" class="btn btn-danger">Ta bort</a>
-            </div>
-        </div>
-
-    }
-}
-else
-{
-    <div class="card">
-        <div class="card-header">
-            No Roles created yet
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">
-                Use the button below to create a role
-            </h5>
-            <a class="btn btn-primary" style="width:auto">
-                Create Role
-            </a>
+                        <td>@Model.mattratttyper[matratt.MatrattTyp - 1].Beskrivning</td>
+                        <td>@matratt.MatrattNamn</td>
+                        <td>
+                            <a class="btn btn-primary" type="button" asp-action="EditDish" asp-controller="Admin">Ändra</a>
+                        </td>
+                        <td>
+                            <a class="btn btn-danger" type="button" asp-action="DeleteDish" asp-controller="Admin"  asp-route-id="@matratt.MatrattId">Ta bort</a>
+                        </td>
 
 
+                    </tr>
+                }
 
 
-        </div>
+            </tbody>
+        </table>
     </div>
-}
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

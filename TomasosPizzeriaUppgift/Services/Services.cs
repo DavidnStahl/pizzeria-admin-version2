@@ -62,7 +62,7 @@ namespace TomasosPizzeriaUppgift.Services
 
         public MenuPage GetMenuInfo()
         {
-            return _repository.GetMenuInfo(); ;
+            return _repository.GetMenuInfo();
         }
         public void SaveUser(Kund user)
         {
@@ -245,6 +245,10 @@ namespace TomasosPizzeriaUppgift.Services
         public void DeleteOrder(int orderid)
         {
             _repository.DeleteOrder(orderid);
+        }
+        public void DeleteDish(int dishID)
+        {
+            _repository.DeleteDish(dishID);
         }
     }
 }

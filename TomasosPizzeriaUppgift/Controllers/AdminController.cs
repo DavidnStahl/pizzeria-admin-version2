@@ -55,10 +55,38 @@ namespace TomasosPizzeriaUppgift.Controllers
         [HttpGet]
         public IActionResult Menu()
         {
+            var model = Services.Services.Instance.GetMenuInfo();
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Menu(Matratt order)
+        {
+            return View();
+        }
+        public IActionResult DeleteDish(int id)
+        {
+            Services.Services.Instance.DeleteDish(id);
+            var model = Services.Services.Instance.GetMenuInfo();
+            return View("Menu", model);
+        }
+        [HttpGet]
+        public IActionResult AddNewDish()
+        {
             return View();
         }
         [HttpPost]
-        public IActionResult Menu(Matratt order)
+        public IActionResult AddNewDish(CreateDishViewModel model)
+        {
+            return View();
+        }
+        [HttpGet]
+        public IActionResult EditDish()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult EditDish(MenuPage model)
         {
             return View();
         }

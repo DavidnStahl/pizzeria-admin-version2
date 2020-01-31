@@ -289,6 +289,50 @@ namespace TomasosPizzeriaUppgift.Models.Repository
                 db.SaveChanges();
             }
         }
+
+        public void DeleteDish(int dishID)
+        {
+            using (TomasosContext db = new TomasosContext())
+            {
+
+                var matratt = db.Matratt.FirstOrDefault(r => r.MatrattId == dishID);
+                var matrattprodut = db.MatrattProdukt.Where(r => r.MatrattId == dishID).ToList();
+                var bestallningmatratt = db.BestallningMatratt.Where(r => r.MatrattId == dishID).ToList();
+
+                db.BestallningMatratt.RemoveRange(bestallningmatratt);
+                db.MatrattProdukt.RemoveRange(matrattprodut);
+                db.Matratt.Remove(matratt);
+                db.SaveChanges();
+            }
+        }
+        public void CreateDish(CreateDishViewModel model)
+        {         
+            using (TomasosContext db = new TomasosContext())
+            {
+                var matratt = new Matratt()
+                {
+                    MatrattNamn = model.Matratt.MatrattNamn,
+                    Beskrivning = model.Matratt.Beskrivning,
+                    Pris = model.Matratt.Pris
+                };
+                db.Add(matratt);
+                db.SaveChanges();
+
+                matratt = db.Matratt.FirstOrDefault( r => r.MatrattNamn == model.Matratt.MatrattNamn);
+                matratt.MatrattTypNavigation.MatrattTyp1 = model.Matratt.MatrattTypNavigation.MatrattTyp1;
+                foreach (var item in model.Matratt.MatrattProdukt)
+                {
+                    var matrattprodukt = new MatrattProdukt();
+                    matrattprodukt.MatrattId = item.MatrattId;
+                    matrattprodukt.ProduktId = item.ProduktId;
+                    matratt.MatrattProdukt.Add(matrattprodukt);
+
+                }
+                db.Update(matratt);
+                db.SaveChanges();
+            }
+            
+        }
     }
 
 }
