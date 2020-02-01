@@ -73,7 +73,8 @@ namespace TomasosPizzeriaUppgift.Controllers
         [HttpGet]
         public IActionResult AddNewDish()
         {
-            return View();
+            var model = Services.Services.Instance.GetMenuInfo();
+            return View(model);
         }
         [HttpPost]
         public IActionResult AddNewDish(CreateDishViewModel model)

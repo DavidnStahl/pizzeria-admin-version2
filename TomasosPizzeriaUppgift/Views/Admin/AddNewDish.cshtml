@@ -1,0 +1,172 @@
+﻿@model MenuPage
+@{
+    var count = 0;
+
+}
+
+
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
+<link href="~/css/AddNewDish.css" rel="stylesheet" type="text/css" asp-append-version="true" />
+
+<div class="container">
+    <form id="signup" asp-controller="Account" asp-action="Register" method="post">
+
+        <div class="header">
+
+            <h3>Registrera dig</h3>
+
+            <p>Fyll i din personliga information</p>
+
+        </div>
+
+        <div class="sep"></div>
+
+        <div class="inputs">
+
+
+            <input type="text" placeholder="Maträtt namn" autofocus maxlength="100" />
+            <br />
+            <label>Välj Maträtts typ</label>
+            <select class="browser-default custom-select" asp-for="@Model.mattratttyp.Beskrivning">
+
+
+
+                @foreach (var item in Model.mattratttyper)
+                {
+                    <option class="dropdown-item">@item.Beskrivning</option>
+                }
+
+            </select>
+
+
+
+
+
+
+
+            <br />
+            <br />
+            <br />
+            <a type="button" class="btn btn-dark" asp-action="AddProdukt" asp-controller="Admin">Skapa ny ingrediens</a>
+            <br />
+            <br />
+
+
+
+
+            @for (var i = 0; i < Model.Ingredienses.Count; i++)
+            {
+                count++;
+
+        <div class="form-check-inline">
+
+            @if (count < 300)
+            {
+                @if (i == Model.Ingredienses.Count - 1)
+                {
+                    break;
+                }
+                <div class="checkboxes">
+
+                    <label asp-for="@Model.Ingredienses[i].ProduktId"><input type="checkbox" /> <span>@Model.Ingredienses[i].ProduktNamn</span></label>
+
+                </div>
+
+                i++;
+
+                @if (i == Model.Ingredienses.Count - 1)
+                {
+                    break;
+                }
+                <div class="checkboxes">
+
+                    <label asp-for="@Model.Ingredienses[i].ProduktId"><input type="checkbox" /> <span>@Model.Ingredienses[i].ProduktNamn</span></label>
+
+                </div>
+                @if (i == Model.Ingredienses.Count - 1)
+                {
+                    break;
+                }
+                i++;
+                <div class="checkboxes">
+
+                    <label asp-for="@Model.Ingredienses[i].ProduktId"><input type="checkbox" /> <span>@Model.Ingredienses[i].ProduktNamn</span></label>
+
+                </div>
+                @if (i == Model.Ingredienses.Count - 1)
+                {
+                    break;
+                }
+                i++;
+                <div class="checkboxes">
+
+                    <label asp-for="@Model.Ingredienses[i].ProduktId"><input type="checkbox" /> <span>@Model.Ingredienses[i].ProduktNamn</span></label>
+
+                </div>
+                @if (i == Model.Ingredienses.Count - 1)
+                {
+                    break;
+                }
+                i++;
+                <div class="checkboxes">
+
+                    <label asp-for="@Model.Ingredienses[i].ProduktId"><input type="checkbox" /> <span>@Model.Ingredienses[i].ProduktNamn</span></label>
+
+                </div>
+                @if (i == Model.Ingredienses.Count - 1)
+                {
+                    break;
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            }
+
+
+
+        </div>
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <input id="submit" type="submit" value="Registrera dig" />
+
+
+
+
+
+
+
+        </div>
+
+    </form>
+
+</div>
+
