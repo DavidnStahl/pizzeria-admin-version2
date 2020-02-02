@@ -6,10 +6,10 @@ using TomasosPizzeriaUppgift.Models;
 
 namespace TomasosPizzeriaUppgift.ViewModels
 {
-    public class CreateDishViewModel
+    public class MenuPAge
     {
         public Matratt Matratt { get; set; }
-        public CreateDishViewModel()
+        public MenuPAge()
         {
             Matratt = new Matratt();
         }

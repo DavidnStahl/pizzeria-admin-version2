@@ -305,7 +305,7 @@ namespace TomasosPizzeriaUppgift.Models.Repository
                 db.SaveChanges();
             }
         }
-        public void CreateDish(CreateDishViewModel model)
+        public void CreateDish(MenuPAge model)
         {         
             using (TomasosContext db = new TomasosContext())
             {

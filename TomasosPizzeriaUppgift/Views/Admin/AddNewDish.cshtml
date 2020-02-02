@@ -7,15 +7,23 @@
 
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
 <link href="~/css/AddNewDish.css" rel="stylesheet" type="text/css" asp-append-version="true" />
+@section Scripts
+{
+    <script src="@Url.Content("~/js/AddNewDish.js")"></script>
+}
+
+
+
+
 
 <div class="container">
     <form id="signup" asp-controller="Account" asp-action="Register" method="post">
 
         <div class="header">
 
-            <h3>Registrera dig</h3>
+            <h3>Ska ny maträtt</h3>
 
-            <p>Fyll i din personliga information</p>
+            <p>Fyll i maträttens information</p>
 
         </div>
 
@@ -23,7 +31,10 @@
 
         <div class="inputs">
 
-
+            @if (Model.IngrediensTaken == true)
+            {
+                <span class="text-danger">Upptaget</span><br />
+            }
             <input type="text" placeholder="Maträtt namn" autofocus maxlength="100" />
             <br />
             <label>Välj Maträtts typ</label>
@@ -40,128 +51,34 @@
 
 
 
-
-
-
-
             <br />
             <br />
-            <br />
-            <a type="button" class="btn btn-dark" asp-action="AddProdukt" asp-controller="Admin">Skapa ny ingrediens</a>
-            <br />
-            <br />
-
-
-
-
-            @for (var i = 0; i < Model.Ingredienses.Count; i++)
+            @if (Model.IngrediensTaken == true)
             {
-                count++;
-
-        <div class="form-check-inline">
-
-            @if (count < 300)
-            {
-                @if (i == Model.Ingredienses.Count - 1)
-                {
-                    break;
-                }
-                <div class="checkboxes">
-
-                    <label asp-for="@Model.Ingredienses[i].ProduktId"><input type="checkbox" /> <span>@Model.Ingredienses[i].ProduktNamn</span></label>
-
-                </div>
-
-                i++;
-
-                @if (i == Model.Ingredienses.Count - 1)
-                {
-                    break;
-                }
-                <div class="checkboxes">
-
-                    <label asp-for="@Model.Ingredienses[i].ProduktId"><input type="checkbox" /> <span>@Model.Ingredienses[i].ProduktNamn</span></label>
-
-                </div>
-                @if (i == Model.Ingredienses.Count - 1)
-                {
-                    break;
-                }
-                i++;
-                <div class="checkboxes">
-
-                    <label asp-for="@Model.Ingredienses[i].ProduktId"><input type="checkbox" /> <span>@Model.Ingredienses[i].ProduktNamn</span></label>
-
-                </div>
-                @if (i == Model.Ingredienses.Count - 1)
-                {
-                    break;
-                }
-                i++;
-                <div class="checkboxes">
-
-                    <label asp-for="@Model.Ingredienses[i].ProduktId"><input type="checkbox" /> <span>@Model.Ingredienses[i].ProduktNamn</span></label>
-
-                </div>
-                @if (i == Model.Ingredienses.Count - 1)
-                {
-                    break;
-                }
-                i++;
-                <div class="checkboxes">
-
-                    <label asp-for="@Model.Ingredienses[i].ProduktId"><input type="checkbox" /> <span>@Model.Ingredienses[i].ProduktNamn</span></label>
-
-                </div>
-                @if (i == Model.Ingredienses.Count - 1)
-                {
-                    break;
-                }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                <span class="text-danger">Finns redan</span><br />
             }
 
+            <input type="text" placeholder="Skapa ny ingrediens här" autofocus maxlength="100" />
+            <br />
+            <a type="button" class="btn btn-success" asp-action="AddProdukt" asp-controller="Admin">Spara ingrediens</a>
+            <br />
+            <br />
 
 
-        </div>
+            <select id="test">
+                @foreach (var item in Model.Ingredienses)
+                {
+                    <option value="@item.ProduktId">@item.ProduktNamn</option>
+                }
+            </select>
 
 
-
-            }
-
-
-
-
-
-
-
-
-
-
-
-
-
+            <br />
+            <br />
 
 
 
-            <input id="submit" type="submit" value="Registrera dig" />
-
-
-
-
-
+            <input id="submit" type="submit" value="Skapa" />
 
 
         </div>
