@@ -14,6 +14,7 @@ using TomasosPizzeriaUppgift.Interface;
 using TomasosPizzeriaUppgift.Models.Repository;
 using TomasosPizzeriaUppgift.Models.IdentityLogic;
 using Microsoft.AspNetCore.Identity;
+using TomasosPizzeriaUppgift.Models.Identity;
 
 namespace TomasosPizzeriaUppgift.Services
 {
@@ -23,7 +24,8 @@ namespace TomasosPizzeriaUppgift.Services
         private static readonly Object padlock = new Object();
         private IRepository _repository;
         private ICache _cache;
-        private IIdentity _identity;
+        private IIdentityUser _identityUser;
+        private IIdentityRoles _identityRole;
 
 
         public static Services Instance
@@ -37,7 +39,8 @@ namespace TomasosPizzeriaUppgift.Services
                         instance = new Services();
                         instance._repository = new DBRepository();
                         instance._cache = new CacheLogic();
-                        instance._identity = new IdentityLogic();
+                        instance._identityUser = new IdentityUserLogic();
+                        instance._identityRole = new IdentityRoleLogic();
 
                     }
                     return instance;
@@ -210,23 +213,33 @@ namespace TomasosPizzeriaUppgift.Services
         {
             if (option == "create") 
             {
-               var result1 = _identity.CreateUserIdentity(model, userManager, signInManager, request, response);
+               var result1 = _identityUser.CreateUserIdentity(model, userManager, signInManager, request, response);
                 if (result1.Result.Succeeded) { return true; }
                 return false;
 
             }    
             else if (option == "signin")
             {
-                var result2 = _identity.SignInIdentity(loginViewModel, userManager, signInManager, request, response);
+                var result2 = _identityUser.SignInIdentity(loginViewModel, userManager, signInManager, request, response);
                 if (result2.Result.Succeeded) { return true; }
                 return false;
             }
             
-               var result3 = _identity.UpdateUserIdentity(model, userManager, signInManager, request, response, user);
+               var result3 = _identityUser.UpdateUserIdentity(model, userManager, signInManager, request, response, user);
                if (result3.Result.Succeeded) { return true; }
                return false;
 
         }
+        public bool IdentityCreateRole(RoleManager<IdentityRole> roleManager, CreateRoleViewModel model)
+        {
+            var result =  _identityRole.CreateRole(roleManager,model);
+            if (result.Result.Succeeded) { return true; }
+            return false;
+        }
+
+
+
+
         public OrdersViewModel GetOrders(int id)
         {
             if (id == 1) return _repository.GetOrdersAllOrders();

@@ -13,14 +13,12 @@ namespace TomasosPizzeriaUppgift.Controllers
 {
     public class AdminRoleController : Controller
     {
-        private readonly UserManager<IdentityUser> userManager;
-        private readonly SignInManager<IdentityUser> signInManager;
+        private readonly RoleManager<IdentityRole> roleManager;
 
-        public AdminRoleController(UserManager<IdentityUser> userManager,
-                                 SignInManager<IdentityUser> signInManager)
+
+        public AdminRoleController(RoleManager<IdentityRole> roleManager)
         {
-            this.userManager = userManager;
-            this.signInManager = signInManager;
+            this.roleManager = roleManager;
         }
        
         [HttpGet]
@@ -33,5 +31,34 @@ namespace TomasosPizzeriaUppgift.Controllers
         {
             return View();
         }
+        [HttpGet]
+        public IActionResult CreateRole()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateRole(CreateRoleViewModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                var result = Services.Services.Instance.IdentityCreateRole(roleManager, model);
+                if (result == true)
+                {
+                    return RedirectToAction("userRole");
+                }
+            }
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult EditRole(string id)
+        {
+            /*var result = Services.Services.Instance.
+            return View();*/
+            return View();
+        }
+
+
     }
 }

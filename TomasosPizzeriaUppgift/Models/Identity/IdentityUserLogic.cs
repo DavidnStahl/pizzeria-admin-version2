@@ -9,7 +9,7 @@ using TomasosPizzeriaUppgift.ViewModels;
 
 namespace TomasosPizzeriaUppgift.Models.IdentityLogic
 {
-    public class IdentityLogic : IIdentity
+    public class IdentityUserLogic : IIdentityUser
     {
         public async Task<IdentityResult> CreateUserIdentity(Kund model, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, HttpRequest request, HttpResponse response)
         {
