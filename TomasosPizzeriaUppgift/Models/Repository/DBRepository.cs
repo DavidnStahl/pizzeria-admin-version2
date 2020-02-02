@@ -362,6 +362,80 @@ namespace TomasosPizzeriaUppgift.Models.Repository
                 return true;
             }
         }
+
+        public List<Produkt> GetIngrdiensInMatratt(Matratt matratt)
+        {
+            var produkts = new List<Produkt>();
+
+            using (TomasosContext db = new TomasosContext())
+            {
+                var matrattprodukt = db.MatrattProdukt.Where(r => r.MatrattId == matratt.MatrattId).ToList();
+                foreach ( var item in matrattprodukt)
+                {
+                    var produkt = new Produkt();
+                    var produktnamn = db.Produkt.FirstOrDefault(r => r.ProduktId == item.ProduktId);
+                    produkt.ProduktId = item.ProduktId;
+                    produkt.ProduktNamn = produktnamn.ProduktNamn;
+                    
+                    produkts.Add(produkt);
+                }
+                return produkts;
+
+            }
+        }
+
+        public void RemoveIngrediens(int id)
+        {
+            using (TomasosContext db = new TomasosContext())
+            {
+
+                var matrattprodut = db.MatrattProdukt.Where(r => r.ProduktId == id).ToList();
+                var produkt = db.Produkt.FirstOrDefault(r => r.ProduktId == id);
+
+                db.MatrattProdukt.RemoveRange(matrattprodut);
+                db.Produkt.Remove(produkt);
+                db.SaveChanges();
+            }
+        }
+
+        public void UpdateDish(UpdateDishViewModel model)
+        {
+            using (TomasosContext db = new TomasosContext())
+            {
+                var matratt = db.Matratt.FirstOrDefault(r => r.MatrattId == model.id);
+                var oldmatrattsprodukts = db.MatrattProdukt.Where(r => r.MatrattId == model.id).ToList();
+                
+                
+                var matrattprodukts = new List<MatrattProdukt>();
+                matratt.MatrattNamn = model.Matrattnamn;
+                foreach (var item in model.NewSelectedListItem)
+                {
+                    
+                    var matrattprodukt = new MatrattProdukt();
+                    matrattprodukt.MatrattId = model.id;
+                    matrattprodukt.ProduktId = item;
+                    matrattprodukts.Add(matrattprodukt);
+                }
+                matratt.MatrattTyp = model.MatrattstypID;
+                matratt.Pris = model.Pris;
+
+                if (model.NewSelectedListItem.Count == 0)
+                {
+                    db.Matratt.Update(matratt);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    db.MatrattProdukt.RemoveRange(oldmatrattsprodukts);
+                    db.Matratt.Update(matratt);
+                    db.MatrattProdukt.AddRange(matrattprodukts);
+                    db.SaveChanges();
+                }
+
+               
+                
+            }
+        }
     }
 
 }

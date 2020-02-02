@@ -65,15 +65,32 @@ namespace TomasosPizzeriaUppgift.Controllers
             ViewBag.Message = "true";
             return View();
         }
-        [HttpGet]
-        public IActionResult EditDish()
+        public IActionResult RemoveIngrediens(int id)
         {
-            return View();
+            Services.Services.Instance.RemoveIngrediens(id);
+            return RedirectToAction("Menu");
+        }
+        [HttpGet]
+        public IActionResult EditDish(int id)
+        {
+            var model = Services.Services.Instance.GetDishToUpdate(id);
+            return View(model);
         }
         [HttpPost]
-        public IActionResult EditDish(MenuPage model)
+        [ValidateAntiForgeryToken]
+        public IActionResult EditDish(UpdateDishViewModel model)
         {
-            return View();
+            var oldmodel = Services.Services.Instance.GetDishToUpdate(model.id);
+            if (ModelState.IsValid)
+            {
+                Services.Services.Instance.UpdateDish(model);
+                return RedirectToAction("Menu");
+            }
+            
+            model.SelectedListItem = oldmodel.SelectedListItem;
+            model.Mattratttyper = oldmodel.Mattratttyper;
+            model.Ingredienses = oldmodel.Ingredienses;
+            return View(model);
         }
     }
 }

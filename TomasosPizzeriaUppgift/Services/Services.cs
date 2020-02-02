@@ -270,5 +270,33 @@ namespace TomasosPizzeriaUppgift.Services
         {
            return _repository.AddIngrediens(produkt);
         }
+        public UpdateDishViewModel GetDishToUpdate(int id)
+        {
+            var menu = GetMenuInfo();
+            var matratt = GetMatratterById(id);
+            var selectedListItem = _repository.GetIngrdiensInMatratt(matratt);
+            var model = new UpdateDishViewModel()
+            {
+                Matrattnamn = matratt.MatrattNamn,
+                MatrattstypID = matratt.MatrattTyp,
+                Pris = matratt.Pris
+            
+            };
+            model.Mattratttyper = menu.mattratttyper;
+            model.MatrattstypID = matratt.MatrattTyp;
+            model.SelectedListItem = selectedListItem;
+            model.Ingredienses = menu.Ingredienses;
+            model.id = matratt.MatrattId;
+            return model;
+
+        }
+        public void RemoveIngrediens(int id)
+        {
+            _repository.RemoveIngrediens(id);
+        }
+        public void UpdateDish(UpdateDishViewModel model)
+        {
+            _repository.UpdateDish(model);
+        }
     } 
 }

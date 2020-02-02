@@ -1,5 +1,102 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model UpdateDishViewModel
 @{
+    var count = 0;
+
 }
+
+
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
+<link href="~/css/AddNewDish.css" rel="stylesheet" type="text/css" asp-append-version="true" />
+@section Scripts
+{
+    <script src="@Url.Content("~/js/AddNewDish.js")"></script>
+}
+
+
+
+
+
+<div class="container align-content-center">
+    <form id="signup" asp-controller="AdminMenu" asp-action="EditDish" method="post">
+
+        <div class="header">
+
+            <h3>Uppdatera maträtt</h3>
+
+            <p>Maträttens information</p>
+
+        </div>
+
+        <div class="sep"></div>
+
+        <div class="inputs">
+
+            @if (Model.MatrattsnamnTaken == true)
+            {
+                <span class="text-danger">Upptaget</span><br />
+            }
+
+            @if (Model.Matrattsnamnlength == true)
+            {
+                <span class="text-danger">Minst 2 bokstäver långt</span><br />
+            }
+            <span asp-validation-for="@Model.Matrattnamn"></span><br />
+            <input type="text" asp-for="@Model.Matrattnamn" value="@Model.Matrattnamn" autofocus maxlength="100" />
+            
+            <br />
+
+            <label>Välj Maträtts typ</label>
+
+            <select class="browser-default custom-select" asp-for="@Model.MatrattstypID">
+
+
+
+                @foreach (var item in Model.Mattratttyper)
+                {
+                    <option class="dropdown-item" value="@item.MatrattTyp1">@item.Beskrivning</option>
+                }
+
+            </select>
+
+            <br />
+            <br />
+            <br />
+            @if (ViewBag.Message == "ingrediens")
+            {
+                <span class="failer-login">Välj minst 1 ingrediens</span><br />
+            }
+
+            <select class="test" asp-for="@Model.NewSelectedListItem">
+                @foreach (var item in Model.Ingredienses)
+                {
+
+
+                    <option value="@item.ProduktId">@item.ProduktNamn</option>
+                }
+
+            </select>
+
+            <br />
+            <span>Nuvarande ingredienser</span><br /><br />
+            
+                @foreach (var item in Model.SelectedListItem)
+                {
+                <label>&nbsp @item.ProduktNamn</label> 
+                }
+
+            <br />
+            <br />
+            <span>Sätt pris</span><br />
+            <input type="number" asp-for="@Model.Pris" value="@Model.Pris" autofocus maxlength="100" />
+            <br />
+
+
+
+            <input id="submit" type="submit" value="Uppdatera" />
+
+
+        </div>
+
+    </form>
+
+</div>
