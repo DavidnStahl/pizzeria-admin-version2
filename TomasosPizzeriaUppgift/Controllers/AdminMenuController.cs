@@ -86,11 +86,7 @@ namespace TomasosPizzeriaUppgift.Controllers
                 Services.Services.Instance.UpdateDish(model);
                 return RedirectToAction("Menu");
             }
-            
-            model.SelectedListItem = oldmodel.SelectedListItem;
-            model.Mattratttyper = oldmodel.Mattratttyper;
-            model.Ingredienses = oldmodel.Ingredienses;
-            return View(model);
+            return View(oldmodel);
         }
     }
 }
