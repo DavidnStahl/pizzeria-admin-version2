@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TomasosPizzeriaUppgift.Models;
 using TomasosPizzeriaUppgift.ViewModels;
@@ -11,47 +10,8 @@ using TomasosPizzeriaUppgift.ViewModels;
 
 namespace TomasosPizzeriaUppgift.Controllers
 {
-    public class AdminController : Controller
+    public class AdminMenuController : Controller
     {
-        private readonly UserManager<IdentityUser> userManager;
-        private readonly SignInManager<IdentityUser> signInManager;
-
-        public AdminController(UserManager<IdentityUser> userManager,
-                                 SignInManager<IdentityUser> signInManager)
-        {
-            this.userManager = userManager;
-            this.signInManager = signInManager;
-        }
-        [HttpGet]
-        public IActionResult Orders()
-        {
-            var model = Services.Services.Instance.GetOrders(1);
-            return View(model);
-        }
-
-        public IActionResult OrderType(int id)
-        {
-            var model = Services.Services.Instance.GetOrders(id);
-            return View("Orders",model);
-        }
-        public IActionResult OrderDetailView(int id)
-        {
-            var model = Services.Services.Instance.OrderDetailView(id);
-            return View(model);
-        }
-        public IActionResult DeliverOrder(int id)
-        {
-            Services.Services.Instance.DeliverOrder(id);
-            var model = Services.Services.Instance.OrderDetailView(id);
-            return View("OrderDetailView",model);
-        }
-        public IActionResult DeleteOrder(int id)
-        {
-            Services.Services.Instance.DeleteOrder(id);
-
-            return RedirectToAction("Orders");
-        }
-
         [HttpGet]
         public IActionResult Menu()
         {
@@ -59,7 +19,7 @@ namespace TomasosPizzeriaUppgift.Controllers
             return View(model);
         }
 
-        
+
         public IActionResult DeleteDish(int id)
         {
             Services.Services.Instance.DeleteDish(id);
@@ -75,7 +35,7 @@ namespace TomasosPizzeriaUppgift.Controllers
         [HttpPost]
         public IActionResult AddNewDish(MenuPage model)
         {
-            
+
             model = Services.Services.Instance.CheckMatrattsValidation(model);
             var newModel = model.NewDish;
             if (model.NewDish.Matratt.MatrattNamn.Length > 1 && model.NewDish.SelectedListItem.Count != 0 && model.NewDish.Matratt.MatrattTyp != 0 && model.MatrattsnamnTaken == false)
@@ -90,12 +50,20 @@ namespace TomasosPizzeriaUppgift.Controllers
         [HttpGet]
         public IActionResult AddIngrediens()
         {
-            return RedirectToAction("Menu");
+            return View();
         }
         [HttpPost]
-        public IActionResult AddIngrediens(int id)
+        [ValidateAntiForgeryToken]
+        public IActionResult AddIngrediens(Produkt produkt)
         {
-            return RedirectToAction("Menu");
+            var result = Services.Services.Instance.AddIngrediens(produkt);
+            if (result == true)
+            {
+
+                return RedirectToAction("Menu");
+            }
+            ViewBag.Message = "true";
+            return View();
         }
         [HttpGet]
         public IActionResult EditDish()
@@ -104,16 +72,6 @@ namespace TomasosPizzeriaUppgift.Controllers
         }
         [HttpPost]
         public IActionResult EditDish(MenuPage model)
-        {
-            return View();
-        }
-        [HttpGet]
-        public IActionResult UserRole()
-        {
-            return View();
-        }
-        [HttpPost]
-        public IActionResult UserRole(Kund customer)
         {
             return View();
         }

@@ -12,11 +12,12 @@
                 <tr>
                     <th scope="col">
 
-                        <a type="button" class="btn btn-primary" asp-action="AddNewDish" asp-controller="Admin">Lägg till ny maträtt</a>
+                        <a type="button" class="btn btn-success" asp-action="AddNewDish" asp-controller="AdminMenu">Lägg till ny maträtt</a>
                     </th>
+                </tr>
+                <tr>
                     <th scope="col">
-
-                        <a type="button" class="btn btn-primary" asp-action="AddIngrediens" asp-controller="Admin">Lägg till ny Ingrediens</a>
+                        <a type="button" class="btn btn-success" asp-action="AddIngrediens" asp-controller="AdminMenu">Lägg till ny Ingrediens</a>
                     </th>
                 </tr>
             </thead>
@@ -40,10 +41,10 @@
                         <td>@Model.mattratttyper[matratt.MatrattTyp - 1].Beskrivning</td>
                         <td>@matratt.MatrattNamn</td>
                         <td>
-                            <a class="btn btn-primary" type="button" asp-action="EditDish" asp-controller="Admin">Ändra</a>
+                            <a class="btn btn-primary" type="button" asp-action="EditDish" asp-controller="AdminMenu">Ändra</a>
                         </td>
                         <td>
-                            <a class="btn btn-danger" type="button" asp-action="DeleteDish" asp-controller="Admin"  asp-route-id="@matratt.MatrattId">Ta bort</a>
+                            <a class="btn btn-danger" type="button" asp-action="DeleteDish" asp-controller="AdminMenu"  asp-route-id="@matratt.MatrattId">Ta bort</a>
                         </td>
 
 

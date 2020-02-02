@@ -17,11 +17,11 @@
 
 
 <div class="container">
-    <form id="signup" asp-controller="Admin" asp-action="AddNewDish" method="post">
+    <form id="signup" asp-controller="AdminMenu" asp-action="AddNewDish" method="post">
 
         <div class="header">
 
-            <h3>Ska ny maträtt</h3>
+            <h3>Skapa ny maträtt</h3>
 
             <p>Fyll i maträttens information</p>
 
@@ -57,15 +57,7 @@
 
             </select>
 
-
-
             <br />
-            <br />
-           
-
-
-            <br />
-            <a type="button" class="btn btn-success" asp-action="AddProdukt" asp-controller="Admin">Spara ingrediens</a>
             <br />
             <br />
             @if (Model.Ingredienslow == true)

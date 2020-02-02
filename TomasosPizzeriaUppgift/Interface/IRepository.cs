@@ -32,6 +32,7 @@ namespace TomasosPizzeriaUppgift.Interface
         void DeleteDish(int dishID);
         void CreateDish(NewDishViewModel model);
         MenuPage CheckMatrattsValidation(MenuPage model);
+        bool AddIngrediens(Produkt produkt);
 
 
     }

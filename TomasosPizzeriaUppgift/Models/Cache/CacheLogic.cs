@@ -50,7 +50,7 @@ namespace TomasosPizzeriaUppgift.Models
             }
             
             CookieOptions options = new CookieOptions();
-            options.Expires = DateTime.Now.AddMinutes(20);
+            options.Expires = DateTime.Now.AddDays(30);
             options.HttpOnly = true;
             response.Cookies.Append("cookie_customer", kund.KundId.ToString(), options);
         }
@@ -59,7 +59,7 @@ namespace TomasosPizzeriaUppgift.Models
 
             string json = JsonConvert.SerializeObject(matratteradded, Formatting.Indented);
             CookieOptions options = new CookieOptions();
-            options.Expires = DateTime.Now.AddMinutes(20);
+            options.Expires = DateTime.Now.AddDays(30);
             options.HttpOnly = true;
             response.Cookies.Append("cookie_matratter", json, options);
 

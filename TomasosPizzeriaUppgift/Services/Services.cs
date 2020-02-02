@@ -266,5 +266,9 @@ namespace TomasosPizzeriaUppgift.Services
         {
             return _repository.CheckMatrattsValidation(model);
         }
+        public bool AddIngrediens(Produkt produkt)
+        {
+           return _repository.AddIngrediens(produkt);
+        }
     } 
 }

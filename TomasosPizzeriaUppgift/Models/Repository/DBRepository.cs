@@ -347,6 +347,21 @@ namespace TomasosPizzeriaUppgift.Models.Repository
             }
             return model;
         }
+
+        public bool AddIngrediens(Produkt produkt)
+        {
+            using (TomasosContext db = new TomasosContext())
+            {
+                var ingrediens = db.Produkt.FirstOrDefault(r => r.ProduktNamn == produkt.ProduktNamn);
+                if(ingrediens != null)
+                {
+                    return false;
+                }
+                db.Produkt.Add(produkt);
+                db.SaveChanges();
+                return true;
+            }
+        }
     }
 
 }
