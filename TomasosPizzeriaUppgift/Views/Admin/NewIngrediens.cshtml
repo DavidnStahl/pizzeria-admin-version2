@@ -1,21 +1,24 @@
 ﻿
+
 <div class="card" style="margin-top:5%">
     <form>
         <div class="card-body">
             <h5 class="card-title">
                 Skapa ny ingrediens
             </h5>
+            @if (ViewBag.Message == "true")
+            {
+                <span>Ingrediens finns redan</span>
+            }
             <div class="input-group">
                 <div class="input-group-prepend">
+
                     <span class="input-group-text" id="">Ingrediens:</span>
                 </div>
                 <input type="text" class="form-control">
             </div>
             <br />
-            <input type="submit" class="btn btn-primary"></input>
-
-
-
+            <input type="submit" class="btn btn-primary">
 
 
         </div>

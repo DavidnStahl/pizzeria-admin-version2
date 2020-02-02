@@ -17,7 +17,7 @@
 
 
 <div class="container">
-    <form id="signup" asp-controller="Account" asp-action="Register" method="post">
+    <form id="signup" asp-controller="Admin" asp-action="AddNewDish" method="post">
 
         <div class="header">
 
@@ -31,20 +31,28 @@
 
         <div class="inputs">
 
-            @if (Model.IngrediensTaken == true)
+            @if (Model.MatrattsnamnTaken == true)
             {
                 <span class="text-danger">Upptaget</span><br />
             }
-            <input type="text" placeholder="Maträtt namn" autofocus maxlength="100" />
+
+            @if (Model.Matrattsnamnlength == true)
+            {
+                <span class="text-danger">Minst 2 bokstäver långt</span><br />
+            }
+
+            <input type="text" asp-for="@Model.NewDish.Matratt.MatrattNamn" placeholder="Maträtt namn" autofocus maxlength="100" />
             <br />
+
             <label>Välj Maträtts typ</label>
-            <select class="browser-default custom-select" asp-for="@Model.mattratttyp.Beskrivning">
+
+            <select class="browser-default custom-select" asp-for="@Model.NewDish.Matratt.MatrattTyp">
 
 
 
                 @foreach (var item in Model.mattratttyper)
                 {
-                    <option class="dropdown-item">@item.Beskrivning</option>
+                    <option class="dropdown-item" value="@item.MatrattTyp1">@item.Beskrivning</option>
                 }
 
             </select>
@@ -53,27 +61,32 @@
 
             <br />
             <br />
-            @if (Model.IngrediensTaken == true)
-            {
-                <span class="text-danger">Finns redan</span><br />
-            }
+           
 
-            <input type="text" placeholder="Skapa ny ingrediens här" autofocus maxlength="100" />
+
             <br />
             <a type="button" class="btn btn-success" asp-action="AddProdukt" asp-controller="Admin">Spara ingrediens</a>
             <br />
             <br />
+            @if (Model.Ingredienslow == true)
+            {
+                <span class="failer-login">Välj minst 1 ingrediens</span><br />
+            }
 
-
-            <select id="test">
+            <select class="test" asp-for="@Model.NewDish.SelectedListItem">
                 @foreach (var item in Model.Ingredienses)
                 {
                     <option value="@item.ProduktId">@item.ProduktNamn</option>
+
+
+
                 }
             </select>
 
 
             <br />
+            <span>Sätt pris</span><br />
+            <input type="number" asp-for="@Model.NewDish.Matratt.Pris" placeholder="Pris" autofocus maxlength="100" />
             <br />
 
 

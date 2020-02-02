@@ -305,7 +305,7 @@ namespace TomasosPizzeriaUppgift.Models.Repository
                 db.SaveChanges();
             }
         }
-        public void CreateDish(MenuPAge model)
+        public void CreateDish(NewDishViewModel model)
         {         
             using (TomasosContext db = new TomasosContext())
             {
@@ -313,25 +313,39 @@ namespace TomasosPizzeriaUppgift.Models.Repository
                 {
                     MatrattNamn = model.Matratt.MatrattNamn,
                     Beskrivning = model.Matratt.Beskrivning,
+                    MatrattTyp = model.Matratt.MatrattTyp,
                     Pris = model.Matratt.Pris
                 };
-                db.Add(matratt);
+                db.Matratt.Add(matratt);
                 db.SaveChanges();
 
                 matratt = db.Matratt.FirstOrDefault( r => r.MatrattNamn == model.Matratt.MatrattNamn);
-                matratt.MatrattTypNavigation.MatrattTyp1 = model.Matratt.MatrattTypNavigation.MatrattTyp1;
-                foreach (var item in model.Matratt.MatrattProdukt)
+                foreach (var item in model.SelectedListItem)
                 {
                     var matrattprodukt = new MatrattProdukt();
-                    matrattprodukt.MatrattId = item.MatrattId;
-                    matrattprodukt.ProduktId = item.ProduktId;
+                    matrattprodukt.MatrattId = matratt.MatrattId;
+                    matrattprodukt.ProduktId = item;
                     matratt.MatrattProdukt.Add(matrattprodukt);
 
                 }
-                db.Update(matratt);
+                db.Matratt.Update(matratt);
                 db.SaveChanges();
             }
             
+        }
+        public MenuPage CheckMatrattsValidation(MenuPage model)
+        {
+            using (TomasosContext db = new TomasosContext())
+            {
+                var matratt = db.Matratt.FirstOrDefault(r => r.MatrattNamn == model.NewDish.Matratt.MatrattNamn);
+                if(matratt != null)
+                {
+                    model.MatrattsnamnTaken = true;
+                    model.NewDish.MatrattnamnTaken = true;
+                }
+                
+            }
+            return model;
         }
     }
 

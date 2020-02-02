@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-    $("#test").CreateMultiCheckBox({
+    $(".test").CreateMultiCheckBox({
         width: '290px',
         defaultText: 'Välj Ingredienser', height: '250px'
     });

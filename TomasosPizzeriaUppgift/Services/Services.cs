@@ -250,5 +250,21 @@ namespace TomasosPizzeriaUppgift.Services
         {
             _repository.DeleteDish(dishID);
         }
-    }
+        public void CreateDish(NewDishViewModel model)
+        {
+            _repository.CreateDish(model);
+        }
+        public MenuPage SetValidtion(MenuPage model, NewDishViewModel newModel)
+        {
+            if(newModel.SelectedListItem.Count == 0) { model.Ingredienslow = true;}
+            if(newModel.Matratt.MatrattNamn.Length < 2) { model.Matrattsnamnlength = true; }
+            if(newModel.MatrattnamnTaken == true) { model.MatrattsnamnTaken = true; }
+            return model;
+
+        }
+        public MenuPage CheckMatrattsValidation(MenuPage model)
+        {
+            return _repository.CheckMatrattsValidation(model);
+        }
+    } 
 }

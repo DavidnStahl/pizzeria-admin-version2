@@ -59,11 +59,7 @@ namespace TomasosPizzeriaUppgift.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        public IActionResult Menu(Matratt order)
-        {
-            return View();
-        }
+        
         public IActionResult DeleteDish(int id)
         {
             Services.Services.Instance.DeleteDish(id);
@@ -74,13 +70,32 @@ namespace TomasosPizzeriaUppgift.Controllers
         public IActionResult AddNewDish()
         {
             var model = Services.Services.Instance.GetMenuInfo();
-            model.IngrediensTaken = true;
             return View(model);
         }
         [HttpPost]
-        public IActionResult AddNewDish(MenuPAge model)
+        public IActionResult AddNewDish(MenuPage model)
         {
-            return View();
+            
+            model = Services.Services.Instance.CheckMatrattsValidation(model);
+            var newModel = model.NewDish;
+            if (model.NewDish.Matratt.MatrattNamn.Length > 1 && model.NewDish.SelectedListItem.Count != 0 && model.NewDish.Matratt.MatrattTyp != 0 && model.MatrattsnamnTaken == false)
+            {
+                Services.Services.Instance.CreateDish(model.NewDish);
+                return RedirectToAction("Menu");
+            }
+            model = Services.Services.Instance.GetMenuInfo();
+            model = Services.Services.Instance.SetValidtion(model, newModel);
+            return View(model);
+        }
+        [HttpGet]
+        public IActionResult AddIngrediens()
+        {
+            return RedirectToAction("Menu");
+        }
+        [HttpPost]
+        public IActionResult AddIngrediens(int id)
+        {
+            return RedirectToAction("Menu");
         }
         [HttpGet]
         public IActionResult EditDish()
