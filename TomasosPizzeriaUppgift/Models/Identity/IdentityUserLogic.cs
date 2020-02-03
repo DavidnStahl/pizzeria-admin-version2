@@ -19,7 +19,7 @@ namespace TomasosPizzeriaUppgift.Models.IdentityLogic
             if (result.Succeeded)
             {
                 var role = roleManager.Roles.FirstOrDefault(r => r.Name == "RegularUser");
-                var roleresult = userManager.AddToRoleAsync(user, role.Name);
+                await userManager.AddToRoleAsync(user, role.Name);
                 var loginmodel = new LoginViewModel();
                 loginmodel.Username = model.AnvandarNamn;
                 loginmodel.Password = model.Namn;
@@ -33,6 +33,22 @@ namespace TomasosPizzeriaUppgift.Models.IdentityLogic
             return result;
         }
 
+        public async Task<UpdateRoleViewModel> GetUserIdentityByUsername(string userName, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        {
+            var user = await userManager.FindByNameAsync(userName);
+            
+            var model = new UpdateRoleViewModel();
+            model.UserID = user.Id;
+            var identityrole = await roleManager.FindByIdAsync(user.Id);
+            model.RoleName = identityrole.Name;
+            model.Username = user.UserName;
+            var roles = roleManager.Roles;
+            foreach (var item in roles)
+            {
+                model.Roles.Add(item.Name);
+            }
+            return model;
+        }
 
         public async Task<SignInResult> SignInIdentity(LoginViewModel model, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, HttpRequest request, HttpResponse response)
         {

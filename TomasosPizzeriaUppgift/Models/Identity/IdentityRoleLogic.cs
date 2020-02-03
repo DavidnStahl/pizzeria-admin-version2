@@ -10,15 +10,6 @@ namespace TomasosPizzeriaUppgift.Models.Identity
 {
     public class IdentityRoleLogic : IIdentityRoles
     {
-        public void AddAdminRoleToUser()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void AddBonusUserRoleToUser()
-        {
-            throw new NotImplementedException();
-        }
 
         public async Task<IdentityResult> CreateRole(RoleManager<IdentityRole> roleManager, CreateRoleViewModel model)
         {
@@ -32,14 +23,12 @@ namespace TomasosPizzeriaUppgift.Models.Identity
             return result;
         }
 
-        public void SetRegularUser(RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        public async Task<IdentityResult> UpdateRoleForUser(RoleManager<IdentityRole> roleManager,UpdateRoleViewModel updaterole)
         {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateRoleForUser()
-        {
-            
+            var role = await roleManager.FindByIdAsync(updaterole.UserID);
+            role.Name = updaterole.RoleName;
+            var result = await roleManager.UpdateAsync(role);
+            return result;
         }
     }
 }

@@ -209,11 +209,11 @@ namespace TomasosPizzeriaUppgift.Services
             }
 
         }
-        public bool Identity(string option,LoginViewModel loginViewModel, Kund model, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, HttpRequest request, HttpResponse response, System.Security.Claims.ClaimsPrincipal user)
+        public bool Identity(string option,LoginViewModel loginViewModel, Kund model, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, HttpRequest request, HttpResponse response, System.Security.Claims.ClaimsPrincipal user, RoleManager<IdentityRole> roleManager)
         {
             if (option == "create") 
             {
-               var result1 = _identityUser.CreateUserIdentity(model, userManager, signInManager, request, response);
+               var result1 = _identityUser.CreateUserIdentity(model, userManager, signInManager, request, response, roleManager);
                 if (result1.Result.Succeeded) { return true; }
                 return false;
 
@@ -310,6 +310,26 @@ namespace TomasosPizzeriaUppgift.Services
         public void UpdateDish(UpdateDishViewModel model)
         {
             _repository.UpdateDish(model);
+        }
+        public bool UpdateRole(RoleManager<IdentityRole> roleManager, UpdateRoleViewModel model)
+        {
+            var result = _identityRole.UpdateRoleForUser(roleManager, model);
+            if(result.Result.Succeeded)
+            {
+                return true;
+            }
+
+            return false;
+        }
+        public Task<UpdateRoleViewModel> GetUserIdentityInfoByUsername(string userName, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        {
+            return _identityUser.GetUserIdentityByUsername(userName,userManager,roleManager);
+
+        }
+        public Task<UsersViewModel>  GetAllUsers(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        {
+            var customers = _repository.GetCustomers();
+            var result = _identityUser.GetAllUsers(UserManager < IdentityUser > userManager, RoleManager < IdentityRole > roleManager,List<Kund> customers);
         }
     } 
 }

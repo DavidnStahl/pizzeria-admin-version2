@@ -9,11 +9,13 @@ namespace TomasosPizzeriaUppgift.ViewModels
 {
     public class UsersViewModel
     {
-        public List<Kund> Customers { get; set; }
+        public List<UserRole> Customers { get; set; }
+        public List<string> Roles { get; set; }
 
         public UsersViewModel()
         {
-            Customers = new List<Kund>();
+            Customers = new List<UserRole>();
+            Roles = new List<string>();
         }
     }
 }

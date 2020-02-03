@@ -18,12 +18,14 @@ namespace TomasosPizzeriaUppgift.Controllers
     {
         private readonly UserManager<IdentityUser> userManager;
         private readonly SignInManager<IdentityUser> signInManager;
+        private readonly RoleManager<IdentityRole> roleManager;
 
         public AccountController(UserManager<IdentityUser> userManager,
-                                 SignInManager<IdentityUser> signInManager)
+                                 SignInManager<IdentityUser> signInManager, RoleManager<IdentityRole> roleManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.roleManager = roleManager;
         }
 
         [HttpGet]
@@ -39,7 +41,7 @@ namespace TomasosPizzeriaUppgift.Controllers
             var validUsername = Services.Services.Instance.CheckUserNameIsValid(model, Request);
             if (ModelState.IsValid && validUsername == true)
             {
-                var result = Services.Services.Instance.Identity("create",new LoginViewModel(),model,userManager,signInManager,Request,Response,User);
+                var result = Services.Services.Instance.Identity("create",new LoginViewModel(),model,userManager,signInManager,Request,Response,User, roleManager);
                 if (result == true) { return RedirectToAction("Index", "Home"); }
 
                 return View("Register", model);
@@ -61,7 +63,7 @@ namespace TomasosPizzeriaUppgift.Controllers
             
             if (ModelState.IsValid)
             {
-                var result = Services.Services.Instance.Identity("signin", model, new Kund(), userManager, signInManager, Request, Response,User);
+                var result = Services.Services.Instance.Identity("signin", model, new Kund(), userManager, signInManager, Request, Response,User,roleManager);
                 if (result == true) { return RedirectToAction("Index", "Home"); }
 
                 ViewBag.Error = "Inloggning Misslyckades";
@@ -98,7 +100,7 @@ namespace TomasosPizzeriaUppgift.Controllers
                 var customer = Services.Services.Instance.GetInloggedCustomerInfo(Request);
                 var id = Services.Services.Instance.GetCustomerIDCache(Request);
                 
-                var result = Services.Services.Instance.Identity("update", new LoginViewModel(), model, userManager, signInManager, Request, Response,User);
+                var result = Services.Services.Instance.Identity("update", new LoginViewModel(), model, userManager, signInManager, Request, Response,User,roleManager);
                 if (result == true) { return RedirectToAction("Index", "Home"); }
 
                 return View(nameof(Update), customer);

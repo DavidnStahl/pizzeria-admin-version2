@@ -14,17 +14,20 @@ namespace TomasosPizzeriaUppgift.Controllers
     public class AdminRoleController : Controller
     {
         private readonly RoleManager<IdentityRole> roleManager;
+        private readonly UserManager<IdentityUser> userManager;
 
 
-        public AdminRoleController(RoleManager<IdentityRole> roleManager)
+        public AdminRoleController(RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager)
         {
             this.roleManager = roleManager;
+            this.userManager = userManager;
         }
        
         [HttpGet]
         public IActionResult Users()
         {
-            return View();
+            var model = Services.Services.Instance.GetAllUsers(userManager,roleManager);
+            return View(model);
         }
         [HttpPost]
         public IActionResult Users(Kund customer)
@@ -52,12 +55,22 @@ namespace TomasosPizzeriaUppgift.Controllers
         }
 
         [HttpGet]
-        public IActionResult EditRole(string id)
+        public IActionResult EditRole(string userName)
         {
-            /*var result = Services.Services.Instance.
-            return View();*/
-            return View();
+            var model = Services.Services.Instance.GetUserIdentityInfoByUsername(userName, userManager, roleManager).Result;
+            return View(model);
         }
+        [HttpPost]
+        public IActionResult EditRole(UpdateRoleViewModel model)
+        {
+            var result = Services.Services.Instance.UpdateRole(roleManager, model);
+            if(result == false)
+            {
+                return View(model);
+            }
+            return RedirectToAction("Users");
+        }
+
 
 
     }

@@ -10,11 +10,9 @@ namespace TomasosPizzeriaUppgift.Interface
     interface IIdentityRoles
     {
         Task<IdentityResult> CreateRole(RoleManager<IdentityRole> roleManager, CreateRoleViewModel model);
-        void AddAdminRoleToUser();
-        void AddBonusUserRoleToUser();
-        void UpdateRoleForUser();
 
-        void SetRegularUser(RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager);
-    }
+        Task<IdentityResult> UpdateRoleForUser(RoleManager<IdentityRole> roleManager, UpdateRoleViewModel updaterole);
+
+    }   
         
 }

@@ -436,6 +436,14 @@ namespace TomasosPizzeriaUppgift.Models.Repository
                 
             }
         }
+
+        public List<Kund> GetCustomers()
+        {
+            using (TomasosContext db = new TomasosContext())
+            {
+                return = db.Kund.ToList();
+            }
+        }
     }
 
 }

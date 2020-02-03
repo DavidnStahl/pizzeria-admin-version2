@@ -36,6 +36,7 @@ namespace TomasosPizzeriaUppgift.Interface
         List<Produkt> GetIngrdiensInMatratt(Matratt matratt);
         void RemoveIngrediens(int id);
         void UpdateDish(UpdateDishViewModel model);
+        List<Kund> GetCustomers();
 
 
     }
