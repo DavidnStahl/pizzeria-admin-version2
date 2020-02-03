@@ -8,7 +8,7 @@ using System.Data.SqlClient;
 
 namespace TomasosPizzeriaUppgift.Models.Repository
 {
-    public class DBRepositoryMenu : IRepositoryMenu
+    public class DBRepositoryRoles : IRepositoryRoles
     {
     }
 }

@@ -9,6 +9,7 @@ namespace TomasosPizzeriaUppgift.Interface
 {
     public interface IIdentityRoles
     {
+
         Task<IdentityResult> CreateRole(RoleManager<IdentityRole> roleManager, CreateRoleViewModel model);
 
         void UpdateRoleForUser(string changeRoleTo, string id, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager);

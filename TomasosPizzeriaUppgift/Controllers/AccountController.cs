@@ -83,7 +83,7 @@ namespace TomasosPizzeriaUppgift.Controllers
         [HttpGet]
         public ActionResult Update()
         {
-            var customer = Services.Services.Instance.GetInloggedCustomerInfo(Request);
+            var customer = ServiceAccount.Instance.GetInloggedCustomerInfo(Request);
             ViewBag.Message = "Din personliga information";
             return View(customer);
         }
@@ -97,8 +97,8 @@ namespace TomasosPizzeriaUppgift.Controllers
 
         if (ModelState.IsValid && valid == true)
         {
-                var customer = Services.Services.Instance.GetInloggedCustomerInfo(Request);
-                var id = Services.Services.Instance.GetCustomerIDCache(Request);
+                var customer = ServiceAccount.Instance.GetInloggedCustomerInfo(Request);
+                var id = ServiceAccount.Instance.GetCustomerIDCache(Request);
                 
                 var result = Services.Services.Instance.Identity("update", new LoginViewModel(), model, userManager, signInManager, Request, Response,User,roleManager);
                 if (result == true) { return RedirectToAction("Index", "Home"); }
@@ -108,7 +108,7 @@ namespace TomasosPizzeriaUppgift.Controllers
         else if (ModelState.IsValid && valid == false)
         {
             ViewBag.Message = "Användarnamn Upptaget";
-            var customer = Services.Services.Instance.GetInloggedCustomerInfo(Request);
+            var customer = ServiceAccount.Instance.GetInloggedCustomerInfo(Request);
             return View(nameof(Update), customer);
         }
         

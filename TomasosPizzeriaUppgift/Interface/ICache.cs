@@ -8,7 +8,7 @@ using TomasosPizzeriaUppgift.ViewModels;
 
 namespace TomasosPizzeriaUppgift.Interface
 {
-    interface ICache
+    public interface ICache
     {
         int GetCustomerIDCache(HttpRequest Request);
         void SetCustomerCache(Kund kund, HttpRequest request, HttpResponse response);

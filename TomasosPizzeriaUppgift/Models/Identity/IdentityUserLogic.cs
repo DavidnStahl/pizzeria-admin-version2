@@ -5,12 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TomasosPizzeriaUppgift.Interface;
+using TomasosPizzeriaUppgift.Models.Identity;
 using TomasosPizzeriaUppgift.ViewModels;
 
 namespace TomasosPizzeriaUppgift.Models.IdentityLogic
 {
     public class IdentityUserLogic : IIdentityUser
     {
+
         public async Task<IdentityResult> CreateUserIdentity(Kund model, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, HttpRequest request, HttpResponse response, RoleManager<IdentityRole> roleManager)
         {
             var user = new IdentityUser { UserName = model.AnvandarNamn, NormalizedUserName = model.AnvandarNamn };
@@ -24,7 +26,7 @@ namespace TomasosPizzeriaUppgift.Models.IdentityLogic
                 loginmodel.Username = model.AnvandarNamn;
                 loginmodel.Password = model.Namn;
                 Services.Services.Instance.SaveUser(model);
-                Services.Services.Instance.SetCustomerCache(loginmodel, request, response);
+                Services.ServiceAccount.Instance.SetCustomerCache(loginmodel, request, response);
 
                 await signInManager.SignInAsync(user, isPersistent: false);
                 return result;
@@ -91,7 +93,7 @@ namespace TomasosPizzeriaUppgift.Models.IdentityLogic
 
             if (result.Succeeded)
             {
-                Services.Services.Instance.SetCustomerCache(model, request, response);
+                Services.ServiceAccount.Instance.SetCustomerCache(model, request, response);
                 return result;
             }
 
@@ -102,12 +104,12 @@ namespace TomasosPizzeriaUppgift.Models.IdentityLogic
             var identityuser = await userManager.GetUserAsync(user);
             identityuser.UserName = model.AnvandarNamn;
             await userManager.UpdateNormalizedUserNameAsync(identityuser);
-            var customer = Services.Services.Instance.GetInloggedCustomerInfo(request);
+            var customer = Services.ServiceAccount.Instance.GetInloggedCustomerInfo(request);
             var result = await userManager.ChangePasswordAsync(identityuser, customer.Losenord, model.Losenord);
             if (result.Succeeded)
             {
                 await signInManager.RefreshSignInAsync(identityuser);
-                var id = Services.Services.Instance.GetCustomerIDCache(request);
+                var id = Services.ServiceAccount.Instance.GetCustomerIDCache(request);
                 Services.Services.Instance.UpdateUser(model, id, request, response);
                 return result;
             }

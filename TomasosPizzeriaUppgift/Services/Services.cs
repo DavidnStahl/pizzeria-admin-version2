@@ -89,7 +89,7 @@ namespace TomasosPizzeriaUppgift.Services
         {
             return _repository.GetMatrattTyper();
         }
-        public Kund CheckUserName(Kund customer)
+        /*public Kund CheckUserName(Kund customer)
         {
             return _repository.CheckUserName(customer);
         }
@@ -108,22 +108,22 @@ namespace TomasosPizzeriaUppgift.Services
             var customer = _repository.GetCustomerByUsername(model.Username);
             _cache.SetCustomerCache(customer, request, response);
         }
-        public List<Matratt> GetMatratterCacheList(int id, string options, HttpRequest request, HttpResponse response)
+        /*public List<Matratt> GetMatratterCacheList(int id, string options, HttpRequest request, HttpResponse response)
         {
 
             return _cache.GetMatratterCacheList(id, options, request, response);
-        }
-        public MenuPage SetMatratterCacheList(List<Matratt> matratteradded, HttpRequest request, HttpResponse response)
+        }*/
+        /*public MenuPage SetMatratterCacheList(List<Matratt> matratteradded, HttpRequest request, HttpResponse response)
         {
             return _cache.SetMatratterCacheList(matratteradded, request, response);
-        }
+        }*/
         public void ResetCookie(HttpRequest request, HttpResponse response)
         {
             _cache.ResetCookie(request, response);
         }
         public void PayUser(HttpRequest request, HttpResponse response)
         {
-            var userid = GetCustomerIDCache(request);
+            var userid = ServiceAccount.Instance.GetCustomerIDCache(request);
             var matratteradded = _cache.PayUser(request, response);
             UserPay(matratteradded, userid);
             _cache.DeleteFoodListCache(request, response);
@@ -137,25 +137,25 @@ namespace TomasosPizzeriaUppgift.Services
             model.mattratttyper = GetMatratttyper();
             return model;
         }
-        public MenuPage CustomerBasket(int id, HttpRequest request, HttpResponse response)
+        /*public MenuPage CustomerBasket(int id, HttpRequest request, HttpResponse response)
         {
 
             var matratteradded = GetMatratterCacheList(id, "1", request, response);
             var menumodel = SetMatratterCacheList(matratteradded, request, response);
             menumodel.mattratttyper = GetMatratttyper();
             return menumodel;
-        }
-        public MenuPage RemoveItemCustomerBasket(int id, int count, HttpRequest request, HttpResponse response)
+        }*/
+        /*public MenuPage RemoveItemCustomerBasket(int id, int count, HttpRequest request, HttpResponse response)
         {
             var matratteradded = GetMatratterCacheList(id, "2", request, response);
             matratteradded.RemoveAt(count);
             var menumodel = SetMatratterCacheList(matratteradded, request, response);
             return menumodel;
-        }
+        }*/
         public bool CheckUserNameIsValid(Kund user, HttpRequest request)
         {
-            var customer = CheckUserName(user);
-            var customerid = GetCustomerIDCache(request);
+            var customer = ServiceAccount.Instance.CheckUserName(user);
+            var customerid = ServiceAccount.Instance.GetCustomerIDCache(request);
             var cachecustomer = GetById(customerid);
             if (customer == null)
             {
@@ -171,7 +171,7 @@ namespace TomasosPizzeriaUppgift.Services
             }
 
         }
-        public MenuPage MenuPageData(HttpRequest request, HttpResponse response)
+        /*public MenuPage MenuPageData(HttpRequest request, HttpResponse response)
         {
             var id = _cache.GetCustomerIDCache(request);
             var model = GetMenuInfo();
@@ -184,19 +184,7 @@ namespace TomasosPizzeriaUppgift.Services
             
             model.mattratttyper = GetMatratttyper();
             return model;
-        }
-        public string CheckIfInlogged(HttpRequest request)
-        {
-            var id = GetCustomerIDCache(request);
-            if (id != 0)
-            {
-                return "Inloggad";
-            }
-            else
-            {
-                return "inte inloggad";
-            }
-        }
+        }*/
         public bool CheckValidLogin(LoginViewModel model)
         {
             if (model == null)
@@ -240,7 +228,7 @@ namespace TomasosPizzeriaUppgift.Services
 
 
 
-        public OrdersViewModel GetOrders(int id)
+        /*public OrdersViewModel GetOrders(int id)
         {
             if (id == 1) return _repository.GetOrdersAllOrders();
             if (id == 2) return _repository.GetOrdersDelivered();
@@ -258,8 +246,8 @@ namespace TomasosPizzeriaUppgift.Services
         public void DeleteOrder(int orderid)
         {
             _repository.DeleteOrder(orderid);
-        }
-        public void DeleteDish(int dishID)
+        }*/
+        /*public void DeleteDish(int dishID)
         {
             _repository.DeleteDish(dishID);
         }
@@ -274,18 +262,18 @@ namespace TomasosPizzeriaUppgift.Services
             if(newModel.MatrattnamnTaken == true) { model.MatrattsnamnTaken = true; }
             return model;
 
-        }
-        public MenuPage CheckMatrattsValidation(MenuPage model)
+        }*/
+        /*public MenuPage CheckMatrattsValidation(MenuPage model)
         {
             return _repository.CheckMatrattsValidation(model);
-        }
-        public bool AddIngrediens(Produkt produkt)
+        }*/
+        /*public bool AddIngrediens(Produkt produkt)
         {
            return _repository.AddIngrediens(produkt);
-        }
-        public UpdateDishViewModel GetDishToUpdate(int id)
+        }*/
+        /*public UpdateDishViewModel GetDishToUpdate(int id)
         {
-            var menu = GetMenuInfo();
+            var menu = ServiceMenu.Instance.GetMenuInfo();
             var matratt = GetMatratterById(id);
             var selectedListItem = _repository.GetIngrdiensInMatratt(matratt);
             var model = new UpdateDishViewModel()
@@ -302,15 +290,15 @@ namespace TomasosPizzeriaUppgift.Services
             model.id = matratt.MatrattId;
             return model;
 
-        }
-        public void RemoveIngrediens(int id)
+        }*/
+        /*public void RemoveIngrediens(int id)
         {
             _repository.RemoveIngrediens(id);
         }
         public void UpdateDish(UpdateDishViewModel model)
         {
             _repository.UpdateDish(model);
-        }
+        }*/
         
         public UpdateRoleViewModel GetUserIdentityInfoByUsername(string userName, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
@@ -335,7 +323,8 @@ namespace TomasosPizzeriaUppgift.Services
         public void DeleteUser(string userName, HttpRequest request, HttpResponse response)
         {
             _repository.DeleteUser(userName);
-            _cache.ResetCookie(request,response);
+            _cache.ResetCookie(request, response);
         }
+
     } 
 }

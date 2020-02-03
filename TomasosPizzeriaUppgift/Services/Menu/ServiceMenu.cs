@@ -22,10 +22,11 @@ namespace TomasosPizzeriaUppgift.Services
     {
         private static ServiceMenu instance = null;
         private static readonly Object padlock = new Object();
-        private IRepositoryMenu _repository;
+        private IRepository _repository;
         private ICache _cache;
         private IIdentityUser _identityUser;
         private IIdentityRoles _identityRole;
+
 
 
         public static ServiceMenu Instance
@@ -37,7 +38,7 @@ namespace TomasosPizzeriaUppgift.Services
                     if (instance == null)
                     {
                         instance = new ServiceMenu();
-                        instance._repository = new DBRepositoryMenu();
+                        instance._repository = new DBRepository();
                         instance._cache = new CacheLogic();
                         instance._identityUser = new IdentityUserLogic();
                         instance._identityRole = new IdentityRoleLogic();
@@ -52,5 +53,61 @@ namespace TomasosPizzeriaUppgift.Services
         public ServiceMenu()
         {
         }
+    
+        public MenuPage GetMenuInfo()
+        {
+            return _repository.GetMenuInfo();
+        }
+        public Matratt GetMatratterById(int id)
+        {
+            return _repository.GetMatratterToCustomerbasket(id);
+        }
+        public List<MatrattTyp> GetMatratttyper()
+        {
+            return _repository.GetMatrattTyper();
+        }
+        public List<Matratt> GetMatratterCacheList(int id, string options, HttpRequest request, HttpResponse response)
+        {
+
+            return _cache.GetMatratterCacheList(id, options, request, response);
+        }
+        public MenuPage SetMatratterCacheList(List<Matratt> matratteradded, HttpRequest request, HttpResponse response)
+        {
+            return _cache.SetMatratterCacheList(matratteradded, request, response);
+        }
+        public MenuPage CustomerBasket(int id, HttpRequest request, HttpResponse response)
+        {
+
+            var matratteradded = GetMatratterCacheList(id, "1", request, response);
+            var menumodel = SetMatratterCacheList(matratteradded, request, response);
+            menumodel.mattratttyper = GetMatratttyper();
+            return menumodel;
+        }
+        public MenuPage RemoveItemCustomerBasket(int id, int count, HttpRequest request, HttpResponse response)
+        {
+            var matratteradded = GetMatratterCacheList(id, "2", request, response);
+            matratteradded.RemoveAt(count);
+            var menumodel = SetMatratterCacheList(matratteradded, request, response);
+            return menumodel;
+        }
+        public MenuPage MenuPageData(HttpRequest request, HttpResponse response)
+        {
+            var id = _cache.GetCustomerIDCache(request);
+            var model = GetMenuInfo();
+            var matratteradded = GetMatratterCacheList(id, "2", request, response);
+            if (matratteradded.Count != 0)
+            {
+                matratteradded.Add(model.matratt);
+                model.Matratteradded = matratteradded;
+            }
+
+            model.mattratttyper = GetMatratttyper();
+            return model;
+        }
+        public MenuPage CheckMatrattsValidation(MenuPage model)
+        {
+            return _repository.CheckMatrattsValidation(model);
+        }
+       
     }
 }

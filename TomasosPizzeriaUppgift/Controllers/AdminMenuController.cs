@@ -15,36 +15,36 @@ namespace TomasosPizzeriaUppgift.Controllers
         [HttpGet]
         public IActionResult Menu()
         {
-            var model = Services.Services.Instance.GetMenuInfo();
+            var model = Services.ServiceMenu.Instance.GetMenuInfo();
             return View(model);
         }
 
 
         public IActionResult DeleteDish(int id)
         {
-            Services.Services.Instance.DeleteDish(id);
-            var model = Services.Services.Instance.GetMenuInfo();
+            Services.ServiceAdminDishes.Instance.DeleteDish(id);
+            var model = Services.ServiceMenu.Instance.GetMenuInfo();
             return View("Menu", model);
         }
         [HttpGet]
         public IActionResult AddNewDish()
         {
-            var model = Services.Services.Instance.GetMenuInfo();
+            var model = Services.ServiceMenu.Instance.GetMenuInfo();
             return View(model);
         }
         [HttpPost]
         public IActionResult AddNewDish(MenuPage model)
         {
 
-            model = Services.Services.Instance.CheckMatrattsValidation(model);
+            model = Services.ServiceAdminDishes.Instance.CheckMatrattsValidation(model);
             var newModel = model.NewDish;
             if (model.NewDish.Matratt.MatrattNamn.Length > 1 && model.NewDish.SelectedListItem.Count != 0 && model.NewDish.Matratt.MatrattTyp != 0 && model.MatrattsnamnTaken == false)
             {
-                Services.Services.Instance.CreateDish(model.NewDish);
+                Services.ServiceAdminDishes.Instance.CreateDish(model.NewDish);
                 return RedirectToAction("Menu");
             }
-            model = Services.Services.Instance.GetMenuInfo();
-            model = Services.Services.Instance.SetValidtion(model, newModel);
+            model = Services.ServiceMenu.Instance.GetMenuInfo();
+            model = Services.ServiceAdminDishes.Instance.SetValidtion(model, newModel);
             return View(model);
         }
         [HttpGet]
@@ -56,7 +56,7 @@ namespace TomasosPizzeriaUppgift.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult AddIngrediens(Produkt produkt)
         {
-            var result = Services.Services.Instance.AddIngrediens(produkt);
+            var result = Services.ServiceAdminDishes.Instance.AddIngrediens(produkt);
             if (result == true)
             {
 
@@ -67,23 +67,23 @@ namespace TomasosPizzeriaUppgift.Controllers
         }
         public IActionResult RemoveIngrediens(int id)
         {
-            Services.Services.Instance.RemoveIngrediens(id);
+            Services.ServiceAdminDishes.Instance.RemoveIngrediens(id);
             return RedirectToAction("Menu");
         }
         [HttpGet]
         public IActionResult EditDish(int id)
         {
-            var model = Services.Services.Instance.GetDishToUpdate(id);
+            var model = Services.ServiceAdminDishes.Instance.GetDishToUpdate(id);
             return View(model);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult EditDish(UpdateDishViewModel model)
         {
-            var oldmodel = Services.Services.Instance.GetDishToUpdate(model.id);
+            var oldmodel = Services.ServiceAdminDishes.Instance.GetDishToUpdate(model.id);
             if (ModelState.IsValid)
             {
-                Services.Services.Instance.UpdateDish(model);
+                Services.ServiceAdminDishes.Instance.UpdateDish(model);
                 return RedirectToAction("Menu");
             }
             return View(oldmodel);
