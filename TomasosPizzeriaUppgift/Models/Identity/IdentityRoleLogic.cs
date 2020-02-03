@@ -32,9 +32,14 @@ namespace TomasosPizzeriaUppgift.Models.Identity
             return result;
         }
 
-        public void UpdateRoleForUser()
+        public void SetRegularUser(RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
         {
             throw new NotImplementedException();
+        }
+
+        public void UpdateRoleForUser()
+        {
+            
         }
     }
 }

@@ -13,6 +13,8 @@ namespace TomasosPizzeriaUppgift.Interface
         void AddAdminRoleToUser();
         void AddBonusUserRoleToUser();
         void UpdateRoleForUser();
+
+        void SetRegularUser(RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager);
     }
         
 }

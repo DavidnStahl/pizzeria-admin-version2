@@ -11,13 +11,15 @@ namespace TomasosPizzeriaUppgift.Models.IdentityLogic
 {
     public class IdentityUserLogic : IIdentityUser
     {
-        public async Task<IdentityResult> CreateUserIdentity(Kund model, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, HttpRequest request, HttpResponse response)
+        public async Task<IdentityResult> CreateUserIdentity(Kund model, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, HttpRequest request, HttpResponse response, RoleManager<IdentityRole> roleManager)
         {
             var user = new IdentityUser { UserName = model.AnvandarNamn, NormalizedUserName = model.AnvandarNamn };
             var result = await userManager.CreateAsync(user, model.Losenord);
 
             if (result.Succeeded)
             {
+                var role = roleManager.Roles.FirstOrDefault(r => r.Name == "RegularUser");
+                var roleresult = userManager.AddToRoleAsync(user, role.Name);
                 var loginmodel = new LoginViewModel();
                 loginmodel.Username = model.AnvandarNamn;
                 loginmodel.Password = model.Namn;
