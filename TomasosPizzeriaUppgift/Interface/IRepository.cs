@@ -37,7 +37,7 @@ namespace TomasosPizzeriaUppgift.Interface
         void RemoveIngrediens(int id);
         void UpdateDish(UpdateDishViewModel model);
         List<Kund> GetCustomers();
-
+        void DeleteUser(string userName);
 
     }
 }

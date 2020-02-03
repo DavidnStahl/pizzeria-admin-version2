@@ -58,9 +58,28 @@
                     <td>@customer.Username</td>
                     <td>@customer.RoleName</td>
 
+                    <td>
 
-                    <td><a type="button" class="btn btn-dark" asp-action="EditRole" asp-controller="AdminRole" asp-route-id="@customer.UserID">Ändra roll</a></td>
-                    <td><a type="button" class="btn btn-danger" asp-action="DeleteUser" asp-controller="AdminRole" asp-route-id="@customer.Username">Ta bort kund</a></td>
+                        <div class="btn-group">
+
+                            <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                @foreach (var item in Model.Roles)
+                                {
+                                    <li><a class="dropdown-item" asp-action="ChangeRoleTypeUser" asp-controller="AdminRole" asp-route-ChangeRoleTo="@item" asp-route-id="@customer.UserID">@item</a></li>
+                                }
+                            </ul>
+
+                        </div>
+                        &nbsp Ändra roll
+
+
+                    </td>
+                    
+                    <td><a type="button" class="btn btn-danger" asp-action="DeleteUser" asp-controller="AdminRole" asp-route-username="@customer.Username">Ta bort kund</a></td>
 
                 </tr>
                 }

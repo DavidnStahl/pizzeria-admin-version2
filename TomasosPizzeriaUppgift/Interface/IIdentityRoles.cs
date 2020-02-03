@@ -11,7 +11,7 @@ namespace TomasosPizzeriaUppgift.Interface
     {
         Task<IdentityResult> CreateRole(RoleManager<IdentityRole> roleManager, CreateRoleViewModel model);
 
-        Task<IdentityResult> UpdateRoleForUser(RoleManager<IdentityRole> roleManager, UpdateRoleViewModel updaterole);
+        void UpdateRoleForUser(string changeRoleTo, string id, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager);
 
     }   
         

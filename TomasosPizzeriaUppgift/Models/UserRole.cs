@@ -12,6 +12,7 @@ namespace TomasosPizzeriaUppgift.Models
         public string Adress { get; set; }
         public string Username { get; set; }
         public string RoleName { get; set; }
+        public string RoleID { get; set; }
 
     }
 }

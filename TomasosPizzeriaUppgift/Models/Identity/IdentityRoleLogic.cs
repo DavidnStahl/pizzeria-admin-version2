@@ -23,12 +23,24 @@ namespace TomasosPizzeriaUppgift.Models.Identity
             return result;
         }
 
-        public async Task<IdentityResult> UpdateRoleForUser(RoleManager<IdentityRole> roleManager,UpdateRoleViewModel updaterole)
+        public void UpdateRoleForUser(string changeRoleTo,string id, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
-            var role = await roleManager.FindByIdAsync(updaterole.UserID);
-            role.Name = updaterole.RoleName;
-            var result = await roleManager.UpdateAsync(role);
-            return result;
+            using(TomasosContext db = new TomasosContext())
+            {
+                var userToDelete = db.UserRoles.FirstOrDefault(r=> r.UserId == id);
+                db.UserRoles.Remove(userToDelete);
+                db.SaveChanges();
+                var userRoles = db.Roles.FirstOrDefault(r => r.Name == changeRoleTo);
+                userToDelete.RoleId = userRoles.Id;
+                userToDelete.UserId = id;
+                db.UserRoles.Add(userToDelete);
+                db.SaveChanges();
+
+
+            }
+            /*var role = roleManager.Roles.FirstOrDefault(r => r.Name == changeRoleTo);
+            var user = await userManager.FindByIdAsync(id);
+            await userManager.AddToRoleAsync(user, role.Name);*/
         }
     }
 }

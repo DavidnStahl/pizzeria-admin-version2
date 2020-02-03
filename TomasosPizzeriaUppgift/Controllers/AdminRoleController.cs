@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TomasosPizzeriaUppgift.Models;
@@ -24,15 +25,16 @@ namespace TomasosPizzeriaUppgift.Controllers
         }
        
         [HttpGet]
+        [Authorize]
         public IActionResult Users()
         {
-            var model = Services.Services.Instance.GetAllUsers(userManager,roleManager);
+            var model = Services.Services.Instance.GetAllUsers(roleManager);
             return View(model);
         }
-        [HttpPost]
-        public IActionResult Users(Kund customer)
+        public IActionResult DeleteUser(string username)
         {
-            return View();
+            Services.Services.Instance.DeleteUser(username,Request,Response);           
+            return RedirectToAction("Users");
         }
         [HttpGet]
         public IActionResult CreateRole()
@@ -54,24 +56,11 @@ namespace TomasosPizzeriaUppgift.Controllers
             return View();
         }
 
-        [HttpGet]
-        public IActionResult EditRole(string userName)
+        public IActionResult ChangeRoleTypeUser(string changeRoleTo, string id)
         {
-            var model = Services.Services.Instance.GetUserIdentityInfoByUsername(userName, userManager, roleManager).Result;
-            return View(model);
-        }
-        [HttpPost]
-        public IActionResult EditRole(UpdateRoleViewModel model)
-        {
-            var result = Services.Services.Instance.UpdateRole(roleManager, model);
-            if(result == false)
-            {
-                return View(model);
-            }
+            Services.Services.Instance.ChangeRoleTypeUser(changeRoleTo,id, userManager,roleManager);
             return RedirectToAction("Users");
         }
-
-
 
     }
 }

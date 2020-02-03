@@ -11,7 +11,6 @@ namespace TomasosPizzeriaUppgift.Controllers
 {
     public class MenuController : Controller
     {
-        // GET: /<controller>/
         [Authorize]
         [HttpGet] 
         public IActionResult Menu()

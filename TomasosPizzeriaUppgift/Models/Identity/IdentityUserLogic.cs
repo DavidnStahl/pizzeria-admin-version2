@@ -33,6 +33,42 @@ namespace TomasosPizzeriaUppgift.Models.IdentityLogic
             return result;
         }
 
+        
+
+        public async Task<UsersViewModel> GetAllUsers(List<Kund> customers, RoleManager<IdentityRole> roleManager)
+        {
+            var users = new UsersViewModel();
+            using (TomasosContext db = new TomasosContext())
+            {
+                foreach (var customer in customers)
+                {
+                    var userrole = new UserRole();
+                    var user = db.Users.FirstOrDefault(r => r.UserName == customer.AnvandarNamn);
+                    var userRoles = db.UserRoles.FirstOrDefault(r => r.UserId == user.Id);
+                    userrole.Username = user.UserName;
+                    userrole.UserID = user.Id;
+                    var role = await roleManager.FindByIdAsync(userRoles.RoleId);
+                    userrole.RoleName = role.Name;
+                    userRoles.RoleId = role.Id;
+
+
+                    userrole.Name = customer.Namn;
+                    userrole.Adress = customer.Gatuadress;
+
+                    users.Customers.Add(userrole);
+
+
+                }
+                var allroles = db.Roles.ToList();
+                foreach (var item in allroles)
+                {
+                    users.Roles.Add(item.Name);
+                }
+            }
+            
+            return users;
+        }
+
         public async Task<UpdateRoleViewModel> GetUserIdentityByUsername(string userName, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             var user = await userManager.FindByNameAsync(userName);
@@ -83,5 +119,7 @@ namespace TomasosPizzeriaUppgift.Models.IdentityLogic
             }
             return result;
         }
+
+       
     }
 }

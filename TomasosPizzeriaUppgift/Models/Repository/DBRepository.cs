@@ -441,7 +441,18 @@ namespace TomasosPizzeriaUppgift.Models.Repository
         {
             using (TomasosContext db = new TomasosContext())
             {
-                return = db.Kund.ToList();
+                return  db.Kund.ToList();
+            }
+        }
+        public void DeleteUser(string userName)
+        {
+            using (TomasosContext db = new TomasosContext())
+            {
+                var user = db.Kund.FirstOrDefault(r => r.AnvandarNamn == userName);
+                var useridentity = db.Users.FirstOrDefault(r => r.UserName == userName);
+                db.Kund.Remove(user);
+                db.Users.Remove(useridentity);
+                db.SaveChanges();
             }
         }
     }

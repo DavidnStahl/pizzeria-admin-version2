@@ -311,25 +311,31 @@ namespace TomasosPizzeriaUppgift.Services
         {
             _repository.UpdateDish(model);
         }
-        public bool UpdateRole(RoleManager<IdentityRole> roleManager, UpdateRoleViewModel model)
+        
+        public UpdateRoleViewModel GetUserIdentityInfoByUsername(string userName, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
-            var result = _identityRole.UpdateRoleForUser(roleManager, model);
-            if(result.Result.Succeeded)
-            {
-                return true;
-            }
-
-            return false;
-        }
-        public Task<UpdateRoleViewModel> GetUserIdentityInfoByUsername(string userName, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
-        {
-            return _identityUser.GetUserIdentityByUsername(userName,userManager,roleManager);
+            var result = _identityUser.GetUserIdentityByUsername(userName,userManager,roleManager);
+            var model = result.Result;
+            return model;
 
         }
-        public Task<UsersViewModel>  GetAllUsers(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        public UsersViewModel GetAllUsers(RoleManager<IdentityRole> roleManager)
         {
             var customers = _repository.GetCustomers();
-            var result = _identityUser.GetAllUsers(UserManager < IdentityUser > userManager, RoleManager < IdentityRole > roleManager,List<Kund> customers);
+            var result = _identityUser.GetAllUsers(customers,roleManager);
+            return result.Result;
+            
+
+        }
+        public void ChangeRoleTypeUser(string changeRoleTo,string id, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        {
+            _identityRole.UpdateRoleForUser(changeRoleTo,id, userManager, roleManager);
+        }
+
+        public void DeleteUser(string userName, HttpRequest request, HttpResponse response)
+        {
+            _repository.DeleteUser(userName);
+            _cache.ResetCookie(request,response);
         }
     } 
 }

@@ -16,7 +16,7 @@ namespace TomasosPizzeriaUppgift.Interface
 
         Task<SignInResult> SignInIdentity(LoginViewModel loginViewModel, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, HttpRequest request, HttpResponse response);
         Task<UpdateRoleViewModel> GetUserIdentityByUsername(string userName, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager);
-        GetAllUsers(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, List<Kund> customers);
+        Task<UsersViewModel> GetAllUsers(List<Kund> customers, RoleManager<IdentityRole> roleManager);
 
     }
 }
