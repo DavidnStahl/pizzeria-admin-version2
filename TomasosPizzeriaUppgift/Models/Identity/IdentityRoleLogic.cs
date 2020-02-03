@@ -38,9 +38,6 @@ namespace TomasosPizzeriaUppgift.Models.Identity
 
 
             }
-            /*var role = roleManager.Roles.FirstOrDefault(r => r.Name == changeRoleTo);
-            var user = await userManager.FindByIdAsync(id);
-            await userManager.AddToRoleAsync(user, role.Name);*/
         }
     }
 }

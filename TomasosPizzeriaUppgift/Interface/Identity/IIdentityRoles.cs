@@ -7,7 +7,7 @@ using TomasosPizzeriaUppgift.ViewModels;
 
 namespace TomasosPizzeriaUppgift.Interface
 {
-    interface IIdentityRoles
+    public interface IIdentityRoles
     {
         Task<IdentityResult> CreateRole(RoleManager<IdentityRole> roleManager, CreateRoleViewModel model);
 

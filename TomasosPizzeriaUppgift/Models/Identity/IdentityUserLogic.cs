@@ -32,9 +32,6 @@ namespace TomasosPizzeriaUppgift.Models.IdentityLogic
 
             return result;
         }
-
-        
-
         public async Task<UsersViewModel> GetAllUsers(List<Kund> customers, RoleManager<IdentityRole> roleManager)
         {
             var users = new UsersViewModel();
@@ -100,9 +97,6 @@ namespace TomasosPizzeriaUppgift.Models.IdentityLogic
 
             return result;
         }
-
-        
-
         public async Task<IdentityResult> UpdateUserIdentity(Kund model, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, HttpRequest request, HttpResponse response, System.Security.Claims.ClaimsPrincipal user)
         {
             var identityuser = await userManager.GetUserAsync(user);

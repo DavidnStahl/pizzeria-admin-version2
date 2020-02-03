@@ -7,7 +7,7 @@ using TomasosPizzeriaUppgift.ViewModels;
 
 namespace TomasosPizzeriaUppgift.Interface
 {
-    interface IRepository
+    public interface IRepository
     {
         Kund GetById(int id);
         MenuPage GetMenuInfo();
