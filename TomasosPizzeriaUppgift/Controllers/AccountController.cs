@@ -25,7 +25,7 @@ namespace TomasosPizzeriaUppgift.Controllers
             this.userManager = userManager;
             this.signInManager = signInManager;
         }
-        // GET: /<controller>/
+
         [HttpGet]
         public IActionResult Register()
         {

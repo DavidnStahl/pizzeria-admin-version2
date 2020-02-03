@@ -22,12 +22,12 @@ namespace TomasosPizzeriaUppgift.Controllers
         }
        
         [HttpGet]
-        public IActionResult UserRole()
+        public IActionResult Users()
         {
             return View();
         }
         [HttpPost]
-        public IActionResult UserRole(Kund customer)
+        public IActionResult Users(Kund customer)
         {
             return View();
         }

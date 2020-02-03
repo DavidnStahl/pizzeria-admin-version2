@@ -1,5 +1,83 @@
 ﻿
 
 
+@model UsersViewModel
 
+
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/AdminOrders.css" asp-append-version="true" />
+
+<div class="align-content-center bg-white admin-container">
+    <h1>@ViewData["Title"]</h1>
+    <div class="text-center text-black"><h2 class="text-black">Lista på Ordrar</h2></div>
+    <div class="text-left">
+        <table class="table table-borderless">
+            <thead>
+                <tr>
+                    <th scope="col">
+
+                        <div class="btn-group">
+
+                            <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a class="dropdown-item" asp-action="UserRoleType" asp-controller="AdminRole" asp-route-id="1">Admin</a></li>
+                                <li><a class="dropdown-item" asp-action="UserRoleType" asp-controller="AdminRole" asp-route-id="2">PremiumUsers</a></li>
+                                <li class="dropdown-item divider"></li>
+                                <li><a class="dropdown-item" asp-action="UserRoleType" asp-controller="AdminRole" asp-route-id="3">RegularUsers</a></li>
+                            </ul>
+
+                        </div>
+                        &nbsp Val av roll
+                    </th>
+                </tr>
+            </thead>
+        </table>
+        <table class="table table-borderless">
+            <thead>
+                <tr>
+                    <th scope="col">Användarnamn</th>
+                    <th scope="col">Namn</th>
+                    <th scope="col">Adress</th>
+                    <th scope="col">Roll</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var customer in Model.Customers)
+                {
+
+
+
+
+                    <tr>
+                        <td>@order.BestallningDatum</td>
+                        <td>@order.Kund.Namn</td>
+                        <td>@order.Kund.Gatuadress</td>
+                        <td>@order.Totalbelopp</td>
+                        @if (order.Levererad == false)
+                        {
+                            <td> <a type="button" href="#" class="btn btn-danger">Inte Levererad</a></td>
+                        }
+                        else
+                        {
+                            <td> <a type="button" href="#" class="btn btn-success">Levererad</a></td>
+                        }
+
+                        <td><a type="button" class="btn btn-dark" asp-action="OrderDetailView" asp-controller="AdminOrder" asp-route-id="@order.BestallningId">Order Detalj</a></td>
+
+                    </tr>
+                }
+
+
+            </tbody>
+        </table>
+    </div>
+
+</div>
 
