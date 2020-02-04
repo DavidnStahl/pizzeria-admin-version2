@@ -23,9 +23,6 @@ namespace TomasosPizzeriaUppgift.Services
         private static readonly Object padlock = new Object();
         private IRepositoryMenu _repository;
         private ICache _cache;
-        private IIdentity _identityUser;
-
-
 
 
         public static MenuService Instance
@@ -39,9 +36,6 @@ namespace TomasosPizzeriaUppgift.Services
                         instance = new MenuService();
                         instance._repository = new DBRepositoryMenu();
                         instance._cache = new CacheLogic();
-                        instance._identityUser = new IdentityUserLogic();
-
-
                     }
                     return instance;
 

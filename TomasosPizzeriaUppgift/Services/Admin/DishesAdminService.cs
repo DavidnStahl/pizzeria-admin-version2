@@ -17,10 +17,6 @@ namespace TomasosPizzeriaUppgift.Services
         private static DishesAdminService instance = null;
         private static readonly Object padlock = new Object();
         private IRepositoryDishes _repository;
-        private ICache _cache;
-        private IIdentity _identityUser;
-
-
 
         public static DishesAdminService Instance
         {
@@ -32,9 +28,6 @@ namespace TomasosPizzeriaUppgift.Services
                     {
                         instance = new DishesAdminService();
                         instance._repository = new DBRepositoryDishes();
-                        instance._cache = new CacheLogic();
-                        instance._identityUser = new IdentityUserLogic();
-
                     }
                     return instance;
 

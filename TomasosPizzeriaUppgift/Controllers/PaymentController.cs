@@ -40,7 +40,7 @@ namespace TomasosPizzeriaUppgift.Controllers
         [Authorize]
         public IActionResult Pay()
         {
-            PaymentService.Instance.PayUser(Request, Response);
+            PaymentService.Instance.PayUser(Request, Response,User);
             return View();
         }
     }

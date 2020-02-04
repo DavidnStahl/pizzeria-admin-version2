@@ -34,7 +34,7 @@ namespace TomasosPizzeriaUppgift.Models.IdentityLogic
 
             return result;
         }
-        public async Task<UsersViewModel> GetAllUsers(List<Kund> customers, RoleManager<IdentityRole> roleManager)
+        public async Task<UsersViewModel> GetAllUsers(List<Kund> customers, RoleManager<IdentityRole> roleManager,string roleToSearch)
         {
             var users = new UsersViewModel();
             using (TomasosContext db = new TomasosContext())
@@ -53,8 +53,10 @@ namespace TomasosPizzeriaUppgift.Models.IdentityLogic
 
                     userrole.Name = customer.Namn;
                     userrole.Adress = customer.Gatuadress;
-
-                    users.Customers.Add(userrole);
+                    if(userrole.RoleName == roleToSearch || roleToSearch == "All")
+                    {
+                        users.Customers.Add(userrole);
+                    }
 
 
                 }
@@ -143,6 +145,10 @@ namespace TomasosPizzeriaUppgift.Models.IdentityLogic
             return result;
         }
 
-
+        public bool CheckIfUserISPremiumUser(RoleManager<IdentityRole> roleManager, System.Security.Claims.ClaimsPrincipal user)
+        {
+            return user.IsInRole("PremiumUser");
+            
+        }
     }
 }

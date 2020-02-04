@@ -99,16 +99,45 @@ namespace TomasosPizzeriaUppgift.Models.Repository
                 }
             }
         }
-
-        public void SaveOrder(List<Matratt> matratter, int userid)
+        
+        public void SaveOrderPremiumUser(List<Matratt> matratter, int userid)
         {
             var customer = GetById(userid);
-            var totalmoney = GetTotalPayment(matratter);
+            var totalsum = 0m;
+            var topay = 0;
+            var bonuscount = 0;
+            matratter.OrderBy(r => r.Pris);
+            using (TomasosContext db = new TomasosContext())
+            {
+                
+                var kund = db.Kund.FirstOrDefault(r => r.KundId == customer.KundId);
+                if(Convert.ToInt32(kund.BonusPoints) >= 100)
+                {
+                    matratter[0].Pris = 0;
+                    var bonus = Convert.ToInt32(kund.BonusPoints);
+                    kund.BonusPoints = (bonus - 100).ToString();
+                    
+                    
+                }
+
+                if(matratter.Count > 2)
+                {
+                    bonuscount = matratter.Count;
+                    bonuscount *= 10;
+                    var bonus = Convert.ToInt32(kund.BonusPoints);
+                    kund.BonusPoints = (bonus + bonuscount).ToString();
+                    totalsum = GetTotalPayment(matratter);
+                    topay = Convert.ToInt32(totalsum * 0.20m);
+
+                }
+                db.Kund.Update(kund);
+                db.SaveChanges();
+            }
             var bestallning = new Bestallning()
             {
                 BestallningDatum = DateTime.Now,
                 KundId = customer.KundId,
-                Totalbelopp = totalmoney,
+                Totalbelopp = topay,
                 Levererad = false
             };
 
@@ -120,11 +149,44 @@ namespace TomasosPizzeriaUppgift.Models.Repository
             }
             SaveBestallningMatratter(matratter);
         }
+
+        public void SaveOrder(List<Matratt> matratter, int userid, System.Security.Claims.ClaimsPrincipal user)
+        {
+            var count = matratter.Count;
+            if(user.IsInRole("PremiumUser"))
+            {
+                SaveOrderPremiumUser(matratter, userid);
+            }
+            else
+            {
+                var customer = GetById(userid);
+                var totalmoney = GetTotalPayment(matratter);
+                var bestallning = new Bestallning()
+                {
+                    BestallningDatum = DateTime.Now,
+                    KundId = customer.KundId,
+                    Totalbelopp = totalmoney,
+                    Levererad = false
+                };
+
+
+                using (TomasosContext db = new TomasosContext())
+                {
+                    db.Add(bestallning);
+                    db.SaveChanges();
+                }
+                SaveBestallningMatratter(matratter);
+            }
+
+            
+        }
         public int GetTotalPayment(List<Matratt> matratter)
         {
             var totalmoney = 0;
+ 
             foreach (var matratt in matratter)
             {
+               
                 totalmoney += matratt.Pris;
             }
             return totalmoney;
@@ -139,5 +201,7 @@ namespace TomasosPizzeriaUppgift.Models.Repository
             return model;
 
         }
+
+        
     }
 }

@@ -22,7 +22,7 @@
                             <ul class="dropdown-menu" role="menu">
                                 @foreach (var item in Model.Roles)
                                 {
-                                    <li><a class="dropdown-item" asp-action="RoleType" asp-controller="RoleAdmin" asp-route-Name="@item">@item</a></li>
+                                    <li><a class="dropdown-item" asp-action="RoleTypeSearch" asp-controller="RoleAdmin" asp-route-roleNameToSearch="@item">@item</a></li>
                                 }
                             </ul>
 

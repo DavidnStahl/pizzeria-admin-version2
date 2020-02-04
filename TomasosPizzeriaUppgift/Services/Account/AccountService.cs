@@ -19,10 +19,6 @@ namespace TomasosPizzeriaUppgift.Services
         private static readonly Object padlock = new Object();
         private IRepositoryCustomers _repository;
         private ICache _cache;
-        private IIdentity _identityUser;
-
-
-
 
         public static AccountService Instance
         {
@@ -35,9 +31,6 @@ namespace TomasosPizzeriaUppgift.Services
                         instance = new AccountService();
                         instance._repository = new DBRepositoryCustomers();
                         instance._cache = new CacheLogic();
-                        instance._identityUser = new IdentityUserLogic();
-
-
                     }
                     return instance;
 

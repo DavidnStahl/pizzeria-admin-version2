@@ -17,11 +17,6 @@ namespace TomasosPizzeriaUppgift.Services
         private static OrderAdminService instance = null;
         private static readonly Object padlock = new Object();
         private IRepositoryOrders _repository;
-        private ICache _cache;
-        private IIdentity _identityUser;
-
-
-
 
         public static OrderAdminService Instance
         {
@@ -33,9 +28,6 @@ namespace TomasosPizzeriaUppgift.Services
                     {
                         instance = new OrderAdminService();
                         instance._repository = new DBRepositoryOrders();
-                        instance._cache = new CacheLogic();
-                        instance._identityUser = new IdentityUserLogic();
-
                     }
                     return instance;
 

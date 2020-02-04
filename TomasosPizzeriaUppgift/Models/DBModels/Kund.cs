@@ -33,6 +33,7 @@ namespace TomasosPizzeriaUppgift.Models
         [StringLength(20, MinimumLength = 5, ErrorMessage = "Lösenord måste vara minst 5 och max 20 tecken")]
         [Required(ErrorMessage = "Lösenord är obligatoriskt")]
         public string Losenord { get; set; }
+        public string BonusPoints { get; set; }
 
         public virtual ICollection<Bestallning> Bestallning { get; set; }
     }

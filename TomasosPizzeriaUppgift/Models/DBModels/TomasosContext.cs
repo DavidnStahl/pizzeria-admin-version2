@@ -115,6 +115,11 @@ namespace TomasosPizzeriaUppgift.Models
                 entity.Property(e => e.Telefon)
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.Property(e => e.BonusPoints)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<Matratt>(entity =>

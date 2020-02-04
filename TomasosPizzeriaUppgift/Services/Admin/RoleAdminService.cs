@@ -19,7 +19,7 @@ namespace TomasosPizzeriaUppgift.Services
         private static readonly Object padlock = new Object();
         private IRepositoryCustomers _repository;
         private ICache _cache;
-        private IIdentity _identityUser;
+        private IIdentity _identity;
 
 
 
@@ -34,7 +34,7 @@ namespace TomasosPizzeriaUppgift.Services
                         instance = new RoleAdminService();
                         instance._repository = new DBRepositoryCustomers();
                         instance._cache = new CacheLogic();
-                        instance._identityUser = new IdentityUserLogic();
+                        instance._identity = new IdentityUserLogic();
 
                     }
                     return instance;
@@ -46,10 +46,10 @@ namespace TomasosPizzeriaUppgift.Services
         public RoleAdminService()
         {
         }
-        public UsersViewModel GetAllUsers(RoleManager<IdentityRole> roleManager)
+        public UsersViewModel GetAllUsers(RoleManager<IdentityRole> roleManager,string roleToSearch)
         {
             var customers = _repository.GetCustomers();
-            var result = _identityUser.GetAllUsers(customers, roleManager);
+            var result = _identity.GetAllUsers(customers, roleManager,roleToSearch);
             return result.Result;
 
 
@@ -61,18 +61,18 @@ namespace TomasosPizzeriaUppgift.Services
         }
         public void ChangeRoleTypeUser(string changeRoleTo, string id, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
-            _identityUser.UpdateRoleForUser(changeRoleTo, id, userManager, roleManager);
+            _identity.UpdateRoleForUser(changeRoleTo, id, userManager, roleManager);
         }
         public UpdateRoleViewModel GetUserIdentityInfoByUsername(string userName, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
-            var result = _identityUser.GetUserIdentityByUsername(userName, userManager, roleManager);
+            var result = _identity.GetUserIdentityByUsername(userName, userManager, roleManager);
             var model = result.Result;
             return model;
 
         }
         public bool IdentityCreateRole(RoleManager<IdentityRole> roleManager, CreateRoleViewModel model)
         {
-            var result = _identityUser.CreateRole(roleManager, model);
+            var result = _identity.CreateRole(roleManager, model);
             if (result.Result.Succeeded) { return true; }
             return false;
         }
@@ -80,23 +80,22 @@ namespace TomasosPizzeriaUppgift.Services
         {
             if (option == "create")
             {
-                var result1 = _identityUser.CreateUserIdentity(model, userManager, signInManager, request, response, roleManager);
+                var result1 = _identity.CreateUserIdentity(model, userManager, signInManager, request, response, roleManager);
                 if (result1.Result.Succeeded) { return true; }
                 return false;
 
             }
             else if (option == "signin")
             {
-                var result2 = _identityUser.SignInIdentity(loginViewModel, userManager, signInManager, request, response);
+                var result2 = _identity.SignInIdentity(loginViewModel, userManager, signInManager, request, response);
                 if (result2.Result.Succeeded) { return true; }
                 return false;
             }
 
-            var result3 = _identityUser.UpdateUserIdentity(model, userManager, signInManager, request, response, user);
+            var result3 = _identity.UpdateUserIdentity(model, userManager, signInManager, request, response, user);
             if (result3.Result.Succeeded) { return true; }
             return false;
 
         }
-
     }
 }

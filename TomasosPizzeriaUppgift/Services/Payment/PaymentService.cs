@@ -18,10 +18,6 @@ namespace TomasosPizzeriaUppgift.Services
         private static readonly Object padlock = new Object();
         private IRepositoryMenu _repository;
         private ICache _cache;
-        private IIdentity _identityUser;
-
-
-
 
         public static PaymentService Instance
         {
@@ -33,9 +29,7 @@ namespace TomasosPizzeriaUppgift.Services
                     {
                         instance = new PaymentService();
                         instance._repository = new DBRepositoryMenu();
-                        instance._cache = new CacheLogic();
-                        instance._identityUser = new IdentityUserLogic();
-
+                        instance._cache = new CacheLogic();  
                     }
                     return instance;
 
@@ -46,11 +40,11 @@ namespace TomasosPizzeriaUppgift.Services
         public PaymentService()
         {
         }
-        public void PayUser(HttpRequest request, HttpResponse response)
+        public void PayUser(HttpRequest request, HttpResponse response, System.Security.Claims.ClaimsPrincipal user)
         {
             var userid = AccountService.Instance.GetCustomerIDCache(request);
             var matratteradded = _cache.PayUser(request, response);
-            UserPay(matratteradded, userid);
+            UserPay(matratteradded, userid,user);
             _cache.DeleteFoodListCache(request, response);
         }
         public MenuPage PayPage(HttpRequest request, HttpResponse response)
@@ -61,9 +55,9 @@ namespace TomasosPizzeriaUppgift.Services
             model.mattratttyper = MenuService.Instance.GetMatratttyper();
             return model;
         }
-        public void UserPay(List<Matratt> matratter, int userid)
+        public void UserPay(List<Matratt> matratter, int userid, System.Security.Claims.ClaimsPrincipal user)
         {
-            _repository.SaveOrder(matratter, userid);
+            _repository.SaveOrder(matratter, userid,user);
 
         }
         public bool CheckValidLogin(LoginViewModel model)

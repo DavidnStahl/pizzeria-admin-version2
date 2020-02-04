@@ -13,7 +13,7 @@ namespace TomasosPizzeriaUppgift.Interface
         MenuPage GetMenuInfo();
         List<MatrattTyp> GetMatrattTyper();
         void SaveBestallningMatratter(List<Matratt> matratter);
-        void SaveOrder(List<Matratt> matratter, int userid);
+        void SaveOrder(List<Matratt> matratter, int userid, System.Security.Claims.ClaimsPrincipal user);
         Matratt GetMatratterToCustomerbasket(int id);
         int GetTotalPayment(List<Matratt> matratter);
         Kund GetById(int id);
