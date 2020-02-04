@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TomasosPizzeriaUppgift.Interface;
 using TomasosPizzeriaUppgift.Models;
-using TomasosPizzeriaUppgift.Models.Identity;
+
 using TomasosPizzeriaUppgift.Models.IdentityLogic;
 using TomasosPizzeriaUppgift.Models.Repository;
 using TomasosPizzeriaUppgift.ViewModels;
@@ -18,8 +18,8 @@ namespace TomasosPizzeriaUppgift.Services
         private static readonly Object padlock = new Object();
         private IRepositoryMenu _repository;
         private ICache _cache;
-        private IIdentityUser _identityUser;
-        private IIdentityRoles _identityRole;
+        private IIdentity _identityUser;
+
 
 
 
@@ -35,7 +35,6 @@ namespace TomasosPizzeriaUppgift.Services
                         instance._repository = new DBRepositoryMenu();
                         instance._cache = new CacheLogic();
                         instance._identityUser = new IdentityUserLogic();
-                        instance._identityRole = new IdentityRoleLogic();
 
                     }
                     return instance;

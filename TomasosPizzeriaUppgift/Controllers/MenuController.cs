@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TomasosPizzeriaUppgift.Services;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,19 +16,19 @@ namespace TomasosPizzeriaUppgift.Controllers
         [HttpGet] 
         public IActionResult Menu()
         {
-             var model = Services.MenuService.Instance.MenuPageData(Request, Response);
+             var model = MenuService.Instance.MenuPageData(Request, Response);
              return View(model);          
         }
         [Authorize]
         public IActionResult AddItemCustomerBasket(int id)
         {
-            var model = Services.MenuService.Instance.CustomerBasket(id, Request, Response);            
+            var model = MenuService.Instance.CustomerBasket(id, Request, Response);            
             return PartialView("Menu", model);
         }
         [Authorize]
         public ActionResult RemoveItemCustomerBasket(int id, int count)
         {
-            var model = Services.MenuService.Instance.RemoveItemCustomerBasket(id, count, Request, Response);
+            var model = MenuService.Instance.RemoveItemCustomerBasket(id, count, Request, Response);
             return PartialView("Menu", model);
         }
     }

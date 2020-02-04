@@ -6,7 +6,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using TomasosPizzeriaUppgift.Interface;
 using TomasosPizzeriaUppgift.Models;
-using TomasosPizzeriaUppgift.Models.Identity;
 using TomasosPizzeriaUppgift.Models.IdentityLogic;
 using TomasosPizzeriaUppgift.Models.Repository;
 using TomasosPizzeriaUppgift.ViewModels;
@@ -20,8 +19,7 @@ namespace TomasosPizzeriaUppgift.Services
         private static readonly Object padlock = new Object();
         private IRepositoryCustomers _repository;
         private ICache _cache;
-        private IIdentityUser _identityUser;
-        private IIdentityRoles _identityRole;
+        private IIdentity _identityUser;
 
 
 
@@ -37,7 +35,6 @@ namespace TomasosPizzeriaUppgift.Services
                         instance._repository = new DBRepositoryCustomers();
                         instance._cache = new CacheLogic();
                         instance._identityUser = new IdentityUserLogic();
-                        instance._identityRole = new IdentityRoleLogic();
 
                     }
                     return instance;
@@ -64,7 +61,7 @@ namespace TomasosPizzeriaUppgift.Services
         }
         public void ChangeRoleTypeUser(string changeRoleTo, string id, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
-            _identityRole.UpdateRoleForUser(changeRoleTo, id, userManager, roleManager);
+            _identityUser.UpdateRoleForUser(changeRoleTo, id, userManager, roleManager);
         }
         public UpdateRoleViewModel GetUserIdentityInfoByUsername(string userName, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
@@ -75,7 +72,7 @@ namespace TomasosPizzeriaUppgift.Services
         }
         public bool IdentityCreateRole(RoleManager<IdentityRole> roleManager, CreateRoleViewModel model)
         {
-            var result = _identityRole.CreateRole(roleManager, model);
+            var result = _identityUser.CreateRole(roleManager, model);
             if (result.Result.Succeeded) { return true; }
             return false;
         }

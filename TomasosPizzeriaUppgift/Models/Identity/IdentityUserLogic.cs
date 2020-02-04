@@ -5,12 +5,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TomasosPizzeriaUppgift.Interface;
-using TomasosPizzeriaUppgift.Models.Identity;
+
 using TomasosPizzeriaUppgift.ViewModels;
 
 namespace TomasosPizzeriaUppgift.Models.IdentityLogic
 {
-    public class IdentityUserLogic : IIdentityUser
+    public class IdentityUserLogic : IIdentity
     {
 
         public async Task<IdentityResult> CreateUserIdentity(Kund model, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, HttpRequest request, HttpResponse response, RoleManager<IdentityRole> roleManager)
@@ -115,7 +115,34 @@ namespace TomasosPizzeriaUppgift.Models.IdentityLogic
             }
             return result;
         }
+        public void UpdateRoleForUser(string changeRoleTo, string id, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        {
+            using (TomasosContext db = new TomasosContext())
+            {
+                var userToDelete = db.UserRoles.FirstOrDefault(r => r.UserId == id);
+                db.UserRoles.Remove(userToDelete);
+                db.SaveChanges();
+                var userRoles = db.Roles.FirstOrDefault(r => r.Name == changeRoleTo);
+                userToDelete.RoleId = userRoles.Id;
+                userToDelete.UserId = id;
+                db.UserRoles.Add(userToDelete);
+                db.SaveChanges();
 
-       
+
+            }
+        }
+        public async Task<IdentityResult> CreateRole(RoleManager<IdentityRole> roleManager, CreateRoleViewModel model)
+        {
+            IdentityRole identityRole = new IdentityRole
+            {
+                Name = model.RoleName
+            };
+
+            IdentityResult result = await roleManager.CreateAsync(identityRole);
+
+            return result;
+        }
+
+
     }
 }

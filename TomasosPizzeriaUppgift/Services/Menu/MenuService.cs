@@ -14,7 +14,6 @@ using TomasosPizzeriaUppgift.Interface;
 using TomasosPizzeriaUppgift.Models.Repository;
 using TomasosPizzeriaUppgift.Models.IdentityLogic;
 using Microsoft.AspNetCore.Identity;
-using TomasosPizzeriaUppgift.Models.Identity;
 
 namespace TomasosPizzeriaUppgift.Services
 {
@@ -24,8 +23,8 @@ namespace TomasosPizzeriaUppgift.Services
         private static readonly Object padlock = new Object();
         private IRepositoryMenu _repository;
         private ICache _cache;
-        private IIdentityUser _identityUser;
-        private IIdentityRoles _identityRole;
+        private IIdentity _identityUser;
+
 
 
 
@@ -41,7 +40,7 @@ namespace TomasosPizzeriaUppgift.Services
                         instance._repository = new DBRepositoryMenu();
                         instance._cache = new CacheLogic();
                         instance._identityUser = new IdentityUserLogic();
-                        instance._identityRole = new IdentityRoleLogic();
+
 
                     }
                     return instance;

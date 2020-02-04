@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TomasosPizzeriaUppgift.Models;
 using TomasosPizzeriaUppgift.ViewModels;
+using TomasosPizzeriaUppgift.Services;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -28,12 +29,12 @@ namespace TomasosPizzeriaUppgift.Controllers
         [Authorize]
         public IActionResult Users()
         {
-            var model = Services.RoleAdminService.Instance.GetAllUsers(roleManager);
+            var model = RoleAdminService.Instance.GetAllUsers(roleManager);
             return View(model);
         }
         public IActionResult DeleteUser(string username)
         {
-            Services.RoleAdminService.Instance.DeleteUser(username,Request,Response);           
+            RoleAdminService.Instance.DeleteUser(username,Request,Response);           
             return RedirectToAction("Users");
         }
         [HttpGet]
@@ -47,7 +48,7 @@ namespace TomasosPizzeriaUppgift.Controllers
         {
             if(ModelState.IsValid)
             {
-                var result = Services.RoleAdminService.Instance.IdentityCreateRole(roleManager, model);
+                var result = RoleAdminService.Instance.IdentityCreateRole(roleManager, model);
                 if (result == true)
                 {
                     return RedirectToAction("userRole");
@@ -58,7 +59,7 @@ namespace TomasosPizzeriaUppgift.Controllers
 
         public IActionResult ChangeRoleTypeUser(string changeRoleTo, string id)
         {
-            Services.RoleAdminService.Instance.ChangeRoleTypeUser(changeRoleTo,id, userManager,roleManager);
+            RoleAdminService.Instance.ChangeRoleTypeUser(changeRoleTo,id, userManager,roleManager);
             return RedirectToAction("Users");
         }
 
