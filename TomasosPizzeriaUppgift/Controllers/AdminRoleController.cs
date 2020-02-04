@@ -28,12 +28,12 @@ namespace TomasosPizzeriaUppgift.Controllers
         [Authorize]
         public IActionResult Users()
         {
-            var model = Services.Services.Instance.GetAllUsers(roleManager);
+            var model = Services.ServiceAdminRole.Instance.GetAllUsers(roleManager);
             return View(model);
         }
         public IActionResult DeleteUser(string username)
         {
-            Services.Services.Instance.DeleteUser(username,Request,Response);           
+            Services.ServiceAdminRole.Instance.DeleteUser(username,Request,Response);           
             return RedirectToAction("Users");
         }
         [HttpGet]
@@ -47,7 +47,7 @@ namespace TomasosPizzeriaUppgift.Controllers
         {
             if(ModelState.IsValid)
             {
-                var result = Services.Services.Instance.IdentityCreateRole(roleManager, model);
+                var result = Services.ServiceAdminRole.Instance.IdentityCreateRole(roleManager, model);
                 if (result == true)
                 {
                     return RedirectToAction("userRole");
@@ -58,7 +58,7 @@ namespace TomasosPizzeriaUppgift.Controllers
 
         public IActionResult ChangeRoleTypeUser(string changeRoleTo, string id)
         {
-            Services.Services.Instance.ChangeRoleTypeUser(changeRoleTo,id, userManager,roleManager);
+            Services.ServiceAdminRole.Instance.ChangeRoleTypeUser(changeRoleTo,id, userManager,roleManager);
             return RedirectToAction("Users");
         }
 

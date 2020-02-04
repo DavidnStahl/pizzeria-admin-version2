@@ -68,5 +68,43 @@ namespace TomasosPizzeriaUppgift.Services
             var customer = _repository.GetCustomerByUsername(model.Username);
             _cache.SetCustomerCache(customer, request, response);
         }
+        public Kund GetUserId(Kund customer)
+        {
+            return _repository.GetUserId(customer);
+
+
+        }
+        public Kund GetById(int id)
+        {
+            return _repository.GetById(id);
+        }
+        public bool CheckUserNameIsValid(Kund user, HttpRequest request)
+        {
+            var customer = CheckUserName(user);
+            var customerid = Instance.GetCustomerIDCache(request);
+            var cachecustomer = GetById(customerid);
+            if (customer == null)
+            {
+                return true;
+            }
+            else if (user.AnvandarNamn == cachecustomer.AnvandarNamn)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+        public void SaveUser(Kund user)
+        {
+            _repository.SaveUser(user);
+        }
+        public void UpdateUser(Kund user, int userid, HttpRequest request, HttpResponse response)
+        {
+            _repository.UpdateUser(user, userid);
+        }
+        
     }
 }

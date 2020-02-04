@@ -25,7 +25,7 @@ namespace TomasosPizzeriaUppgift.Models.IdentityLogic
                 var loginmodel = new LoginViewModel();
                 loginmodel.Username = model.AnvandarNamn;
                 loginmodel.Password = model.Namn;
-                Services.Services.Instance.SaveUser(model);
+                Services.ServiceAccount.Instance.SaveUser(model);
                 Services.ServiceAccount.Instance.SetCustomerCache(loginmodel, request, response);
 
                 await signInManager.SignInAsync(user, isPersistent: false);
@@ -110,7 +110,7 @@ namespace TomasosPizzeriaUppgift.Models.IdentityLogic
             {
                 await signInManager.RefreshSignInAsync(identityuser);
                 var id = Services.ServiceAccount.Instance.GetCustomerIDCache(request);
-                Services.Services.Instance.UpdateUser(model, id, request, response);
+                Services.ServiceAccount.Instance.UpdateUser(model, id, request, response);
                 return result;
             }
             return result;

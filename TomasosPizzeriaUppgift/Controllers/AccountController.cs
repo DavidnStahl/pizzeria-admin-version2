@@ -38,10 +38,10 @@ namespace TomasosPizzeriaUppgift.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Register(Kund model)
         {
-            var validUsername = Services.Services.Instance.CheckUserNameIsValid(model, Request);
+            var validUsername = Services.ServiceAccount.Instance.CheckUserNameIsValid(model, Request);
             if (ModelState.IsValid && validUsername == true)
             {
-                var result = Services.Services.Instance.Identity("create",new LoginViewModel(),model,userManager,signInManager,Request,Response,User, roleManager);
+                var result = Services.ServiceAdminRole.Instance.Identity("create",new LoginViewModel(),model,userManager,signInManager,Request,Response,User, roleManager);
                 if (result == true) { return RedirectToAction("Index", "Home"); }
 
                 return View("Register", model);
@@ -63,7 +63,7 @@ namespace TomasosPizzeriaUppgift.Controllers
             
             if (ModelState.IsValid)
             {
-                var result = Services.Services.Instance.Identity("signin", model, new Kund(), userManager, signInManager, Request, Response,User,roleManager);
+                var result = Services.ServiceAdminRole.Instance.Identity("signin", model, new Kund(), userManager, signInManager, Request, Response,User,roleManager);
                 if (result == true) { return RedirectToAction("Index", "Home"); }
 
                 ViewBag.Error = "Inloggning Misslyckades";
@@ -93,14 +93,14 @@ namespace TomasosPizzeriaUppgift.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult UpdateUser(Kund model)
         {
-        var valid = Services.Services.Instance.CheckUserNameIsValid(model, Request);
+        var valid = Services.ServiceAccount.Instance.CheckUserNameIsValid(model, Request);
 
         if (ModelState.IsValid && valid == true)
         {
                 var customer = ServiceAccount.Instance.GetInloggedCustomerInfo(Request);
                 var id = ServiceAccount.Instance.GetCustomerIDCache(Request);
                 
-                var result = Services.Services.Instance.Identity("update", new LoginViewModel(), model, userManager, signInManager, Request, Response,User,roleManager);
+                var result = Services.ServiceAdminRole.Instance.Identity("update", new LoginViewModel(), model, userManager, signInManager, Request, Response,User,roleManager);
                 if (result == true) { return RedirectToAction("Index", "Home"); }
 
                 return View(nameof(Update), customer);
