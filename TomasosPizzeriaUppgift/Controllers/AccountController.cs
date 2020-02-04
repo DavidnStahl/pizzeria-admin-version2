@@ -38,10 +38,10 @@ namespace TomasosPizzeriaUppgift.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Register(Kund model)
         {
-            var validUsername = Services.ServiceAccount.Instance.CheckUserNameIsValid(model, Request);
+            var validUsername = Services.AccountService.Instance.CheckUserNameIsValid(model, Request);
             if (ModelState.IsValid && validUsername == true)
             {
-                var result = Services.ServiceAdminRole.Instance.Identity("create",new LoginViewModel(),model,userManager,signInManager,Request,Response,User, roleManager);
+                var result = Services.RoleAdminService.Instance.Identity("create",new LoginViewModel(),model,userManager,signInManager,Request,Response,User, roleManager);
                 if (result == true) { return RedirectToAction("Index", "Home"); }
 
                 return View("Register", model);
@@ -63,7 +63,7 @@ namespace TomasosPizzeriaUppgift.Controllers
             
             if (ModelState.IsValid)
             {
-                var result = Services.ServiceAdminRole.Instance.Identity("signin", model, new Kund(), userManager, signInManager, Request, Response,User,roleManager);
+                var result = Services.RoleAdminService.Instance.Identity("signin", model, new Kund(), userManager, signInManager, Request, Response,User,roleManager);
                 if (result == true) { return RedirectToAction("Index", "Home"); }
 
                 ViewBag.Error = "Inloggning Misslyckades";
@@ -83,7 +83,7 @@ namespace TomasosPizzeriaUppgift.Controllers
         [HttpGet]
         public ActionResult Update()
         {
-            var customer = ServiceAccount.Instance.GetInloggedCustomerInfo(Request);
+            var customer = AccountService.Instance.GetInloggedCustomerInfo(Request);
             ViewBag.Message = "Din personliga information";
             return View(customer);
         }
@@ -93,14 +93,14 @@ namespace TomasosPizzeriaUppgift.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult UpdateUser(Kund model)
         {
-        var valid = Services.ServiceAccount.Instance.CheckUserNameIsValid(model, Request);
+        var valid = Services.AccountService.Instance.CheckUserNameIsValid(model, Request);
 
         if (ModelState.IsValid && valid == true)
         {
-                var customer = ServiceAccount.Instance.GetInloggedCustomerInfo(Request);
-                var id = ServiceAccount.Instance.GetCustomerIDCache(Request);
+                var customer = AccountService.Instance.GetInloggedCustomerInfo(Request);
+                var id = AccountService.Instance.GetCustomerIDCache(Request);
                 
-                var result = Services.ServiceAdminRole.Instance.Identity("update", new LoginViewModel(), model, userManager, signInManager, Request, Response,User,roleManager);
+                var result = Services.RoleAdminService.Instance.Identity("update", new LoginViewModel(), model, userManager, signInManager, Request, Response,User,roleManager);
                 if (result == true) { return RedirectToAction("Index", "Home"); }
 
                 return View(nameof(Update), customer);
@@ -108,7 +108,7 @@ namespace TomasosPizzeriaUppgift.Controllers
         else if (ModelState.IsValid && valid == false)
         {
             ViewBag.Message = "Användarnamn Upptaget";
-            var customer = ServiceAccount.Instance.GetInloggedCustomerInfo(Request);
+            var customer = AccountService.Instance.GetInloggedCustomerInfo(Request);
             return View(nameof(Update), customer);
         }
         

@@ -18,18 +18,18 @@ using TomasosPizzeriaUppgift.Models.Identity;
 
 namespace TomasosPizzeriaUppgift.Services
 {
-    public class ServiceMenu
+    public class MenuService
     {
-        private static ServiceMenu instance = null;
+        private static MenuService instance = null;
         private static readonly Object padlock = new Object();
-        private IRepository _repository;
+        private IRepositoryMenu _repository;
         private ICache _cache;
         private IIdentityUser _identityUser;
         private IIdentityRoles _identityRole;
 
 
 
-        public static ServiceMenu Instance
+        public static MenuService Instance
         {
             get
             {
@@ -37,8 +37,8 @@ namespace TomasosPizzeriaUppgift.Services
                 {
                     if (instance == null)
                     {
-                        instance = new ServiceMenu();
-                        instance._repository = new DBRepository();
+                        instance = new MenuService();
+                        instance._repository = new DBRepositoryMenu();
                         instance._cache = new CacheLogic();
                         instance._identityUser = new IdentityUserLogic();
                         instance._identityRole = new IdentityRoleLogic();
@@ -50,7 +50,7 @@ namespace TomasosPizzeriaUppgift.Services
             }
         }
 
-        public ServiceMenu()
+        public MenuService()
         {
         }
     

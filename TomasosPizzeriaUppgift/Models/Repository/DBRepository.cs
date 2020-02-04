@@ -11,7 +11,7 @@ namespace TomasosPizzeriaUppgift.Models.Repository
 {
     public class DBRepository : IRepository
     {
-        public Kund GetById(int id)
+        /*public Kund GetById(int id)
         {
             var model = new Kund();
             using (TomasosContext db = new TomasosContext())
@@ -20,8 +20,8 @@ namespace TomasosPizzeriaUppgift.Models.Repository
             }
             return model;
                 
-        }
-        public Kund CheckCustomerUsernamePassword(LoginViewModel model)
+        }*/
+        /*public Kund CheckCustomerUsernamePassword(LoginViewModel model)
         {
             var customer = new Kund();
             using (TomasosContext db = new TomasosContext())
@@ -29,8 +29,8 @@ namespace TomasosPizzeriaUppgift.Models.Repository
                 customer = db.Kund.FirstOrDefault(c => c.AnvandarNamn == model.Username && c.Losenord == model.Password);
             }
             return customer;
-        }
-        public MenuPage GetMenuInfo()
+        }*/
+        /*public MenuPage GetMenuInfo()
         {
             var model = new MenuPage();
 
@@ -43,16 +43,16 @@ namespace TomasosPizzeriaUppgift.Models.Repository
 
             }
             return model;
-        }
-        public void SaveUser(Kund user)
+        }*/
+        /*public void SaveUser(Kund user)
         {
             using (TomasosContext db = new TomasosContext())
             {
                 db.Kund.Add(user);
                 db.SaveChanges();
             }
-        }
-        public Kund GetUserId(Kund customer)
+        }*/
+        /*public Kund GetUserId(Kund customer)
         {
             var user = new Kund();
             using (TomasosContext db = new TomasosContext())
@@ -61,8 +61,8 @@ namespace TomasosPizzeriaUppgift.Models.Repository
             }
             
             return user;
-        }
-        public Matratt GetMatratterToCustomerbasket(int id)
+        }*/
+        /*public Matratt GetMatratterToCustomerbasket(int id)
         {
             var model = new Matratt();
             using (TomasosContext db = new TomasosContext())
@@ -71,9 +71,9 @@ namespace TomasosPizzeriaUppgift.Models.Repository
                 model = db.Matratt.FirstOrDefault(r => r.MatrattId == id);
             }
             return model;
-        }
+        }*/
 
-        public void SaveOrder(List<Matratt> matratter, int userid)
+        /*public void SaveOrder(List<Matratt> matratter, int userid)
         {
             var customer = GetById(userid);
             var totalmoney = GetTotalPayment(matratter);
@@ -93,9 +93,9 @@ namespace TomasosPizzeriaUppgift.Models.Repository
             }
             SaveBestallningMatratter(matratter);
 
-        }
+        }*/
 
-        public void SaveBestallningMatratter(List<Matratt> matratter)
+        /*public void SaveBestallningMatratter(List<Matratt> matratter)
         {
             
             var bestallningsmatrattlista = new List<BestallningMatratt>();
@@ -133,9 +133,9 @@ namespace TomasosPizzeriaUppgift.Models.Repository
                     db.SaveChanges();
                 }
             }
-        }
+        }*/
 
-        public int GetTotalPayment(List<Matratt> matratter)
+        /*public int GetTotalPayment(List<Matratt> matratter)
         {
             var totalmoney = 0;
             foreach (var matratt in matratter)
@@ -143,9 +143,9 @@ namespace TomasosPizzeriaUppgift.Models.Repository
                 totalmoney += matratt.Pris;
             }
             return totalmoney;
-        }
+        }*/
 
-        public void UpdateUser(Kund user, int customerid)
+        /*public void UpdateUser(Kund user, int customerid)
         {
             using (TomasosContext db = new TomasosContext())
             {
@@ -162,9 +162,9 @@ namespace TomasosPizzeriaUppgift.Models.Repository
                 db.Kund.Update(customer);
                 db.SaveChanges();
             }
-        }
+        }*/
 
-        public List<MatrattTyp> GetMatrattTyper()
+        /*public List<MatrattTyp> GetMatrattTyper()
         {
             var matratttyper = new List<MatrattTyp>();
             using (TomasosContext db = new TomasosContext())
@@ -172,9 +172,9 @@ namespace TomasosPizzeriaUppgift.Models.Repository
                 matratttyper = db.MatrattTyp.ToList();
             }
             return matratttyper;
-        }
+        }*/
 
-        public Kund CheckUserName(Kund customer)
+        /*public Kund CheckUserName(Kund customer)
         {
             var kund = new Kund();
             using (TomasosContext db = new TomasosContext())
@@ -182,9 +182,9 @@ namespace TomasosPizzeriaUppgift.Models.Repository
                 kund = db.Kund.FirstOrDefault(r => r.AnvandarNamn == customer.AnvandarNamn);
             }
             return kund;
-        }
+        }*/
 
-        public Kund GetCustomerByUsername(string username)
+        /*public Kund GetCustomerByUsername(string username)
         {
             var kund = new Kund();
             using (TomasosContext db = new TomasosContext())
@@ -192,9 +192,9 @@ namespace TomasosPizzeriaUppgift.Models.Repository
                 kund = db.Kund.FirstOrDefault(r => r.AnvandarNamn == username);
             }
             return kund;
-        }
+        }*/
 
-        public OrdersViewModel GetOrdersAllOrders()
+        /*public OrdersViewModel GetOrdersAllOrders()
         {
             var model = new OrdersViewModel();
             using (TomasosContext db = new TomasosContext())
@@ -288,9 +288,9 @@ namespace TomasosPizzeriaUppgift.Models.Repository
                 db.Bestallning.Remove(order);
                 db.SaveChanges();
             }
-        }
+        }*/
 
-        public void DeleteDish(int dishID)
+        /*public void DeleteDish(int dishID)
         {
             using (TomasosContext db = new TomasosContext())
             {
@@ -304,8 +304,8 @@ namespace TomasosPizzeriaUppgift.Models.Repository
                 db.Matratt.Remove(matratt);
                 db.SaveChanges();
             }
-        }
-        public void CreateDish(NewDishViewModel model)
+        }*/
+        /*public void CreateDish(NewDishViewModel model)
         {         
             using (TomasosContext db = new TomasosContext())
             {
@@ -332,8 +332,8 @@ namespace TomasosPizzeriaUppgift.Models.Repository
                 db.SaveChanges();
             }
             
-        }
-        public MenuPage CheckMatrattsValidation(MenuPage model)
+        }*/
+        /*public MenuPage CheckMatrattsValidation(MenuPage model)
         {
             using (TomasosContext db = new TomasosContext())
             {
@@ -346,9 +346,9 @@ namespace TomasosPizzeriaUppgift.Models.Repository
                 
             }
             return model;
-        }
+        }*/
 
-        public bool AddIngrediens(Produkt produkt)
+        /*public bool AddIngrediens(Produkt produkt)
         {
             using (TomasosContext db = new TomasosContext())
             {
@@ -361,9 +361,9 @@ namespace TomasosPizzeriaUppgift.Models.Repository
                 db.SaveChanges();
                 return true;
             }
-        }
+        }*/
 
-        public List<Produkt> GetIngrdiensInMatratt(Matratt matratt)
+        /*public List<Produkt> GetIngrdiensInMatratt(Matratt matratt)
         {
             var produkts = new List<Produkt>();
 
@@ -382,9 +382,9 @@ namespace TomasosPizzeriaUppgift.Models.Repository
                 return produkts;
 
             }
-        }
+        }*/
 
-        public void RemoveIngrediens(int id)
+        /*public void RemoveIngrediens(int id)
         {
             using (TomasosContext db = new TomasosContext())
             {
@@ -396,9 +396,9 @@ namespace TomasosPizzeriaUppgift.Models.Repository
                 db.Produkt.Remove(produkt);
                 db.SaveChanges();
             }
-        }
+        }*/
 
-        public void UpdateDish(UpdateDishViewModel model)
+        /*public void UpdateDish(UpdateDishViewModel model)
         {
             using (TomasosContext db = new TomasosContext())
             {
@@ -435,16 +435,16 @@ namespace TomasosPizzeriaUppgift.Models.Repository
                
                 
             }
-        }
+        }*/
 
-        public List<Kund> GetCustomers()
+        /*public List<Kund> GetCustomers()
         {
             using (TomasosContext db = new TomasosContext())
             {
                 return  db.Kund.ToList();
             }
-        }
-        public void DeleteUser(string userName)
+        }*/
+        /*public void DeleteUser(string userName)
         {
             using (TomasosContext db = new TomasosContext())
             {
@@ -454,7 +454,7 @@ namespace TomasosPizzeriaUppgift.Models.Repository
                 db.Users.Remove(useridentity);
                 db.SaveChanges();
             }
-        }
+        }*/
     }
 
 }

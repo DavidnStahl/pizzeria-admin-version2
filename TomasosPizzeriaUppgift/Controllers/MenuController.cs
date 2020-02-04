@@ -15,19 +15,19 @@ namespace TomasosPizzeriaUppgift.Controllers
         [HttpGet] 
         public IActionResult Menu()
         {
-             var model = Services.ServiceMenu.Instance.MenuPageData(Request, Response);
+             var model = Services.MenuService.Instance.MenuPageData(Request, Response);
              return View(model);          
         }
         [Authorize]
         public IActionResult AddItemCustomerBasket(int id)
         {
-            var model = Services.ServiceMenu.Instance.CustomerBasket(id, Request, Response);            
+            var model = Services.MenuService.Instance.CustomerBasket(id, Request, Response);            
             return PartialView("Menu", model);
         }
         [Authorize]
         public ActionResult RemoveItemCustomerBasket(int id, int count)
         {
-            var model = Services.ServiceMenu.Instance.RemoveItemCustomerBasket(id, count, Request, Response);
+            var model = Services.MenuService.Instance.RemoveItemCustomerBasket(id, count, Request, Response);
             return PartialView("Menu", model);
         }
     }

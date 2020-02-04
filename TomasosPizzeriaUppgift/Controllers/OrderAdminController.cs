@@ -8,34 +8,34 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace TomasosPizzeriaUppgift.Controllers
 {
-    public class AdminOrderController : Controller
+    public class OrderAdminController : Controller
     {
         [HttpGet]
         public IActionResult Orders()
         {
-            var model = Services.ServiceAdminOrder.Instance.GetOrders(1);
+            var model = Services.OrderAdminService.Instance.GetOrders(1);
             return View(model);
         }
 
         public IActionResult OrderType(int id)
         {
-            var model = Services.ServiceAdminOrder.Instance.GetOrders(id);
+            var model = Services.OrderAdminService.Instance.GetOrders(id);
             return View("Orders", model);
         }
         public IActionResult OrderDetailView(int id)
         {
-            var model = Services.ServiceAdminOrder.Instance.OrderDetailView(id);
+            var model = Services.OrderAdminService.Instance.OrderDetailView(id);
             return View(model);
         }
         public IActionResult DeliverOrder(int id)
         {
-            Services.ServiceAdminOrder.Instance.DeliverOrder(id);
-            var model = Services.ServiceAdminOrder.Instance.OrderDetailView(id);
+            Services.OrderAdminService.Instance.DeliverOrder(id);
+            var model = Services.OrderAdminService.Instance.OrderDetailView(id);
             return View("OrderDetailView", model);
         }
         public IActionResult DeleteOrder(int id)
         {
-            Services.ServiceAdminOrder.Instance.DeleteOrder(id);
+            Services.OrderAdminService.Instance.DeleteOrder(id);
 
             return RedirectToAction("Orders");
         }

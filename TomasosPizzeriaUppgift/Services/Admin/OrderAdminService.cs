@@ -8,24 +8,23 @@ using TomasosPizzeriaUppgift.Models;
 using TomasosPizzeriaUppgift.Models.Identity;
 using TomasosPizzeriaUppgift.Models.IdentityLogic;
 using TomasosPizzeriaUppgift.Models.Repository;
+using TomasosPizzeriaUppgift.ViewModels;
 
 namespace TomasosPizzeriaUppgift.Services
 {
-    public class ServiceAdminMenu
+    public class OrderAdminService
     {
-
-        private static ServiceAdminMenu instance = null;
+        
+        private static OrderAdminService instance = null;
         private static readonly Object padlock = new Object();
-        private IRepositoryMenu _repository;
+        private IRepositoryOrders _repository;
         private ICache _cache;
         private IIdentityUser _identityUser;
         private IIdentityRoles _identityRole;
-        private readonly UserManager<IdentityUser> userManager;
-        private readonly SignInManager<IdentityUser> signInManager;
-        private readonly RoleManager<IdentityRole> roleManager;
 
 
-        public static ServiceAdminMenu Instance
+
+        public static OrderAdminService Instance
         {
             get
             {
@@ -33,8 +32,8 @@ namespace TomasosPizzeriaUppgift.Services
                 {
                     if (instance == null)
                     {
-                        instance = new ServiceAdminMenu();
-                        instance._repository = new DBRepositoryMenu();
+                        instance = new OrderAdminService();
+                        instance._repository = new DBRepositoryOrders();
                         instance._cache = new CacheLogic();
                         instance._identityUser = new IdentityUserLogic();
                         instance._identityRole = new IdentityRoleLogic();
@@ -46,10 +45,28 @@ namespace TomasosPizzeriaUppgift.Services
             }
         }
 
-        public ServiceAdminMenu()
+        public OrderAdminService()
         {
         }
+        public OrdersViewModel GetOrders(int id)
+        {
+            if (id == 1) return _repository.GetOrdersAllOrders();
+            if (id == 2) return _repository.GetOrdersDelivered();
 
+            return _repository.GetOrdersUnDelivered();
+        }
+        public OrderDetailView OrderDetailView(int orderid)
+        {
+            return _repository.GetOrderDetail(orderid);
+        }
+        public void DeliverOrder(int orderid)
+        {
+            _repository.DeliverOrder(orderid);
+        }
+        public void DeleteOrder(int orderid)
+        {
+            _repository.DeleteOrder(orderid);
+        }
 
     }
 }

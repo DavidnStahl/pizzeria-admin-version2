@@ -12,18 +12,18 @@ using TomasosPizzeriaUppgift.ViewModels;
 
 namespace TomasosPizzeriaUppgift.Services
 {
-    public class ServicePayment
+    public class PaymentService
     {
-        private static ServicePayment instance = null;
+        private static PaymentService instance = null;
         private static readonly Object padlock = new Object();
-        private IRepository _repository;
+        private IRepositoryMenu _repository;
         private ICache _cache;
         private IIdentityUser _identityUser;
         private IIdentityRoles _identityRole;
 
 
 
-        public static ServicePayment Instance
+        public static PaymentService Instance
         {
             get
             {
@@ -31,8 +31,8 @@ namespace TomasosPizzeriaUppgift.Services
                 {
                     if (instance == null)
                     {
-                        instance = new ServicePayment();
-                        instance._repository = new DBRepository();
+                        instance = new PaymentService();
+                        instance._repository = new DBRepositoryMenu();
                         instance._cache = new CacheLogic();
                         instance._identityUser = new IdentityUserLogic();
                         instance._identityRole = new IdentityRoleLogic();
@@ -44,12 +44,12 @@ namespace TomasosPizzeriaUppgift.Services
             }
         }
 
-        public ServicePayment()
+        public PaymentService()
         {
         }
         public void PayUser(HttpRequest request, HttpResponse response)
         {
-            var userid = ServiceAccount.Instance.GetCustomerIDCache(request);
+            var userid = AccountService.Instance.GetCustomerIDCache(request);
             var matratteradded = _cache.PayUser(request, response);
             UserPay(matratteradded, userid);
             _cache.DeleteFoodListCache(request, response);
@@ -59,7 +59,7 @@ namespace TomasosPizzeriaUppgift.Services
             var matratteradded = _cache.GetMatratterToPay(request, response);
             var model = new MenuPage();
             model.Matratteradded = matratteradded;
-            model.mattratttyper = ServiceMenu.Instance.GetMatratttyper();
+            model.mattratttyper = MenuService.Instance.GetMatratttyper();
             return model;
         }
         public void UserPay(List<Matratt> matratter, int userid)

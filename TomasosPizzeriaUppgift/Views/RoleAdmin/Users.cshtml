@@ -22,7 +22,7 @@
                             <ul class="dropdown-menu" role="menu">
                                 @foreach (var item in Model.Roles)
                                 {
-                                    <li><a class="dropdown-item" asp-action="RoleType" asp-controller="AdminRoleType" asp-route-Name="@item">@item</a></li>
+                                    <li><a class="dropdown-item" asp-action="RoleType" asp-controller="RoleAdmin" asp-route-Name="@item">@item</a></li>
                                 }
                             </ul>
 
@@ -69,7 +69,7 @@
                             <ul class="dropdown-menu" role="menu">
                                 @foreach (var item in Model.Roles)
                                 {
-                                    <li><a class="dropdown-item" asp-action="ChangeRoleTypeUser" asp-controller="AdminRole" asp-route-ChangeRoleTo="@item" asp-route-id="@customer.UserID">@item</a></li>
+                                    <li><a class="dropdown-item" asp-action="ChangeRoleTypeUser" asp-controller="RoleAdmin" asp-route-ChangeRoleTo="@item" asp-route-id="@customer.UserID">@item</a></li>
                                 }
                             </ul>
 
@@ -79,7 +79,7 @@
 
                     </td>
                     
-                    <td><a type="button" class="btn btn-danger" asp-action="DeleteUser" asp-controller="AdminRole" asp-route-username="@customer.Username">Ta bort kund</a></td>
+                    <td><a type="button" class="btn btn-danger" asp-action="DeleteUser" asp-controller="RoleAdmin" asp-route-username="@customer.Username">Ta bort kund</a></td>
 
                 </tr>
                 }

@@ -12,13 +12,13 @@ using TomasosPizzeriaUppgift.ViewModels;
 
 namespace TomasosPizzeriaUppgift.Controllers
 {
-    public class AdminRoleController : Controller
+    public class RoleAdminController : Controller
     {
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly UserManager<IdentityUser> userManager;
 
 
-        public AdminRoleController(RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager)
+        public RoleAdminController(RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager)
         {
             this.roleManager = roleManager;
             this.userManager = userManager;
@@ -28,12 +28,12 @@ namespace TomasosPizzeriaUppgift.Controllers
         [Authorize]
         public IActionResult Users()
         {
-            var model = Services.ServiceAdminRole.Instance.GetAllUsers(roleManager);
+            var model = Services.RoleAdminService.Instance.GetAllUsers(roleManager);
             return View(model);
         }
         public IActionResult DeleteUser(string username)
         {
-            Services.ServiceAdminRole.Instance.DeleteUser(username,Request,Response);           
+            Services.RoleAdminService.Instance.DeleteUser(username,Request,Response);           
             return RedirectToAction("Users");
         }
         [HttpGet]
@@ -47,7 +47,7 @@ namespace TomasosPizzeriaUppgift.Controllers
         {
             if(ModelState.IsValid)
             {
-                var result = Services.ServiceAdminRole.Instance.IdentityCreateRole(roleManager, model);
+                var result = Services.RoleAdminService.Instance.IdentityCreateRole(roleManager, model);
                 if (result == true)
                 {
                     return RedirectToAction("userRole");
@@ -58,7 +58,7 @@ namespace TomasosPizzeriaUppgift.Controllers
 
         public IActionResult ChangeRoleTypeUser(string changeRoleTo, string id)
         {
-            Services.ServiceAdminRole.Instance.ChangeRoleTypeUser(changeRoleTo,id, userManager,roleManager);
+            Services.RoleAdminService.Instance.ChangeRoleTypeUser(changeRoleTo,id, userManager,roleManager);
             return RedirectToAction("Users");
         }
 

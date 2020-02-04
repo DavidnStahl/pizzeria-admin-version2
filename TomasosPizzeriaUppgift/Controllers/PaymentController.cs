@@ -25,7 +25,7 @@ namespace TomasosPizzeriaUppgift.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Login(LoginViewModel model)
         {
-            var result = Services.ServicePayment.Instance.CheckValidLogin(model);
+            var result = Services.PaymentService.Instance.CheckValidLogin(model);
             if (ModelState.IsValid && result == true)
             {
                 return RedirectToAction("Pay");
@@ -39,7 +39,7 @@ namespace TomasosPizzeriaUppgift.Controllers
         [Authorize]
         public IActionResult Pay()
         {
-            Services.ServicePayment.Instance.PayUser(Request, Response);
+            Services.PaymentService.Instance.PayUser(Request, Response);
             return View();
         }
     }

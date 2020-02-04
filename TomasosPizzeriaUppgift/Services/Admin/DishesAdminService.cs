@@ -13,17 +13,17 @@ using TomasosPizzeriaUppgift.ViewModels;
 namespace TomasosPizzeriaUppgift.Services
 {
    
-    public class ServiceAdminDishes
+    public class DishesAdminService
     {
-        private static ServiceAdminDishes instance = null;
+        private static DishesAdminService instance = null;
         private static readonly Object padlock = new Object();
-        private IRepository _repository;
+        private IRepositoryDishes _repository;
         private ICache _cache;
         private IIdentityUser _identityUser;
         private IIdentityRoles _identityRole;
 
 
-        public static ServiceAdminDishes Instance
+        public static DishesAdminService Instance
         {
             get
             {
@@ -31,8 +31,8 @@ namespace TomasosPizzeriaUppgift.Services
                 {
                     if (instance == null)
                     {
-                        instance = new ServiceAdminDishes();
-                        instance._repository = new DBRepository();
+                        instance = new DishesAdminService();
+                        instance._repository = new DBRepositoryDishes();
                         instance._cache = new CacheLogic();
                         instance._identityUser = new IdentityUserLogic();
                         instance._identityRole = new IdentityRoleLogic();
@@ -44,7 +44,7 @@ namespace TomasosPizzeriaUppgift.Services
             }
         }
 
-        public ServiceAdminDishes()
+        public DishesAdminService()
         {
         }
         public MenuPage CheckMatrattsValidation(MenuPage model)
@@ -53,8 +53,8 @@ namespace TomasosPizzeriaUppgift.Services
         }
         public UpdateDishViewModel GetDishToUpdate(int id)
         {
-            var menu = ServiceMenu.Instance.GetMenuInfo();
-            var matratt = ServiceMenu.Instance.GetMatratterById(id);
+            var menu = MenuService.Instance.GetMenuInfo();
+            var matratt = MenuService.Instance.GetMatratterById(id);
             var selectedListItem = _repository.GetIngrdiensInMatratt(matratt);
             var model = new UpdateDishViewModel()
             {

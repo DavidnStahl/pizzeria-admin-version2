@@ -13,21 +13,19 @@ using TomasosPizzeriaUppgift.ViewModels;
 
 namespace TomasosPizzeriaUppgift.Services
 {
-    public class ServiceAdminRole
+    public class RoleAdminService
     {
         
-        private static ServiceAdminRole instance = null;
+        private static RoleAdminService instance = null;
         private static readonly Object padlock = new Object();
-        private IRepository _repository;
+        private IRepositoryCustomers _repository;
         private ICache _cache;
         private IIdentityUser _identityUser;
         private IIdentityRoles _identityRole;
-        private readonly UserManager<IdentityUser> userManager;
-        private readonly SignInManager<IdentityUser> signInManager;
-        private readonly RoleManager<IdentityRole> roleManager;
 
 
-        public static ServiceAdminRole Instance
+
+        public static RoleAdminService Instance
         {
             get
             {
@@ -35,8 +33,8 @@ namespace TomasosPizzeriaUppgift.Services
                 {
                     if (instance == null)
                     {
-                        instance = new ServiceAdminRole();
-                        instance._repository = new DBRepository();
+                        instance = new RoleAdminService();
+                        instance._repository = new DBRepositoryCustomers();
                         instance._cache = new CacheLogic();
                         instance._identityUser = new IdentityUserLogic();
                         instance._identityRole = new IdentityRoleLogic();
@@ -48,7 +46,7 @@ namespace TomasosPizzeriaUppgift.Services
             }
         }
 
-        public ServiceAdminRole()
+        public RoleAdminService()
         {
         }
         public UsersViewModel GetAllUsers(RoleManager<IdentityRole> roleManager)

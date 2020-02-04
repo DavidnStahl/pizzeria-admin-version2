@@ -14,18 +14,18 @@ using TomasosPizzeriaUppgift.ViewModels;
 
 namespace TomasosPizzeriaUppgift.Services
 {
-    public class ServiceAccount
+    public class AccountService
     {
-        private static ServiceAccount instance = null;
+        private static AccountService instance = null;
         private static readonly Object padlock = new Object();
-        private IRepository _repository;
+        private IRepositoryCustomers _repository;
         private ICache _cache;
         private IIdentityUser _identityUser;
         private IIdentityRoles _identityRole;
 
 
 
-        public static ServiceAccount Instance
+        public static AccountService Instance
         {
             get
             {
@@ -33,8 +33,8 @@ namespace TomasosPizzeriaUppgift.Services
                 {
                     if (instance == null)
                     {
-                        instance = new ServiceAccount();
-                        instance._repository = new DBRepository();
+                        instance = new AccountService();
+                        instance._repository = new DBRepositoryCustomers();
                         instance._cache = new CacheLogic();
                         instance._identityUser = new IdentityUserLogic();
                         instance._identityRole = new IdentityRoleLogic();
@@ -46,7 +46,7 @@ namespace TomasosPizzeriaUppgift.Services
             }
         }
 
-        public ServiceAccount()
+        public AccountService()
         {
         }
         public Kund CheckUserName(Kund customer)

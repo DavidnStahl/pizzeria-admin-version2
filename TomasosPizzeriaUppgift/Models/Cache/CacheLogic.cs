@@ -19,7 +19,7 @@ namespace TomasosPizzeriaUppgift.Models
 
         public List<Matratt> GetMatratterCacheList(int id, string options, HttpRequest request, HttpResponse response)
         {
-            var model = Services.ServiceMenu.Instance.GetMatratterById(id);
+            var model = Services.MenuService.Instance.GetMatratterById(id);
             var jsonget = request.Cookies["cookie_matratter"];
             var matratteradded = new List<Matratt>();
             if (jsonget != null)
@@ -63,7 +63,7 @@ namespace TomasosPizzeriaUppgift.Models
             options.HttpOnly = true;
             response.Cookies.Append("cookie_matratter", json, options);
 
-            var menumodel = Services.ServiceMenu.Instance.GetMenuInfo();
+            var menumodel = Services.MenuService.Instance.GetMenuInfo();
             menumodel.Matratteradded = matratteradded;
 
             return menumodel;

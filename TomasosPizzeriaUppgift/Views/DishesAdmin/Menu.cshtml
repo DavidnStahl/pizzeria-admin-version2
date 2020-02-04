@@ -12,12 +12,12 @@
                 <tr>
                     <th scope="col">
 
-                        <a type="button" class="btn btn-success" asp-action="AddNewDish" asp-controller="AdminMenu">Lägg till ny maträtt</a>
+                        <a type="button" class="btn btn-success" asp-action="AddNewDish" asp-controller="DishesAdmin">Lägg till ny maträtt</a>
                     </th>
                 </tr>
                 <tr>
                     <th scope="col">
-                        <a type="button" class="btn btn-success" asp-action="AddIngrediens" asp-controller="AdminMenu">Lägg till ny Ingrediens</a>
+                        <a type="button" class="btn btn-success" asp-action="AddIngrediens" asp-controller="DishesAdmin">Lägg till ny Ingrediens</a>
                     </th>
                 </tr>
             </thead>
@@ -36,7 +36,7 @@
                             <ul class="dropdown-menu" role="menu">
                                 @foreach (var item in Model.Ingredienses)
                                 {
-                                    <li><a class="dropdown-item" asp-action="RemoveIngrediens" asp-controller="AdminMenu" asp-route-id="@item.ProduktId">@item.ProduktNamn</a></li>
+                                    <li><a class="dropdown-item" asp-action="RemoveIngrediens" asp-controller="DishesAdmin" asp-route-id="@item.ProduktId">@item.ProduktNamn</a></li>
                                 }
 
 
@@ -67,10 +67,10 @@
                         <td>@Model.mattratttyper[matratt.MatrattTyp - 1].Beskrivning</td>
                         <td>@matratt.MatrattNamn</td>
                         <td>
-                            <a class="btn btn-primary" type="button" asp-action="EditDish" asp-controller="AdminMenu" asp-route-id="@matratt.MatrattId">Ändra</a>
+                            <a class="btn btn-primary" type="button" asp-action="EditDish" asp-controller="DishesAdmin" asp-route-id="@matratt.MatrattId">Ändra</a>
                         </td>
                         <td>
-                            <a class="btn btn-danger" type="button" asp-action="DeleteDish" asp-controller="AdminMenu" asp-route-id="@matratt.MatrattId">Ta bort</a>
+                            <a class="btn btn-danger" type="button" asp-action="DeleteDish" asp-controller="DishesAdmin" asp-route-id="@matratt.MatrattId">Ta bort</a>
                         </td>
 
 

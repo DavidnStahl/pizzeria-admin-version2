@@ -25,8 +25,8 @@ namespace TomasosPizzeriaUppgift.Models.IdentityLogic
                 var loginmodel = new LoginViewModel();
                 loginmodel.Username = model.AnvandarNamn;
                 loginmodel.Password = model.Namn;
-                Services.ServiceAccount.Instance.SaveUser(model);
-                Services.ServiceAccount.Instance.SetCustomerCache(loginmodel, request, response);
+                Services.AccountService.Instance.SaveUser(model);
+                Services.AccountService.Instance.SetCustomerCache(loginmodel, request, response);
 
                 await signInManager.SignInAsync(user, isPersistent: false);
                 return result;
@@ -93,7 +93,7 @@ namespace TomasosPizzeriaUppgift.Models.IdentityLogic
 
             if (result.Succeeded)
             {
-                Services.ServiceAccount.Instance.SetCustomerCache(model, request, response);
+                Services.AccountService.Instance.SetCustomerCache(model, request, response);
                 return result;
             }
 
@@ -104,13 +104,13 @@ namespace TomasosPizzeriaUppgift.Models.IdentityLogic
             var identityuser = await userManager.GetUserAsync(user);
             identityuser.UserName = model.AnvandarNamn;
             await userManager.UpdateNormalizedUserNameAsync(identityuser);
-            var customer = Services.ServiceAccount.Instance.GetInloggedCustomerInfo(request);
+            var customer = Services.AccountService.Instance.GetInloggedCustomerInfo(request);
             var result = await userManager.ChangePasswordAsync(identityuser, customer.Losenord, model.Losenord);
             if (result.Succeeded)
             {
                 await signInManager.RefreshSignInAsync(identityuser);
-                var id = Services.ServiceAccount.Instance.GetCustomerIDCache(request);
-                Services.ServiceAccount.Instance.UpdateUser(model, id, request, response);
+                var id = Services.AccountService.Instance.GetCustomerIDCache(request);
+                Services.AccountService.Instance.UpdateUser(model, id, request, response);
                 return result;
             }
             return result;
