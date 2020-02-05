@@ -106,6 +106,7 @@ namespace TomasosPizzeriaUppgift.Models.Repository
             var totalsum = 0m;
             var topay = 0;
             var bonuscount = 0;
+            var bonus = 0;
             matratter.OrderBy(r => r.Pris);
             using (TomasosContext db = new TomasosContext())
             {
@@ -114,21 +115,30 @@ namespace TomasosPizzeriaUppgift.Models.Repository
                 if(Convert.ToInt32(kund.BonusPoints) >= 100)
                 {
                     matratter[0].Pris = 0;
-                    var bonus = Convert.ToInt32(kund.BonusPoints);
+                    bonus = Convert.ToInt32(kund.BonusPoints);
                     kund.BonusPoints = (bonus - 100).ToString();
-                    
-                    
+
+
+
                 }
 
                 if(matratter.Count > 2)
                 {
                     bonuscount = matratter.Count;
                     bonuscount *= 10;
-                    var bonus = Convert.ToInt32(kund.BonusPoints);
+                    bonus = Convert.ToInt32(kund.BonusPoints);
                     kund.BonusPoints = (bonus + bonuscount).ToString();
                     totalsum = GetTotalPayment(matratter);
-                    topay = Convert.ToInt32(totalsum * 0.20m);
+                    topay = Convert.ToInt32(totalsum * 0.80m);
 
+                }
+                else
+                {
+                    bonuscount = matratter.Count;
+                    bonuscount *= 10;
+                    bonus = Convert.ToInt32(kund.BonusPoints);
+                    kund.BonusPoints = (bonus + bonuscount).ToString();
+                    topay = GetTotalPayment(matratter);
                 }
                 db.Kund.Update(kund);
                 db.SaveChanges();

@@ -117,7 +117,6 @@ namespace TomasosPizzeriaUppgift.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.BonusPoints)
-                    .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
             });

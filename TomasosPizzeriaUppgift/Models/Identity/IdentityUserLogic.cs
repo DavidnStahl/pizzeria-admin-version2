@@ -89,7 +89,7 @@ namespace TomasosPizzeriaUppgift.Models.IdentityLogic
 
         public async Task<SignInResult> SignInIdentity(LoginViewModel model, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, HttpRequest request, HttpResponse response)
         {
-            
+
             var result = await signInManager.PasswordSignInAsync(model.Username, model.Password,
                                            model.RememberMe, false);
 
