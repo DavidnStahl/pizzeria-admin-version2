@@ -45,22 +45,21 @@ namespace TomasosPizzeriaUppgift.Services
         public UpdateDishViewModel GetDishToUpdate(int id)
         {
             var menu = MenuService.Instance.GetMenuInfo();
-            var matratt = MenuService.Instance.GetMatratterById(id);
-            var selectedListItem = _repository.GetIngrdiensInMatratt(matratt);
+            var matratt = _repository.GetDishById(id);
+            var ingredienses = _repository.GetIngrdiensInMatratt(id);
             var model = new UpdateDishViewModel()
             {
                 Matrattnamn = matratt.MatrattNamn,
                 MatrattstypID = matratt.MatrattTyp,
                 Pris = matratt.Pris
-
             };
+            model.id = matratt.MatrattId;
             model.Mattratttyper = menu.mattratttyper;
             model.MatrattstypID = matratt.MatrattTyp;
-            model.SelectedListItem = selectedListItem;
+            model.SelectedListItem = ingredienses;
             model.Ingredienses = menu.Ingredienses;
             model.id = matratt.MatrattId;
             return model;
-
         }
         public void RemoveIngrediens(int id)
         {
@@ -68,7 +67,7 @@ namespace TomasosPizzeriaUppgift.Services
         }
         public void UpdateDish(UpdateDishViewModel model)
         {
-            _repository.UpdateDish(model);
+            _repository.Update(model);
         }
         public bool AddIngrediens(Produkt produkt)
         {
@@ -76,11 +75,28 @@ namespace TomasosPizzeriaUppgift.Services
         }
         public void DeleteDish(int dishID)
         {
-            _repository.DeleteDish(dishID);
+            _repository.Delete(dishID);
         }
         public void CreateDish(NewDishViewModel model)
         {
-            _repository.CreateDish(model);
+            var matratt = new Matratt()
+            {
+                MatrattNamn = model.Matratt.MatrattNamn,
+                Beskrivning = model.Matratt.Beskrivning,
+                MatrattTyp = model.Matratt.MatrattTyp,
+                Pris = model.Matratt.Pris
+            };
+            _repository.Create(matratt);
+            var matrattbyid = _repository.GetDishByName(model.Matratt.MatrattNamn);
+            var matrattprodukt = new MatrattProdukt();
+            foreach(var item in model.SelectedListItem)
+            {
+                matrattprodukt.MatrattId = matrattbyid.MatrattId;
+                matrattprodukt.ProduktId = item;
+
+                matrattbyid.MatrattProdukt.Add(matrattprodukt);
+            }
+            _repository.UpdateDishIngredienses(matrattbyid);
         }
         public MenuPage SetValidtion(MenuPage model, NewDishViewModel newModel)
         {

@@ -9,16 +9,15 @@ namespace TomasosPizzeriaUppgift.Interface
 {
     interface IRepositoryDishes
     {
-        void DeleteDish(int dishID);
-        void CreateDish(NewDishViewModel model);
+        Matratt GetDishById(int id);
         bool AddIngrediens(Produkt produkt);
-        List<Produkt> GetIngrdiensInMatratt(Matratt matratt);
+        Matratt GetDishByName(string name);
+        void UpdateDishIngredienses(Matratt matrattbyid);
+        List<Produkt> GetIngrdiensInMatratt(int id);
         void RemoveIngrediens(int id);
-        void UpdateDish(UpdateDishViewModel model);
         MenuPage CheckMatrattsValidation(MenuPage model);
         void Create(Matratt dish);
-        IQueryable<Matratt> GetAll();
-        void Update(Matratt dish);
-        void Delete(Matratt dish);
+        void Update(UpdateDishViewModel dish);
+        void Delete(int id);
     }
 }

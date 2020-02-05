@@ -5,9 +5,14 @@ using System.Threading.Tasks;
 using TomasosPizzeriaUppgift.Interface;
 using TomasosPizzeriaUppgift.ViewModels;
 using System.Data.SqlClient;
-using System.Data.Entity;
+
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
+
+
+
+
+
 
 namespace TomasosPizzeriaUppgift.Models.Repository
 {
@@ -28,7 +33,6 @@ namespace TomasosPizzeriaUppgift.Models.Repository
                 return true;
             }
         }
-
         public MenuPage CheckMatrattsValidation(MenuPage model)
         {
             using (TomasosContext db = new TomasosContext())
@@ -43,95 +47,49 @@ namespace TomasosPizzeriaUppgift.Models.Repository
             }
             return model;
         }
-
-        
-
-        public void CreateDish(NewDishViewModel model)
+        public void SaveIngrediensesToDish(Matratt dish)
         {
-            using (TomasosContext db = new TomasosContext())
-            {
-                var matratt = new Matratt()
-                {
-                    MatrattNamn = model.Matratt.MatrattNamn,
-                    Beskrivning = model.Matratt.Beskrivning,
-                    MatrattTyp = model.Matratt.MatrattTyp,
-                    Pris = model.Matratt.Pris
-                };
-                db.Matratt.Add(matratt);
-                db.SaveChanges();
-
-                matratt = db.Matratt.FirstOrDefault(r => r.MatrattNamn == model.Matratt.MatrattNamn);
-                foreach (var item in model.SelectedListItem)
-                {
-                    var matrattprodukt = new MatrattProdukt();
-                    matrattprodukt.MatrattId = matratt.MatrattId;
-                    matrattprodukt.ProduktId = item;
-                    matratt.MatrattProdukt.Add(matrattprodukt);
-
-                }
-                db.Matratt.Update(matratt);
-                db.SaveChanges();
-            }
+            _context.Matratt.Update(dish).Context.SaveChanges();
+        }
+        public Matratt GetDishByName(string name)
+        {
+            return _context.Matratt.FirstOrDefault(r => r.MatrattNamn == name);
         }
 
-
-        public void DeleteDish(int dishID)
+       public Matratt GetDishById(int id)
         {
-            using (TomasosContext db = new TomasosContext())
-            {
-
-                var matratt = db.Matratt.FirstOrDefault(r => r.MatrattId == dishID);
-                var matrattprodut = db.MatrattProdukt.Where(r => r.MatrattId == dishID).ToList();
-                var bestallningmatratt = db.BestallningMatratt.Where(r => r.MatrattId == dishID).ToList();
-
-                db.BestallningMatratt.RemoveRange(bestallningmatratt);
-                db.MatrattProdukt.RemoveRange(matrattprodut);
-                db.Matratt.Remove(matratt);
-                db.SaveChanges();
-            }
+            return _context.Matratt.FirstOrDefault(r => r.MatrattId == id);
         }
 
-       
-
-        public List<Produkt> GetIngrdiensInMatratt(Matratt matratt)
+        public List<Produkt> GetIngrdiensInMatratt(int id)
         {
-            var produkts = new List<Produkt>();
-
-            using (TomasosContext db = new TomasosContext())
-            {
-                var matrattprodukt = db.MatrattProdukt.Where(r => r.MatrattId == matratt.MatrattId).ToList();
-                foreach (var item in matrattprodukt)
-                {
-                    var produkt = new Produkt();
-                    var produktnamn = db.Produkt.FirstOrDefault(r => r.ProduktId == item.ProduktId);
-                    produkt.ProduktId = item.ProduktId;
-                    produkt.ProduktNamn = produktnamn.ProduktNamn;
-
-                    produkts.Add(produkt);
-                }
-                return produkts;
-
-            }
+            return _context.MatrattProdukt.Include(r => r.Produkt)
+                                          .Where(r => r.MatrattId == id)
+                                          .Select(r => r.Produkt).ToList();
         }
 
         public void RemoveIngrediens(int id)
         {
-            using (TomasosContext db = new TomasosContext())
-            {
-
-                var matrattprodut = db.MatrattProdukt.Where(r => r.ProduktId == id).ToList();
-                var produkt = db.Produkt.FirstOrDefault(r => r.ProduktId == id);
-
-                db.MatrattProdukt.RemoveRange(matrattprodut);
-                db.Produkt.Remove(produkt);
-                db.SaveChanges();
-            }
+            _context.Remove(_context.MatrattProdukt.Include(r => r.Produkt)
+                                                   .Select(r => r.Produkt)
+                                                   .Where(r => r.ProduktId == id)
+                                                   .FirstOrDefault())
+                                                   .Context.SaveChanges(); 
         }
-
-        
-
-        public void UpdateDish(UpdateDishViewModel model)
+        public void Delete(int id)
         {
+            var dish = _context.Matratt.Include(r => r.MatrattProdukt)
+                                       .Include(r => r.BestallningMatratt)
+                                       .FirstOrDefault(r => r.MatrattId == id);
+            _context.Matratt.Remove(dish).Context.SaveChanges();
+        }
+        public void Create(Matratt dish)
+        {
+            _context.Matratt.Add(dish).Context.SaveChanges();
+        }
+        public void Update(UpdateDishViewModel model)
+        {
+            
             using (TomasosContext db = new TomasosContext())
             {
                 var matratt = db.Matratt.FirstOrDefault(r => r.MatrattId == model.id);
@@ -164,25 +122,11 @@ namespace TomasosPizzeriaUppgift.Models.Repository
                     db.SaveChanges();
                 }
             }
-        }
-
-
-        public void Delete(Matratt dish)
-        {
-            _context.Matratt.Remove(dish).Context.SaveChanges();
-        }
-        public void Create(Matratt dish)
-        {
-            _context.Matratt.Add(dish).Context.SaveChanges();
-        }
-        public IQueryable<Matratt> GetAll()
-        {
-            return _context.Matratt;
-        }
             
-        public void Update(Matratt dish)
+        }
+        public void UpdateDishIngredienses(Matratt matrattbyid)
         {
-            _context.Matratt.Add(dish).Context.SaveChanges();
+            _context.Update(matrattbyid).Context.SaveChanges();
         }
     }
 }
