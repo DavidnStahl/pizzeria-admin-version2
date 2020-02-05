@@ -93,7 +93,7 @@ namespace TomasosPizzeriaUppgift.Models.Repository
 
        
 
-        /*public List<Produkt> GetIngrdiensInMatratt(Matratt matratt)
+        public List<Produkt> GetIngrdiensInMatratt(Matratt matratt)
         {
             var produkts = new List<Produkt>();
 
@@ -112,7 +112,7 @@ namespace TomasosPizzeriaUppgift.Models.Repository
                 return produkts;
 
             }
-        }*/
+        }
 
         public void RemoveIngrediens(int id)
         {
@@ -177,8 +177,7 @@ namespace TomasosPizzeriaUppgift.Models.Repository
         }
         public IQueryable<Matratt> GetAll()
         {
-            var x =  _context.Matratt.Include(r => r.MatrattTypNavigation).Include(r => r.BestallningMatratt).Include(r => r.MatrattProdukt).ThenInclude(r => r.Produkt).ToList();
-            //_context.MatrattProdukt.Include(m => m.Produkt);
+            return _context.Matratt;
         }
             
         public void Update(Matratt dish)

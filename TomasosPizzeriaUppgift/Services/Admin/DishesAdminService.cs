@@ -45,12 +45,11 @@ namespace TomasosPizzeriaUppgift.Services
         public UpdateDishViewModel GetDishToUpdate(int id)
         {
             var menu = MenuService.Instance.GetMenuInfo();
-            //var matratt = MenuService.Instance.GetMatratterById(id);
-            var matratt = _repository.GetAll();
-
+            var matratt = MenuService.Instance.GetMatratterById(id);
+            var selectedListItem = _repository.GetIngrdiensInMatratt(matratt);
             var model = new UpdateDishViewModel()
             {
-                Matrattnamn = matratt,
+                Matrattnamn = matratt.MatrattNamn,
                 MatrattstypID = matratt.MatrattTyp,
                 Pris = matratt.Pris
 
