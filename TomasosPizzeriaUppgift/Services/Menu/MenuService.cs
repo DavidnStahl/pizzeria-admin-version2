@@ -22,6 +22,7 @@ namespace TomasosPizzeriaUppgift.Services
         private static MenuService instance = null;
         private static readonly Object padlock = new Object();
         private IRepositoryMenu _repository;
+        private IRepositoryCustomers _repositoryCustomer;
         private ICache _cache;
 
 
@@ -35,6 +36,7 @@ namespace TomasosPizzeriaUppgift.Services
                     {
                         instance = new MenuService();
                         instance._repository = new DBRepositoryMenu();
+                        instance._repositoryCustomer = new DBRepositoryCustomers();
                         instance._cache = new CacheLogic();
                     }
                     return instance;
@@ -74,13 +76,35 @@ namespace TomasosPizzeriaUppgift.Services
             var matratteradded = GetMatratterCacheList(id, "1", request, response);
             var menumodel = SetMatratterCacheList(matratteradded, request, response);
             menumodel.mattratttyper = GetMatratttyper();
+            menumodel = CheckBonusPoints(request,menumodel);
+            /*var customerid = _cache.GetCustomerIDCache(request);
+            menumodel.Customer = _repositoryCustomer.GetById(customerid);
+            menumodel.Matratteradded.OrderBy(r => r.Pris);
+            if(Convert.ToInt32(menumodel.Customer.BonusPoints) >= 100)
+            {
+                menumodel.Matratteradded[0].Pris = 0;
+            }*/
+            return menumodel;
+        }
+        public MenuPage CheckBonusPoints(HttpRequest request,MenuPage menumodel)
+        {
+            var customerid = _cache.GetCustomerIDCache(request);
+            menumodel.Customer = _repositoryCustomer.GetById(customerid);
+            
+            if (Convert.ToInt32(menumodel.Customer.BonusPoints) >= 100 && menumodel.Matratteradded.Count != 0)
+            {
+                menumodel.Matratteradded.OrderBy(r => r.Pris);
+                menumodel.Matratteradded[0].Pris = 0;
+                menumodel.Matratteradded.OrderBy(r => r.Pris);
+            }
             return menumodel;
         }
         public MenuPage RemoveItemCustomerBasket(int id, int count, HttpRequest request, HttpResponse response)
         {
             var matratteradded = GetMatratterCacheList(id, "2", request, response);
             matratteradded.RemoveAt(count);
-            var menumodel = SetMatratterCacheList(matratteradded, request, response);
+            var menumodel = SetMatratterCacheList(matratteradded, request, response);       
+            menumodel = CheckBonusPoints(request, menumodel);
             return menumodel;
         }
         public MenuPage MenuPageData(HttpRequest request, HttpResponse response)
@@ -90,11 +114,13 @@ namespace TomasosPizzeriaUppgift.Services
             var matratteradded = GetMatratterCacheList(id, "2", request, response);
             if (matratteradded.Count != 0)
             {
+                
                 matratteradded.Add(model.matratt);
                 model.Matratteradded = matratteradded;
             }
-
+            
             model.mattratttyper = GetMatratttyper();
+            model = CheckBonusPoints(request, model);
             return model;
         }
         public MenuPage CheckMatrattsValidation(MenuPage model)

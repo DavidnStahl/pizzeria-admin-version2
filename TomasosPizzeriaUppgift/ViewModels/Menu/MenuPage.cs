@@ -16,7 +16,7 @@ namespace TomasosPizzeriaUppgift.ViewModels
 
         public MatrattTyp mattratttyp { get; set; }
         public List<Produkt> Ingredienses { get; set; }
-
+        public Kund Customer { get; set; }
         public List<Matratt> Matratteradded { get; set; }
         public List<MatrattProdukt> MattrattProdukt { get; set; }
         public bool IngrediensTaken { get; set; }
@@ -27,6 +27,7 @@ namespace TomasosPizzeriaUppgift.ViewModels
 
         public MenuPage()
         {
+            Customer = new Kund();
             NewDish = new NewDishViewModel();
             matratt = new Matratt();
             mattratttyp = new MatrattTyp();

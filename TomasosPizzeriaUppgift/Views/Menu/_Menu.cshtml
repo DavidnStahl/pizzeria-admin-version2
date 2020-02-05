@@ -1,8 +1,12 @@
 ﻿@model MenuPage
+@inject SignInManager<IdentityUser> signInManager;
+@inject RoleManager<IdentityRole> roleManager;
+
 
 @{
     var totalpris = 0;
     var itemcount = 0;
+    var totalprisPremiumUser = 0;
 }
 <link href="~/css/MenuPage.css" rel="stylesheet" type="text/css" asp-append-version="true" />
 
@@ -23,21 +27,45 @@
         {
 
 
-            totalpris += item.Pris;
+            
 
-            <tr>
-                @if (item.Pris != 0)
+        <tr>
+            @if (item.Pris == 0)
+            {
+                <td>@Model.mattratttyper[@item.MatrattTyp - 1].Beskrivning</td>
+                <td>@item.MatrattNamn</td>
+
+                <td>@item.Pris kr, bonuspoäng</td>
+                <td type="button" class="btn btn-danger text-white" style="width:auto">
+                    @Html.ActionLink("Ta bort", "RemoveItemCustomerBasket", "Menu", new { id = item.MatrattId, count = itemcount }, null)
+                </td>
+            }
+            else
+            {
+                if (item.Pris != 0)
                 {
+                    totalpris += item.Pris;
+
                     <td>@Model.mattratttyper[@item.MatrattTyp - 1].Beskrivning</td>
                     <td>@item.MatrattNamn</td>
 
-                    <td>@item.Pris</td>
+                    <td>@item.Pris kr</td>
                     <td type="button" class="btn btn-danger text-white" style="width:auto">
                         @Html.ActionLink("Ta bort", "RemoveItemCustomerBasket", "Menu", new { id = item.MatrattId, count = itemcount }, null)
                     </td>
                 }
 
-            </tr>
+            }
+
+
+
+
+
+
+
+
+
+        </tr>
             itemcount++;
 
         }
@@ -48,7 +76,7 @@
 <br />
 
 
-@if (totalpris != 0)
+@if (totalpris != 0 || Convert.ToInt32(Model.Customer.BonusPoints) == 100)
 {
     <hr />
     <table class="table table-borderless table-css">
@@ -62,8 +90,17 @@
         <tbody>
             <tr>
                 <td>
-
-                    <label>Totalpris: @totalpris Kr</label>
+                    @if (signInManager.IsSignedIn(User) && User.IsInRole("PremiumUser") && Model.Matratteradded.Count > 2)
+                    {
+                        totalprisPremiumUser = Convert.ToInt32(totalpris * 0.80m);
+                            
+                    <label>Totalpris: @totalprisPremiumUser Kr , Rabatt på 20% av @totalpris kr</label>
+                    }
+                    else
+                    {
+                       <label>Totalpris: @totalpris Kr</label>
+                    }
+                    
                 </td>
                 <td class="btn .btn-sm btn-success">@Html.ActionLink("Betala", "Login", "Payment", null, null)</td>
 
