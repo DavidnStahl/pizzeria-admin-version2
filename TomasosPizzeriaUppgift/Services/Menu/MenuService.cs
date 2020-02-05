@@ -89,7 +89,7 @@ namespace TomasosPizzeriaUppgift.Services
         public MenuPage CheckBonusPoints(HttpRequest request,MenuPage menumodel)
         {
             var customerid = _cache.GetCustomerIDCache(request);
-            menumodel.Customer = _repositoryCustomer.GetById(customerid);
+            menumodel.Customer = _repositoryCustomer.GetAll().FirstOrDefault(r => r.KundId == customerid);
             
             if (Convert.ToInt32(menumodel.Customer.BonusPoints) >= 100 && menumodel.Matratteradded.Count != 0)
             {

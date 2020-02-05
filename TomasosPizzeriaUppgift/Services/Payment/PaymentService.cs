@@ -42,7 +42,7 @@ namespace TomasosPizzeriaUppgift.Services
         }
         public void PayUser(HttpRequest request, HttpResponse response, System.Security.Claims.ClaimsPrincipal user)
         {
-            var userid = AccountService.Instance.GetCustomerIDCache(request);
+            var userid = _cache.GetCustomerIDCache(request);
             var matratteradded = _cache.PayUser(request, response);
             UserPay(matratteradded, userid,user);
             _cache.DeleteFoodListCache(request, response);

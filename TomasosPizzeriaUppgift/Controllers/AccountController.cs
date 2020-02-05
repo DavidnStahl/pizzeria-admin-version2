@@ -43,7 +43,6 @@ namespace TomasosPizzeriaUppgift.Controllers
             {
                 var result = RoleAdminService.Instance.Identity("create",new LoginViewModel(),model,userManager,signInManager,Request,Response,User, roleManager);
                 if (result == true) { return RedirectToAction("Index", "Home"); }
-
                 return View("Register", model);
               
             }
@@ -59,20 +58,17 @@ namespace TomasosPizzeriaUppgift.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Login(LoginViewModel model)
-        {
-            
+        {           
             if (ModelState.IsValid)
             {
                 var result = RoleAdminService.Instance.Identity("signin", model, new Kund(), userManager, signInManager, Request, Response,User,roleManager);
                 if (result == true) { return RedirectToAction("Index", "Home"); }
-
                 ViewBag.Error = "Inloggning Misslyckades";
                 return View(model);
             }
             ViewBag.Error = "Inloggning Misslyckades";
             return View(model);
         }        
-
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
@@ -86,34 +82,26 @@ namespace TomasosPizzeriaUppgift.Controllers
             var customer = AccountService.Instance.GetInloggedCustomerInfo(Request);
             ViewBag.Message = "Din personliga information";
             return View(customer);
-        }
-    
+        }   
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult UpdateUser(Kund model)
         {
         var valid = AccountService.Instance.CheckUserNameIsValid(model, Request);
-
+        var customer = AccountService.Instance.GetInloggedCustomerInfo(Request);
         if (ModelState.IsValid && valid == true)
-        {
-                var customer = AccountService.Instance.GetInloggedCustomerInfo(Request);
-                var id = AccountService.Instance.GetCustomerIDCache(Request);
-                
+        {             
                 var result = RoleAdminService.Instance.Identity("update", new LoginViewModel(), model, userManager, signInManager, Request, Response,User,roleManager);
-                if (result == true) { return RedirectToAction("Index", "Home"); }
-
+                if (result == true) { return RedirectToAction("Index", "Home"); }               
                 return View(nameof(Update), customer);
             }
         else if (ModelState.IsValid && valid == false)
         {
             ViewBag.Message = "Användarnamn Upptaget";
-            var customer = AccountService.Instance.GetInloggedCustomerInfo(Request);
             return View(nameof(Update), customer);
-        }
-        
-            return View(nameof(Update));
-        
+        }        
+            return View(nameof(Update));        
         }
     }
 }

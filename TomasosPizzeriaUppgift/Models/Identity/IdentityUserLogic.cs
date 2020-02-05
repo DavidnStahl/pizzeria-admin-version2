@@ -34,7 +34,7 @@ namespace TomasosPizzeriaUppgift.Models.IdentityLogic
 
             return result;
         }
-        public async Task<UsersViewModel> GetAllUsers(List<Kund> customers, RoleManager<IdentityRole> roleManager,string roleToSearch)
+        public async Task<UsersViewModel> GetAllUsers(IQueryable<Kund> customers, RoleManager<IdentityRole> roleManager,string roleToSearch)
         {
             var users = new UsersViewModel();
             using (TomasosContext db = new TomasosContext())
@@ -111,8 +111,7 @@ namespace TomasosPizzeriaUppgift.Models.IdentityLogic
             if (result.Succeeded)
             {
                 await signInManager.RefreshSignInAsync(identityuser);
-                var id = Services.AccountService.Instance.GetCustomerIDCache(request);
-                Services.AccountService.Instance.UpdateUser(model, id, request, response);
+                Services.AccountService.Instance.UpdateUser(model, request);
                 return result;
             }
             return result;
@@ -147,8 +146,7 @@ namespace TomasosPizzeriaUppgift.Models.IdentityLogic
 
         public bool CheckIfUserISPremiumUser(RoleManager<IdentityRole> roleManager, System.Security.Claims.ClaimsPrincipal user)
         {
-            return user.IsInRole("PremiumUser");
-            
+            return user.IsInRole("PremiumUser");  
         }
     }
 }

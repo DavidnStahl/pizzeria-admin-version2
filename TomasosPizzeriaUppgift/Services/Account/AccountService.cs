@@ -43,37 +43,30 @@ namespace TomasosPizzeriaUppgift.Services
         }
         public Kund CheckUserName(Kund customer)
         {
-            return _repository.CheckUserName(customer);
+            return _repository.GetAll().FirstOrDefault(r => r.AnvandarNamn == customer.AnvandarNamn);
         }
         public Kund GetInloggedCustomerInfo(HttpRequest Request)
         {
-            var customerId = GetCustomerIDCache(Request);
-            return _repository.GetById(customerId);
+            var customerId = _cache.GetCustomerIDCache(Request);
+            return _repository.GetAll().FirstOrDefault( r => r.KundId == customerId);   
         }
-        public int GetCustomerIDCache(HttpRequest Request)
-        {
-            return _cache.GetCustomerIDCache(Request);
-        }
-
         public void SetCustomerCache(LoginViewModel model, HttpRequest request, HttpResponse response)
         {
-            var customer = _repository.GetCustomerByUsername(model.Username);
+            var customer = _repository.GetAll().FirstOrDefault(r => r.AnvandarNamn == model.Username);
             _cache.SetCustomerCache(customer, request, response);
         }
-        public Kund GetUserId(Kund customer)
+        public Kund CheckUserByUsernameAndPassword(Kund customer)
         {
-            return _repository.GetUserId(customer);
-
-
+            return _repository.GetAll().FirstOrDefault(r => r.AnvandarNamn == customer.AnvandarNamn && r.Losenord == customer.Losenord);
         }
         public Kund GetById(int id)
         {
-            return _repository.GetById(id);
+            return _repository.GetAll().FirstOrDefault(r => r.KundId == id);
         }
         public bool CheckUserNameIsValid(Kund user, HttpRequest request)
         {
             var customer = CheckUserName(user);
-            var customerid = Instance.GetCustomerIDCache(request);
+            var customerid = _cache.GetCustomerIDCache(request);
             var cachecustomer = GetById(customerid);
             if (customer == null)
             {
@@ -87,15 +80,24 @@ namespace TomasosPizzeriaUppgift.Services
             {
                 return false;
             }
-
         }
         public void SaveUser(Kund user)
         {
-            _repository.SaveUser(user);
+            _repository.Create(user);
         }
-        public void UpdateUser(Kund user, int userid, HttpRequest request, HttpResponse response)
+        public void UpdateUser(Kund user, HttpRequest request)
         {
-            _repository.UpdateUser(user, userid);
+            user.KundId = _cache.GetCustomerIDCache(request);
+            var customer = _repository.GetAll().FirstOrDefault(r => r.KundId == user.KundId);
+            customer.Namn = user.Namn;
+            customer.Gatuadress = user.Gatuadress;
+            customer.Postnr = user.Postnr;
+            customer.Postort = user.Postort;
+            customer.Email = user.Email;
+            customer.Telefon = user.Telefon;
+            customer.AnvandarNamn = user.AnvandarNamn;
+            customer.Losenord = user.Losenord;
+            _repository.Update(user);
         }
         
     }

@@ -19,8 +19,6 @@ namespace TomasosPizzeriaUppgift.Controllers
             var model = MenuService.Instance.GetMenuInfo();
             return View(model);
         }
-
-
         public IActionResult DeleteDish(int id)
         {
             Services.DishesAdminService.Instance.DeleteDish(id);
@@ -36,7 +34,6 @@ namespace TomasosPizzeriaUppgift.Controllers
         [HttpPost]
         public IActionResult AddNewDish(MenuPage model)
         {
-
             model = DishesAdminService.Instance.CheckMatrattsValidation(model);
             var newModel = model.NewDish;
             if (model.NewDish.Matratt.MatrattNamn.Length > 1 && model.NewDish.SelectedListItem.Count != 0 && model.NewDish.Matratt.MatrattTyp != 0 && model.MatrattsnamnTaken == false)
@@ -60,7 +57,6 @@ namespace TomasosPizzeriaUppgift.Controllers
             var result = DishesAdminService.Instance.AddIngrediens(produkt);
             if (result == true)
             {
-
                 return RedirectToAction("Menu");
             }
             ViewBag.Message = "true";

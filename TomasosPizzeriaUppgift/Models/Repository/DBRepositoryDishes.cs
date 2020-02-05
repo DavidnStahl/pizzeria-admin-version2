@@ -5,11 +5,15 @@ using System.Threading.Tasks;
 using TomasosPizzeriaUppgift.Interface;
 using TomasosPizzeriaUppgift.ViewModels;
 using System.Data.SqlClient;
+using System.Data.Entity;
+using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 
 namespace TomasosPizzeriaUppgift.Models.Repository
 {
     public class DBRepositoryDishes : IRepositoryDishes
     {
+        private readonly TomasosContext _context = new TomasosContext();
         public bool AddIngrediens(Produkt produkt)
         {
             using (TomasosContext db = new TomasosContext())
@@ -40,6 +44,8 @@ namespace TomasosPizzeriaUppgift.Models.Repository
             return model;
         }
 
+        
+
         public void CreateDish(NewDishViewModel model)
         {
             using (TomasosContext db = new TomasosContext())
@@ -68,6 +74,7 @@ namespace TomasosPizzeriaUppgift.Models.Repository
             }
         }
 
+
         public void DeleteDish(int dishID)
         {
             using (TomasosContext db = new TomasosContext())
@@ -84,7 +91,9 @@ namespace TomasosPizzeriaUppgift.Models.Repository
             }
         }
 
-        public List<Produkt> GetIngrdiensInMatratt(Matratt matratt)
+       
+
+        /*public List<Produkt> GetIngrdiensInMatratt(Matratt matratt)
         {
             var produkts = new List<Produkt>();
 
@@ -103,7 +112,7 @@ namespace TomasosPizzeriaUppgift.Models.Repository
                 return produkts;
 
             }
-        }
+        }*/
 
         public void RemoveIngrediens(int id)
         {
@@ -118,6 +127,8 @@ namespace TomasosPizzeriaUppgift.Models.Repository
                 db.SaveChanges();
             }
         }
+
+        
 
         public void UpdateDish(UpdateDishViewModel model)
         {
@@ -153,6 +164,26 @@ namespace TomasosPizzeriaUppgift.Models.Repository
                     db.SaveChanges();
                 }
             }
+        }
+
+
+        public void Delete(Matratt dish)
+        {
+            _context.Matratt.Remove(dish).Context.SaveChanges();
+        }
+        public void Create(Matratt dish)
+        {
+            _context.Matratt.Add(dish).Context.SaveChanges();
+        }
+        public IQueryable<Matratt> GetAll()
+        {
+            var x =  _context.Matratt.Include(r => r.MatrattTypNavigation).Include(r => r.BestallningMatratt).Include(r => r.MatrattProdukt).ThenInclude(r => r.Produkt).ToList();
+            //_context.MatrattProdukt.Include(m => m.Produkt);
+        }
+            
+        public void Update(Matratt dish)
+        {
+            _context.Matratt.Add(dish).Context.SaveChanges();
         }
     }
 }

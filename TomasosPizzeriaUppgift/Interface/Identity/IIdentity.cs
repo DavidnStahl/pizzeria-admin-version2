@@ -17,7 +17,7 @@ namespace TomasosPizzeriaUppgift.Interface
 
         Task<SignInResult> SignInIdentity(LoginViewModel model, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, HttpRequest request, HttpResponse response);
         Task<UpdateRoleViewModel> GetUserIdentityByUsername(string userName, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager);
-        Task<UsersViewModel> GetAllUsers(List<Kund> customers, RoleManager<IdentityRole> roleManager,string roleToSearch);
+        Task<UsersViewModel> GetAllUsers(IQueryable<Kund> customers, RoleManager<IdentityRole> roleManager,string roleToSearch);
         void UpdateRoleForUser(string changeRoleTo, string id, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager);
         Task<IdentityResult> CreateRole(RoleManager<IdentityRole> roleManager, CreateRoleViewModel model);
         bool CheckIfUserISPremiumUser(RoleManager<IdentityRole> roleManager, System.Security.Claims.ClaimsPrincipal user);

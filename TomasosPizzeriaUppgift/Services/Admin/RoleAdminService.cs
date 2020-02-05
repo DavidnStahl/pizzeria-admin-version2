@@ -48,7 +48,7 @@ namespace TomasosPizzeriaUppgift.Services
         }
         public UsersViewModel GetAllUsers(RoleManager<IdentityRole> roleManager,string roleToSearch)
         {
-            var customers = _repository.GetCustomers();
+            var customers = _repository.GetAll();
             var result = _identity.GetAllUsers(customers, roleManager,roleToSearch);
             return result.Result;
 
@@ -56,7 +56,8 @@ namespace TomasosPizzeriaUppgift.Services
         }
         public void DeleteUser(string userName, HttpRequest request, HttpResponse response)
         {
-            _repository.DeleteUser(userName);
+            var customer = _repository.GetAll().FirstOrDefault(r => r.AnvandarNamn == userName);
+            _repository.Delete(customer);
             _cache.ResetCookie(request, response);
         }
         public void ChangeRoleTypeUser(string changeRoleTo, string id, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
