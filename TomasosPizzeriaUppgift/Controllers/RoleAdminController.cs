@@ -29,7 +29,7 @@ namespace TomasosPizzeriaUppgift.Controllers
         [Authorize]
         public IActionResult Users()
         {
-            var model = RoleAdminService.Instance.GetAllUsers(roleManager,"All");
+            var model = RoleAdminService.Instance.GetAllUsers(roleManager,"All", userManager);
             return View(model);
         }
         public IActionResult DeleteUser(string username)
@@ -64,7 +64,7 @@ namespace TomasosPizzeriaUppgift.Controllers
         }
         public IActionResult RoleTypeSearch(string roleNameToSearch)
         {
-            var model = RoleAdminService.Instance.GetAllUsers(roleManager, roleNameToSearch);
+            var model = RoleAdminService.Instance.GetAllUsers(roleManager, roleNameToSearch, userManager);
             return View("Users",model);
         }
 

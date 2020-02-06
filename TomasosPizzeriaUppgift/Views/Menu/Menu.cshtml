@@ -1,6 +1,5 @@
 ﻿@model TomasosPizzeriaUppgift.ViewModels.MenuPage
 @{
-    var buttonactionlist = new List<Matratt>();
 
 
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -55,31 +54,26 @@
         </section>
 
     </div>
-    @if(Model.Matratteradded.Count >= 1)
-    {
-
-        <div id="customerbasket">
-            <h3 class="addhere">Beställning:</h3>
-
-            <div class="text-center">
 
 
-                <div id="partialview">@await Html.PartialAsync("_Menu")</div>
+    <div id="customerbasket">
+        <h3 class="addhere">Beställning:</h3>
 
-
-
-            </div>
+        <div class="text-center">
+            <div id="partialview"></div>
         </div>
-    }
-    else
-    {
+    </div>
 
-    }
-
-
-
-        </div>
-        @section Scripts {
-            @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
-            <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
-        }
+</div>
+@section Scripts {
+    
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js" asp-append-version="true"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.17.0/jquery.validate.min.js" asp-append-version="true"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js" asp-append-version="true"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.unobtrusive-ajax/3.2.5/jquery.unobtrusive-ajax.min.js"></script>
+}

@@ -62,7 +62,7 @@
             {
                 <span class="failer-login">Välj minst 1 ingrediens</span><br />
             }
-
+            <span asp-validation-for="@Model.NewSelectedListItem"></span>
             <select class="test" asp-for="@Model.NewSelectedListItem">
                 @foreach (var item in Model.Ingredienses)
                 {

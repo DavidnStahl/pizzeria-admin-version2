@@ -5,45 +5,35 @@ using System.Threading.Tasks;
 using TomasosPizzeriaUppgift.Interface;
 using TomasosPizzeriaUppgift.ViewModels;
 using System.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 
 namespace TomasosPizzeriaUppgift.Models.Repository
 {
     public class DBRepositoryMenu : IRepositoryMenu
     {
-        public MenuPage CheckMatrattsValidation(MenuPage model)
+        private readonly TomasosContext _context = new TomasosContext();
+        public Matratt CheckMatrattsValidation(MenuPage model)
         {
-            using (TomasosContext db = new TomasosContext())
-            {
-                var matratt = db.Matratt.FirstOrDefault(r => r.MatrattNamn == model.NewDish.Matratt.MatrattNamn);
-                if (matratt != null)
-                {
-                    model.MatrattsnamnTaken = true;
-                    model.NewDish.MatrattnamnTaken = true;
-                }
-
-            }
-            return model;
+           return _context.Matratt.FirstOrDefault(r => r.MatrattNamn == model.NewDish.Matratt.MatrattNamn);
         }
 
         public Matratt GetMatratterToCustomerbasket(int id)
         {
-            var model = new Matratt();
-            using (TomasosContext db = new TomasosContext())
+            using(TomasosContext db = new TomasosContext())
             {
-
-                model = db.Matratt.FirstOrDefault(r => r.MatrattId == id);
+                return db.Matratt.FirstOrDefault(r => r.MatrattId == id);
             }
-            return model;
+            
         }
 
         public List<MatrattTyp> GetMatrattTyper()
         {
-            var matratttyper = new List<MatrattTyp>();
+            //var model = new List<MatrattTyp>();
             using (TomasosContext db = new TomasosContext())
             {
-                matratttyper = db.MatrattTyp.ToList();
+                return db.MatrattTyp.ToList();
             }
-            return matratttyper;
+            //return model;   
         }
 
         public MenuPage GetMenuInfo()

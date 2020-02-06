@@ -73,8 +73,8 @@ namespace TomasosPizzeriaUppgift.Services
         public MenuPage CustomerBasket(int id, HttpRequest request, HttpResponse response)
         {
 
-            var matratteradded = GetMatratterCacheList(id, "1", request, response);
-            var menumodel = SetMatratterCacheList(matratteradded, request, response);
+            var matratteradded =  GetMatratterCacheList(id, "1", request, response);            
+            var menumodel = SetMatratterCacheList(matratteradded, request, response);            
             menumodel.mattratttyper = GetMatratttyper();
             menumodel = CheckBonusPoints(request,menumodel);
             /*var customerid = _cache.GetCustomerIDCache(request);
@@ -125,7 +125,13 @@ namespace TomasosPizzeriaUppgift.Services
         }
         public MenuPage CheckMatrattsValidation(MenuPage model)
         {
-            return _repository.CheckMatrattsValidation(model);
+            var matratt = _repository.CheckMatrattsValidation(model);
+            if (matratt != null)
+            {
+                model.MatrattsnamnTaken = true;
+                model.NewDish.MatrattnamnTaken = true;
+            }
+            return model;
         }
         
 

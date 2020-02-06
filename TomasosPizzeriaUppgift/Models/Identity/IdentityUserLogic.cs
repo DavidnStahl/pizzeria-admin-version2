@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TomasosPizzeriaUppgift.Interface;
+using Microsoft.EntityFrameworkCore;
 
 using TomasosPizzeriaUppgift.ViewModels;
 
@@ -34,26 +35,28 @@ namespace TomasosPizzeriaUppgift.Models.IdentityLogic
 
             return result;
         }
-        public async Task<UsersViewModel> GetAllUsers(IQueryable<Kund> customers, RoleManager<IdentityRole> roleManager,string roleToSearch)
+        public async Task<UsersViewModel> GetAllUsers(List<Kund> customers, RoleManager<IdentityRole> roleManager, string roleToSearch)
         {
             var users = new UsersViewModel();
             using (TomasosContext db = new TomasosContext())
             {
+                var userRoles = db.UserRoles.ToList();
+                var user = db.Users.ToList();
                 foreach (var customer in customers)
                 {
                     var userrole = new UserRole();
-                    var user = db.Users.FirstOrDefault(r => r.UserName == customer.AnvandarNamn);
-                    var userRoles = db.UserRoles.FirstOrDefault(r => r.UserId == user.Id);
-                    userrole.Username = user.UserName;
-                    userrole.UserID = user.Id;
-                    var role = await roleManager.FindByIdAsync(userRoles.RoleId);
+                    var u = user.FirstOrDefault(r => r.UserName == customer.AnvandarNamn);
+                    var userRole = userRoles.FirstOrDefault(r => r.UserId == u.Id);
+                    userrole.Username = u.UserName;
+                    userrole.UserID = u.Id;
+                    var role = await roleManager.FindByIdAsync(userRole.RoleId);
                     userrole.RoleName = role.Name;
-                    userRoles.RoleId = role.Id;
+                    userRole.RoleId = role.Id;
 
 
                     userrole.Name = customer.Namn;
                     userrole.Adress = customer.Gatuadress;
-                    if(userrole.RoleName == roleToSearch || roleToSearch == "All")
+                    if (userrole.RoleName == roleToSearch || roleToSearch == "All")
                     {
                         users.Customers.Add(userrole);
                     }
@@ -66,10 +69,9 @@ namespace TomasosPizzeriaUppgift.Models.IdentityLogic
                     users.Roles.Add(item.Name);
                 }
             }
-            
+
             return users;
         }
-
         public async Task<UpdateRoleViewModel> GetUserIdentityByUsername(string userName, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             var user = await userManager.FindByNameAsync(userName);
@@ -148,5 +150,7 @@ namespace TomasosPizzeriaUppgift.Models.IdentityLogic
         {
             return user.IsInRole("PremiumUser");  
         }
+
+       
     }
 }

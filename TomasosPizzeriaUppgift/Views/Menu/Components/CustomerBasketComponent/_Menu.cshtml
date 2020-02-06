@@ -1,0 +1,122 @@
+﻿@model MenuPage
+@inject SignInManager<IdentityUser> signInManager;
+@inject RoleManager<IdentityRole> roleManager;
+
+
+@{
+    var totalpris = 0;
+    var itemcount = 0;
+    var totalprisPremiumUser = 0;
+}
+<link href="~/css/MenuPage.css" rel="stylesheet" type="text/css" asp-append-version="true" />
+
+
+
+
+
+<table id="updatetable" class="table table-borderless table-css">
+    <thead>
+        <tr>
+            <th scope="col">Maträtt typ</th>
+            <th scope="col">Maträtt</th>
+            <th scope="col">Pris</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Matratteradded)
+        {
+
+
+
+
+            <tr>
+                @if (item.Pris == 0)
+                {
+                    <td>@Model.mattratttyper[@item.MatrattTyp - 1].Beskrivning</td>
+                    <td>@item.MatrattNamn</td>
+
+                    <td>@item.Pris kr, bonuspoäng</td>
+                    <td type="button" class="btn btn-danger text-white" style="width:auto">
+                        <a type="button" class="btn btn-success" asp-action="RemoveItemCustomerBasket" asp-controller="Menu" asp-route-id="@item.MatrattId" asp-route-count="@itemcount"
+                           data-ajax="true" data-ajax-method="POST" data-ajax-mode="replace" data-ajax-update="#partialview">Lägg till</a>
+                    </td>
+                }
+                else
+                {
+                    if (item.Pris != 0)
+                    {
+                        totalpris += item.Pris;
+
+                        <td>@Model.mattratttyper[@item.MatrattTyp - 1].Beskrivning</td>
+                        <td>@item.MatrattNamn</td>
+
+                        <td>@item.Pris kr</td>
+                        <td>
+                            <a type="button" class="btn btn-danger" asp-action="RemoveItemCustomerBasket" asp-controller="Menu" asp-route-id="@item.MatrattId" asp-route-count="@itemcount"
+                               data-ajax="true" data-ajax-method="POST" data-ajax-mode="replace" data-ajax-update="#partialview">Ta bort</a>
+                        </td>
+                    }
+
+                }
+
+
+            </tr>
+            itemcount++;
+
+        }
+
+    </tbody>
+</table>
+
+<br />
+
+
+@if (totalpris != 0 || Convert.ToInt32(Model.Customer.BonusPoints) == 100)
+{
+    <hr />
+    <table class="table table-borderless table-css">
+        <thead>
+            <tr>
+
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @if (signInManager.IsSignedIn(User) && User.IsInRole("PremiumUser") && Model.Matratteradded.Count > 2)
+                    {
+                        totalprisPremiumUser = Convert.ToInt32(totalpris * 0.80m);
+
+                        <label>Totalpris: @totalprisPremiumUser Kr , Rabatt på 20% av @totalpris kr</label>
+                    }
+                    else
+                    {
+                        <label>Totalpris: @totalpris Kr</label>
+                    }
+
+                </td>
+                <td class="btn .btn-sm btn-success">@Html.ActionLink("Betala", "Login", "Payment", null, null)</td>
+
+            </tr>
+
+        </tbody>
+    </table>
+
+}
+
+
+
+@section Scripts {
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js" asp-append-version="true"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.17.0/jquery.validate.min.js" asp-append-version="true"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js" asp-append-version="true"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.unobtrusive-ajax/3.2.5/jquery.unobtrusive-ajax.min.js"></script>
+}
+

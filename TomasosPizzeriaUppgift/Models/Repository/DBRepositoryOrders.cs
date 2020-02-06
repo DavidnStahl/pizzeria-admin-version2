@@ -10,6 +10,7 @@ namespace TomasosPizzeriaUppgift.Models.Repository
 {
     public class DBRepositoryOrders : IRepositoryOrders
     {
+        private readonly TomasosContext _context = new TomasosContext();
         public OrdersViewModel GetOrdersAllOrders()
         {
             var model = new OrdersViewModel();

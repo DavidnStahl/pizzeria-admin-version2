@@ -66,8 +66,34 @@ namespace TomasosPizzeriaUppgift.Services
             _repository.RemoveIngrediens(id);
         }
         public void UpdateDish(UpdateDishViewModel model)
-        {
-            _repository.Update(model);
+        {            
+            var matratt = _repository.GetDishById(model.id);
+            var oldmatrattsprodukts = _repository.GetOldIngredienses(matratt.MatrattId);
+            var matrattprodukts = new List<MatrattProdukt>();
+            matratt.MatrattNamn = model.Matrattnamn;
+            foreach (var item in model.NewSelectedListItem)
+            {
+
+                var matrattprodukt = new MatrattProdukt();
+                matrattprodukt.MatrattId = model.id;
+                matrattprodukt.ProduktId = item;
+                matrattprodukts.Add(matrattprodukt);
+            }
+            matratt.MatrattTyp = model.MatrattstypID;
+            matratt.Pris = model.Pris;
+            matratt.MatrattProdukt = matrattprodukts;
+
+            if (model.NewSelectedListItem.Count == 0)
+            {
+                matratt.MatrattProdukt = oldmatrattsprodukts;
+                _repository.Update(matratt);
+            }
+            else
+            {
+                _repository.DeleteMatrattProduktList(oldmatrattsprodukts);
+                _repository.Update(matratt);
+                _repository.UpdateIngrediensesInDish(matratt);
+            }
         }
         public bool AddIngrediens(Produkt produkt)
         {

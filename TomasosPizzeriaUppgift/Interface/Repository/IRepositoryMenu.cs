@@ -9,7 +9,7 @@ namespace TomasosPizzeriaUppgift.Interface
 {
     public interface IRepositoryMenu
     {
-        MenuPage CheckMatrattsValidation(MenuPage model);
+        Matratt CheckMatrattsValidation(MenuPage model);
         MenuPage GetMenuInfo();
         List<MatrattTyp> GetMatrattTyper();
         void SaveBestallningMatratter(List<Matratt> matratter);

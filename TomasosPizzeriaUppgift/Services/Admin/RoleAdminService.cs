@@ -46,11 +46,12 @@ namespace TomasosPizzeriaUppgift.Services
         public RoleAdminService()
         {
         }
-        public UsersViewModel GetAllUsers(RoleManager<IdentityRole> roleManager,string roleToSearch)
+        public UsersViewModel GetAllUsers(RoleManager<IdentityRole> roleManager,string roleToSearch, UserManager<IdentityUser> userManager)
         {
             var customers = _repository.GetAll();
             var result = _identity.GetAllUsers(customers, roleManager,roleToSearch);
-            return result.Result;
+            var model = result.Result;
+            return model;
 
 
         }

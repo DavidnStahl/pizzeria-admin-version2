@@ -56,8 +56,10 @@ namespace TomasosPizzeriaUppgift.Models
         }
         public MenuPage SetMatratterCacheList(List<Matratt> matratteradded, HttpRequest request, HttpResponse response)
         {
-
-            string json = JsonConvert.SerializeObject(matratteradded, Formatting.Indented);
+            
+            JsonSerializerSettings jss = new JsonSerializerSettings();
+            jss.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            string json = JsonConvert.SerializeObject(matratteradded, jss);
             CookieOptions options = new CookieOptions();
             options.Expires = DateTime.Now.AddDays(30);
             options.HttpOnly = true;

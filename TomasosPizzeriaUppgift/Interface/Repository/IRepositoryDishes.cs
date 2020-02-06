@@ -16,8 +16,11 @@ namespace TomasosPizzeriaUppgift.Interface
         List<Produkt> GetIngrdiensInMatratt(int id);
         void RemoveIngrediens(int id);
         MenuPage CheckMatrattsValidation(MenuPage model);
+        void UpdateIngrediensesInDish(Matratt model);
+        void DeleteMatrattProduktList(List<MatrattProdukt> model);
+        List<MatrattProdukt> GetOldIngredienses(int id);
         void Create(Matratt dish);
-        void Update(UpdateDishViewModel dish);
+        void Update(Matratt dish);
         void Delete(int id);
     }
 }

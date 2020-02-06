@@ -17,19 +17,33 @@ namespace TomasosPizzeriaUppgift.Models.Repository
        
         public void Create(Kund customer)
         {
-            _context.Kund.Add(customer).Context.SaveChanges(); 
+            using (TomasosContext db = new TomasosContext())
+            {
+                db.Kund.Add(customer).Context.SaveChanges();
+            }
+
         }
         public void Update(Kund customer)
         {
-            _context.Kund.Update(customer).Context.SaveChanges();
+            using (TomasosContext db = new TomasosContext())
+            {
+               db.Kund.Update(customer).Context.SaveChanges();
+            }
         }
-        public IQueryable<Kund> GetAll()
+        public List<Kund> GetAll()
         {
-            return _context.Kund;
+            using(TomasosContext db = new TomasosContext())
+            {
+                return db.Kund.ToList();
+            }
+
         }
         public void Delete(Kund customer)
         {
-            _context.Kund.Remove(_context.Kund.Include(b => b.Bestallning).FirstOrDefault(r => r.KundId == customer.KundId)).Context.SaveChanges();
+            using (TomasosContext db = new TomasosContext())
+            {
+                db.Kund.Remove(_context.Kund.Include(b => b.Bestallning).FirstOrDefault(r => r.KundId == customer.KundId)).Context.SaveChanges();
+            }
         }
     }
 }
